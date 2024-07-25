@@ -1,6 +1,7 @@
 package com.github.alice.echo
 
 import com.github.alice.dispatch
+import com.github.alice.handlers.help
 import com.github.alice.handlers.message
 import com.github.alice.middleware.outerMiddleware
 import com.github.alice.models.response.addButton
@@ -24,6 +25,12 @@ fun main() {
                     }
                 }else {
                     null
+                }
+            }
+
+            help {
+                response {
+                    text = "Help test"
                 }
             }
 
