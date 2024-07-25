@@ -2,6 +2,7 @@ package com.github.alice.echo
 
 import com.github.alice.dispatch
 import com.github.alice.handlers.message
+import com.github.alice.middleware.outerMiddleware
 import com.github.alice.models.response.addButton
 import com.github.alice.models.response.response
 import com.github.alice.server.impl.ktorWebServer
@@ -15,6 +16,16 @@ fun main() {
             path = "/alice"
         }
         dispatch {
+
+            outerMiddleware {
+                if(request.command?.contains("outer") == true) {
+                    response {
+                        text = "Middleware"
+                    }
+                }else {
+                    null
+                }
+            }
 
             message(event = { request.command?.contains("привет") ?: false }) {
                 response {
@@ -32,7 +43,7 @@ fun main() {
 
             message(event = { request.type == "ButtonPressed" }) {
                 response {
-                    text = message.request.payload?.get("schedule_type").toString()
+                    text = request.payload?.get("schedule_type").toString()
                 }
             }
 

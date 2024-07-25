@@ -1,11 +1,10 @@
 package com.github.alice.models.response
 
-import com.github.alice.handlers.MessageHandlerEnvironment
 import com.github.alice.models.request.MessageRequest
 import kotlinx.serialization.Serializable
 
-fun MessageHandlerEnvironment.response(body: MessageResponse.Builder.() -> Unit): MessageResponse {
-    return MessageResponse.Builder(message).build(body)
+fun MessageRequest.response(body: MessageResponse.Builder.() -> Unit): MessageResponse {
+    return MessageResponse.Builder(this).build(body)
 }
 
 @Serializable

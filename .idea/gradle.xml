@@ -12,7 +12,6 @@
             <option value="$PROJECT_DIR$/alice" />
             <option value="$PROJECT_DIR$/samples" />
             <option value="$PROJECT_DIR$/samples/echo" />
-            <option value="$PROJECT_DIR$/samples/echo-java" />
           </set>
         </option>
       </GradleProjectSettings>

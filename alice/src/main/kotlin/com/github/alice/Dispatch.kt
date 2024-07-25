@@ -1,6 +1,8 @@
 package com.github.alice
 
 import com.github.alice.handlers.Handler
+import com.github.alice.middleware.Middleware
+import com.github.alice.middleware.MiddlewareType
 
 fun Skill.Builder.dispatch(body: Dispatcher.() -> Unit) {
     dispatcherConfiguration = body
@@ -8,12 +10,21 @@ fun Skill.Builder.dispatch(body: Dispatcher.() -> Unit) {
 
 class Dispatcher internal constructor() {
     internal val commandHandlers = linkedSetOf<Handler>()
+    internal val middlewares = linkedMapOf<MiddlewareType, MutableList<Middleware>>()
 
-    internal fun addHandler(handler: Handler) {
+    init {
+        MiddlewareType.entries.forEach { middlewares[it] = mutableListOf() }
+    }
+
+    fun addHandler(handler: Handler) {
         commandHandlers.add(handler)
     }
 
-    internal fun removeHandler(handler: Handler) {
+    fun removeHandler(handler: Handler) {
         commandHandlers.remove(handler)
+    }
+
+    fun addMiddleware(middleware: Middleware, type: MiddlewareType) {
+        middlewares[type]?.add(middleware)
     }
 }

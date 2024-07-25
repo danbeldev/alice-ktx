@@ -1,5 +1,6 @@
 package com.github.alice
 
+import com.github.alice.middleware.MiddlewareType
 import com.github.alice.models.request.MessageRequest
 import com.github.alice.models.response.MessageResponse
 import com.github.alice.server.WebServer
@@ -37,8 +38,21 @@ class Skill internal constructor(
 
     private fun webServerResponseCallback(): WebServerResponseCallback = object : WebServerResponseCallback {
         override fun message(model: MessageRequest): MessageResponse? {
+            runMiddlewares(model, MiddlewareType.OUTER)?.let { return it }
             dispatcher.commandHandlers.forEach { handler ->
-                if(handler.event(model)) return handler.response(model)
+                if(handler.event(model)) {
+                    runMiddlewares(model, MiddlewareType.INNER)?.let { return it }
+                    return handler.response(model)
+                }
+            }
+            return null
+        }
+
+        private fun runMiddlewares(model: MessageRequest, type: MiddlewareType): MessageResponse? {
+            dispatcher.middlewares[type]?.forEach { middleware ->
+                middleware.invoke(model)?.let { response ->
+                    return response
+                }
             }
             return null
         }
