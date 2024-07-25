@@ -7,5 +7,6 @@ import kotlinx.serialization.Serializable
 data class Response(
     val text: String,
     @SerialName("end_session")
-    val endSession: Boolean
+    val endSession: Boolean,
+    val buttons: List<Button>
 )

@@ -7,13 +7,13 @@ fun Skill.Builder.dispatch(body: Dispatcher.() -> Unit) {
 }
 
 class Dispatcher internal constructor() {
-    val commandHandlers = linkedSetOf<Handler>()
+    internal val commandHandlers = linkedSetOf<Handler>()
 
-    fun addHandler(handler: Handler) {
+    internal fun addHandler(handler: Handler) {
         commandHandlers.add(handler)
     }
 
-    fun removeHandler(handler: Handler) {
+    internal fun removeHandler(handler: Handler) {
         commandHandlers.remove(handler)
     }
 }

@@ -8,11 +8,11 @@ data class MessageHandlerEnvironment(
     val message: MessageRequest
 )
 
-fun Dispatcher.message(event: (MessageRequest) -> Boolean, handle: MessageHandlerEnvironment.() -> MessageResponse) {
+fun Dispatcher.message(event: MessageRequest.() -> Boolean, handle: MessageHandlerEnvironment.() -> MessageResponse) {
     addHandler(MessageHandler(event, handle))
 }
 
-class MessageHandler(
+internal class MessageHandler(
     private val eventBlock: (MessageRequest) -> Boolean,
     private val handle: MessageHandlerEnvironment.() -> MessageResponse
 ): Handler {

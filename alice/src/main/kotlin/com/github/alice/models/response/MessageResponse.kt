@@ -11,12 +11,17 @@ fun MessageHandlerEnvironment.response(body: MessageResponse.Builder.() -> Unit)
 @Serializable
 data class MessageResponse internal constructor(
     val response: Response,
-    val version: String
+    val version: String,
 ) {
     class Builder(request: MessageRequest) {
         lateinit var text: String
         var endSession: Boolean = false
         var version: String = request.version
+        private val buttons = mutableListOf<Button>()
+
+        internal fun addButton(button: Button) {
+            buttons.add(button)
+        }
 
         fun build(body: Builder.() -> Unit): MessageResponse {
             body()
@@ -24,6 +29,7 @@ data class MessageResponse internal constructor(
                 response = Response(
                     text = text,
                     endSession = endSession,
+                    buttons = buttons
                 ),
                 version = version
             )
