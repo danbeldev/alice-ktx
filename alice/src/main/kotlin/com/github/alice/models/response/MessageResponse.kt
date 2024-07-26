@@ -1,9 +1,12 @@
 package com.github.alice.models.response
 
-import com.github.alice.models.request.MessageRequest
+import com.github.alice.models.FSMStrategy
+import com.github.alice.models.Request
+import com.github.alice.state.FSMContext
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-fun MessageRequest.response(body: MessageResponse.Builder.() -> Unit): MessageResponse {
+fun Request.response(body: MessageResponse.Builder.() -> Unit): MessageResponse {
     return MessageResponse.Builder(this).build(body)
 }
 
@@ -11,27 +14,54 @@ fun MessageRequest.response(body: MessageResponse.Builder.() -> Unit): MessageRe
 data class MessageResponse internal constructor(
     val response: Response,
     val version: String,
+    @SerialName("user_state_update")
+    var userState: StateResponse? = null,
+    @SerialName("session_state")
+    var sessionState: StateResponse? = null,
+    @SerialName("application_state")
+    var applicationState: StateResponse? = null,
 ) {
-    class Builder(request: MessageRequest) {
+    class Builder(private val request: Request) {
         lateinit var text: String
         var endSession: Boolean = false
-        var version: String = request.version
+        var version: String = request.message.version
         private val buttons = mutableListOf<Button>()
 
-        internal fun addButton(button: Button) {
+        internal fun button(button: Button) {
             buttons.add(button)
         }
 
         fun build(body: Builder.() -> Unit): MessageResponse {
             body()
-            return MessageResponse(
+
+            val response = MessageResponse(
                 response = Response(
                     text = text,
                     endSession = endSession,
                     buttons = buttons
                 ),
-                version = version
+                version = version,
             )
+
+            response.setState(request.state)
+
+            return response
         }
+    }
+
+    private fun setState(state: FSMContext) {
+        val stateResponse = getStateResponse(state.getState(), state.getData())
+        when (state.getStrategy()) {
+            FSMStrategy.USER -> userState = stateResponse
+            FSMStrategy.SESSION -> sessionState = stateResponse
+            FSMStrategy.APPLICATION -> applicationState = stateResponse
+        }
+    }
+
+    private fun getStateResponse(state: String?, data: Map<String, String>?): StateResponse {
+        return StateResponse(
+            state = state,
+            data = data
+        )
     }
 }

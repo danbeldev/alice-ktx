@@ -7,5 +7,6 @@ data class MessageRequest(
     val meta: Metadata,
     val version: String,
     val session: Session,
-    val request: Request
+    val request: RequestContent,
+    val state: State? = null
 )

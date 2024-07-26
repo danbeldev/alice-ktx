@@ -1,13 +1,16 @@
 package com.github.alice.handlers
 
 import com.github.alice.Dispatcher
+import com.github.alice.models.Request
+import com.github.alice.models.request
 import com.github.alice.models.request.MessageRequest
 import com.github.alice.models.response.MessageResponse
 
 fun Dispatcher.help(
-    handle: MessageRequest.() -> MessageResponse
+    handle: Request.() -> MessageResponse
 ) {
-    addHandler(HelpHandler(handle))
+    val handler = HelpHandler { handle(request(this)) }
+    addHandler(handler)
 }
 
 internal class HelpHandler(

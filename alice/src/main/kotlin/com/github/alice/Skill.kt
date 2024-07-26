@@ -1,6 +1,7 @@
 package com.github.alice
 
 import com.github.alice.middleware.MiddlewareType
+import com.github.alice.models.FSMStrategy
 import com.github.alice.models.request.MessageRequest
 import com.github.alice.models.response.MessageResponse
 import com.github.alice.server.WebServer
@@ -16,12 +17,13 @@ class Skill internal constructor(
     class Builder {
         lateinit var id: String
         lateinit var webServer: WebServer
+        var fsmStrategy: FSMStrategy = FSMStrategy.USER
         internal var dispatcherConfiguration: Dispatcher.() -> Unit = { }
 
         fun build(body: Builder.() -> Unit): Skill {
             body()
 
-            val dispatcher = Dispatcher().apply(dispatcherConfiguration)
+            val dispatcher = Dispatcher(fsmStrategy).apply(dispatcherConfiguration)
 
             return Skill(
                 id = id,

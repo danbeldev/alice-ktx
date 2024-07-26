@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Request(
+data class RequestContent(
     val command: String? = null,
     @SerialName("original_utterance")
     val originalUtterance: String? = null,

@@ -1,13 +1,15 @@
 package com.github.alice.echo
 
 import com.github.alice.dispatch
-import com.github.alice.handlers.help
 import com.github.alice.handlers.message
-import com.github.alice.middleware.outerMiddleware
-import com.github.alice.models.response.addButton
+import com.github.alice.models.response.button
 import com.github.alice.models.response.response
 import com.github.alice.server.impl.ktorWebServer
 import com.github.alice.skill
+
+enum class Form {
+    NAME, LINK_SKILLS, DEVICE
+}
 
 fun main() {
     skill {
@@ -18,45 +20,51 @@ fun main() {
         }
         dispatch {
 
-            outerMiddleware {
-                if(request.command?.contains("outer") == true) {
-                    response {
-                        text = "Middleware"
-                    }
-                }else {
-                    null
+            message({ message.request.command == "test" }) {
+                response {
+                    text = "OK.."
                 }
             }
 
-            help {
+            message({ message.request.command == "да" }) {
+                val name = state.getData("name")
+                state.clear()
                 response {
-                    text = "Help test"
-                }
-            }
-
-            message(event = { request.command?.contains("привет") ?: false }) {
-                response {
-                    text = "Hi"
-                    addButton {
-                        title = "Today"
-                        payload = mapOf("schedule_type" to "TODAY")
-                    }
-                    addButton {
-                        title = "Tomorrow"
-                        payload = mapOf("schedule_type" to "TOMORROW")
+                    text = "Yes, $name!"
+                    button {
+                        title = "TEST"
                     }
                 }
             }
 
-            message(event = { request.type == "ButtonPressed" }) {
+            message({ message.request.command == "нет" }) {
+                state.clear()
                 response {
-                    text = request.payload?.get("schedule_type").toString()
+                    text = "No.."
+                    button {
+                        title = "TEST"
+                    }
                 }
             }
 
-            message(event = { request.command.isNullOrEmpty() }) {
+            message({ state == Form.NAME.name }) {
+                state.setData("name" to message.request.originalUtterance.toString())
+                state.setState(Form.LINK_SKILLS.name)
                 response {
-                    text = "Привет"
+                    text = "Рад познакомиться, ${message.request.originalUtterance}!\nТебе нравятся навыки Алисы?"
+                    button {
+                        title = "Да"
+                    }
+                    button {
+                        title = "Нет"
+                    }
+                }
+            }
+
+            message {
+                state.setState(Form.NAME.name)
+                response {
+                    text = "Привет! Как тебя зовут ?"
                 }
             }
         }
