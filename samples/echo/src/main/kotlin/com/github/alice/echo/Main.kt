@@ -2,7 +2,9 @@ package com.github.alice.echo
 
 import com.github.alice.dispatch
 import com.github.alice.handlers.message
-import com.github.alice.models.response.button
+import com.github.alice.models.button.button
+import com.github.alice.models.button.mediaButton
+import com.github.alice.models.card.*
 import com.github.alice.models.response.response
 import com.github.alice.server.impl.ktorWebServer
 import com.github.alice.skill
@@ -19,6 +21,51 @@ fun main() {
             path = "/alice"
         }
         dispatch {
+
+            message({ message.request.command == "изображения" }) {
+                response {
+                    text = "Test big image"
+                    bigImage {
+                        imageId = "1521359/48faa5e0f3d3842a6329"
+                        mediaButton {
+                            text = "test"
+                            url = "https://dzen.ru/?yredirect=true"
+                        }
+                    }
+                }
+            }
+
+            message({ message.request.command == "галерея" }) {
+                response {
+                    text = "Test image "
+                    imageGallery {
+                        repeat(5) { i ->
+                            item {
+                                imageId = "1521359/48faa5e0f3d3842a6329"
+                                title = i.toString()
+                            }
+                        }
+                    }
+                }
+            }
+
+            message({ message.request.command == "заголовок" }) {
+                response {
+                    text = "Test items list"
+                    itemsList {
+                        header = "TEST HEADER"
+                        repeat(5) { i ->
+                            item {
+                                imageId = "1521359/48faa5e0f3d3842a6329"
+                                title = i.toString()
+                            }
+                        }
+                        footer {
+                           text = "TEST FOOTER"
+                        }
+                    }
+                }
+            }
 
             message({ message.request.command == "test" }) {
                 response {

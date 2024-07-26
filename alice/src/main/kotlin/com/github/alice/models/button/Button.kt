@@ -1,10 +1,11 @@
-package com.github.alice.models.response
+package com.github.alice.models.button
 
+import com.github.alice.models.response.MessageResponse
 import kotlinx.serialization.Serializable
 
 fun MessageResponse.Builder.button(body: Button.Builder.() -> Unit) {
     val button = Button.Builder().build(body)
-    button(button)
+    addButton(button)
 }
 
 @Serializable

@@ -2,6 +2,8 @@ package com.github.alice.models.response
 
 import com.github.alice.models.FSMStrategy
 import com.github.alice.models.Request
+import com.github.alice.models.button.Button
+import com.github.alice.models.card.Card
 import com.github.alice.state.FSMContext
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -25,9 +27,10 @@ data class MessageResponse internal constructor(
         lateinit var text: String
         var endSession: Boolean = false
         var version: String = request.message.version
+        internal var card: Card? = null
         private val buttons = mutableListOf<Button>()
 
-        internal fun button(button: Button) {
+        fun addButton(button: Button) {
             buttons.add(button)
         }
 
@@ -38,7 +41,8 @@ data class MessageResponse internal constructor(
                 response = Response(
                     text = text,
                     endSession = endSession,
-                    buttons = buttons
+                    buttons = buttons,
+                    card = card
                 ),
                 version = version,
             )
