@@ -11,6 +11,9 @@ data class Response(
     val tts: String? = null,
     @SerialName("end_session")
     val endSession: Boolean,
+    @SerialName("should_listen")
+    val shouldListen: Boolean? = null,
     val buttons: List<Button>,
-    val card: Card? = null
+    val card: Card? = null,
+    val directives: Directives? = null
 )

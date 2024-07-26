@@ -2,6 +2,7 @@ package com.github.alice.models.response
 
 import com.github.alice.models.FSMStrategy
 import com.github.alice.models.Request
+import com.github.alice.models.audioPlayer.AudioPlayer
 import com.github.alice.models.button.Button
 import com.github.alice.models.card.Card
 import com.github.alice.state.FSMContext
@@ -26,8 +27,10 @@ data class MessageResponse internal constructor(
     class Builder(private val request: Request) {
         lateinit var text: String
         var endSession: Boolean = false
+        var shouldListen: Boolean? = null
         var version: String = request.message.version
         internal var card: Card? = null
+        internal var audioPlayer: AudioPlayer? = null
         private val buttons = mutableListOf<Button>()
 
         fun addButton(button: Button) {
@@ -41,8 +44,12 @@ data class MessageResponse internal constructor(
                 response = Response(
                     text = text,
                     endSession = endSession,
+                    shouldListen = shouldListen,
                     buttons = buttons,
-                    card = card
+                    card = card,
+                    directives = Directives(
+                        audioPlayer = audioPlayer
+                    )
                 ),
                 version = version,
             )
