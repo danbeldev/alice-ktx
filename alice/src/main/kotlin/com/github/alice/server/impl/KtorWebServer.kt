@@ -45,8 +45,14 @@ class KtorWebServer(
             routing {
                 post(path) {
                     val model = call.receive<MessageRequest>()
-                    callback.message(model)?.let { response ->
-                        call.respond(response)
+                    try {
+                        callback.message(model)?.let { response ->
+                            call.respond(response)
+                        }
+                    }catch (e: Throwable) {
+                        callback.responseFailure(model, e)?.let { response ->
+                            call.respond(response)
+                        }
                     }
                 }
             }

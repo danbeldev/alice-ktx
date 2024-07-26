@@ -6,4 +6,6 @@ import com.github.alice.models.response.MessageResponse
 interface WebServerResponseCallback {
 
     fun message(model: MessageRequest): MessageResponse?
+
+    fun responseFailure(model: MessageRequest, throwable: Throwable): MessageResponse?
 }

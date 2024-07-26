@@ -10,12 +10,10 @@ import com.github.alice.server.WebServerResponseCallback
 fun skill(body: Skill.Builder.() -> Unit): Skill = Skill.Builder().build(body)
 
 class Skill internal constructor(
-    private val id: String,
     private val webServer: WebServer,
     private val dispatcher: Dispatcher
 ) {
     class Builder {
-        lateinit var id: String
         lateinit var webServer: WebServer
         var fsmStrategy: FSMStrategy = FSMStrategy.USER
         internal var dispatcherConfiguration: Dispatcher.() -> Unit = { }
@@ -26,7 +24,6 @@ class Skill internal constructor(
             val dispatcher = Dispatcher(fsmStrategy).apply(dispatcherConfiguration)
 
             return Skill(
-                id = id,
                 webServer = webServer,
                 dispatcher = dispatcher
             )
@@ -45,6 +42,15 @@ class Skill internal constructor(
                 if(handler.event(model)) {
                     runMiddlewares(model, MiddlewareType.INNER)?.let { return it }
                     return handler.response(model)
+                }
+            }
+            return null
+        }
+
+        override fun responseFailure(model: MessageRequest, throwable: Throwable): MessageResponse? {
+            dispatcher.networkErrorHandlers.forEach { errorHandler ->
+                errorHandler.responseFailure(model, throwable)?.let { response ->
+                    return response
                 }
             }
             return null
