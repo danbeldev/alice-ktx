@@ -36,7 +36,7 @@ class Skill internal constructor(
     }
 
     private fun webServerResponseCallback(): WebServerResponseCallback = object : WebServerResponseCallback {
-        override fun message(model: MessageRequest): MessageResponse? {
+        override suspend fun message(model: MessageRequest): MessageResponse? {
             runMiddlewares(model, MiddlewareType.OUTER)?.let { return it }
             dispatcher.commandHandlers.forEach { handler ->
                 if(handler.event(model)) {
@@ -47,7 +47,7 @@ class Skill internal constructor(
             return null
         }
 
-        override fun responseFailure(model: MessageRequest, throwable: Throwable): MessageResponse? {
+        override suspend fun responseFailure(model: MessageRequest, throwable: Throwable): MessageResponse? {
             dispatcher.networkErrorHandlers.forEach { errorHandler ->
                 errorHandler.responseFailure(model, throwable)?.let { response ->
                     return response
@@ -56,7 +56,7 @@ class Skill internal constructor(
             return null
         }
 
-        private fun runMiddlewares(model: MessageRequest, type: MiddlewareType): MessageResponse? {
+        private suspend fun runMiddlewares(model: MessageRequest, type: MiddlewareType): MessageResponse? {
             dispatcher.middlewares[type]?.forEach { middleware ->
                 middleware.invoke(model)?.let { response ->
                     return response

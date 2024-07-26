@@ -6,18 +6,18 @@ import com.github.alice.models.request
 import com.github.alice.models.request.MessageRequest
 import com.github.alice.models.response.MessageResponse
 
-fun Dispatcher.outerMiddleware(invoke: Request.() -> MessageResponse?) {
+fun Dispatcher.outerMiddleware(invoke: suspend Request.() -> MessageResponse?) {
     val middleware = middleware { message -> invoke(request(message)) }
     addMiddleware(middleware, MiddlewareType.OUTER)
 }
 
-fun Dispatcher.innerMiddleware(invoke: Request.() -> MessageResponse?) {
+fun Dispatcher.innerMiddleware(invoke: suspend Request.() -> MessageResponse?) {
     val middleware = middleware { message -> invoke(request(message)) }
     addMiddleware(middleware, MiddlewareType.INNER)
 }
 
-fun middleware(invoke: (MessageRequest) -> MessageResponse?): Middleware = object : Middleware {
-    override fun invoke(model: MessageRequest): MessageResponse? = invoke(model)
+fun middleware(invoke: suspend (MessageRequest) -> MessageResponse?): Middleware = object : Middleware {
+    override suspend fun invoke(model: MessageRequest): MessageResponse? = invoke(model)
 }
 
 interface Middleware {
@@ -26,5 +26,5 @@ interface Middleware {
      * Если вы хотите завершить обработку события, вы должны вернуть [MessageResponse]
      *
      * */
-    fun invoke(model: MessageRequest): MessageResponse?
+    suspend fun invoke(model: MessageRequest): MessageResponse?
 }

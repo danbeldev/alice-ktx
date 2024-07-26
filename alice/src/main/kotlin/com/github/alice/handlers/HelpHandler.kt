@@ -7,18 +7,18 @@ import com.github.alice.models.request.MessageRequest
 import com.github.alice.models.response.MessageResponse
 
 fun Dispatcher.help(
-    handle: Request.() -> MessageResponse
+    handle: suspend Request.() -> MessageResponse
 ) {
     val handler = HelpHandler { handle(request(this)) }
     addHandler(handler)
 }
 
 internal class HelpHandler(
-    private val handle: MessageRequest.() -> MessageResponse
+    private val handle: suspend MessageRequest.() -> MessageResponse
 ) : Handler {
-    override fun event(message: MessageRequest): Boolean {
+    override suspend fun event(message: MessageRequest): Boolean {
         return message.request.command == "помощь" || message.request.command == "что ты умеешь"
     }
 
-    override fun response(request: MessageRequest): MessageResponse = handle(request)
+    override suspend fun response(request: MessageRequest): MessageResponse = handle(request)
 }

@@ -13,8 +13,8 @@ data class EventMessage(
 )
 
 fun Dispatcher.message(
-    event: EventMessage.() -> Boolean = { true },
-    handle: Request.() -> MessageResponse
+    event: suspend EventMessage.() -> Boolean = { true },
+    handle: suspend Request.() -> MessageResponse
 ) {
     val messageHandler = MessageHandler(
         eventBlock = { message ->
@@ -34,13 +34,13 @@ fun Dispatcher.message(
 }
 
 internal class MessageHandler(
-    private val eventBlock: (MessageRequest) -> Boolean,
-    private val handle: MessageRequest.() -> MessageResponse
+    private val eventBlock: suspend (MessageRequest) -> Boolean,
+    private val handle: suspend MessageRequest.() -> MessageResponse
 ) : Handler {
 
-    override fun event(message: MessageRequest): Boolean = eventBlock(message)
+    override suspend fun event(message: MessageRequest): Boolean = eventBlock(message)
 
-    override fun response(request: MessageRequest): MessageResponse {
+    override suspend fun response(request: MessageRequest): MessageResponse {
         return handle(request)
     }
 }

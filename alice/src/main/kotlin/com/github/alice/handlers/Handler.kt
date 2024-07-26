@@ -5,7 +5,7 @@ import com.github.alice.models.response.MessageResponse
 
 interface Handler {
 
-    fun event(message: MessageRequest): Boolean
+    suspend fun event(message: MessageRequest): Boolean
 
-    fun response(request: MessageRequest): MessageResponse
+    suspend fun response(request: MessageRequest): MessageResponse
 }
