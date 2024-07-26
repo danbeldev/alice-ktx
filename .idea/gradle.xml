@@ -9,9 +9,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/alice" />
-            <option value="$PROJECT_DIR$/samples" />
-            <option value="$PROJECT_DIR$/samples/echo" />
+            <option value="$PROJECT_DIR$/alice-ktx" />
+            <option value="$PROJECT_DIR$/examples" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -4,8 +4,9 @@ pluginManagement {
         kotlin("plugin.serialization") version "1.9.23"
     }
 }
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.5.0"
+}
 rootProject.name = "alice-skill"
-include("alice")
-include("samples")
-include("samples:echo")
-findProject(":samples:echo")?.name = "echo"
+include("alice-ktx")
+include("examples")
