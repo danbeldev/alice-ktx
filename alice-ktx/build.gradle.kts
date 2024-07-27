@@ -1,6 +1,7 @@
 import org.gradle.api.publish.maven.MavenPublication
 
 plugins {
+    `java-library`
     kotlin("jvm")
     kotlin("plugin.serialization")
     id("io.ktor.plugin") version "2.3.12"
