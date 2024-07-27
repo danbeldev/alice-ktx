@@ -5,16 +5,25 @@ import com.github.alice.ktx.models.response.MessageResponse
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * [Source](https://yandex.ru/dev/dialogs/alice/doc/ru/response-card-bigimage)
+ * */
 fun MessageResponse.Builder.cardBigImage(body: Card.BigImageBuilder.() -> Unit) {
     val card = Card.BigImageBuilder().build(body)
     this.card = card
 }
 
+/**
+ * [Source](https://yandex.ru/dev/dialogs/alice/doc/ru/response-card-imagegallery)
+ * */
 fun MessageResponse.Builder.cardImageGallery(body: Card.ImageGalleryBuilder.() -> Unit) {
     val card = Card.ImageGalleryBuilder().build(body)
     this.card = card
 }
 
+/**
+ * [Source](https://yandex.ru/dev/dialogs/alice/doc/ru/response-card-itemslist)
+ * */
 fun MessageResponse.Builder.cardItemsList(body: Card.ItemsListBuilder.() -> Unit) {
     val card = Card.ItemsListBuilder().build(body)
     this.card = card

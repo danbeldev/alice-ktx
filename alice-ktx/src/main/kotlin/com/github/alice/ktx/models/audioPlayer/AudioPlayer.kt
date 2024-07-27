@@ -9,6 +9,9 @@ fun MessageResponse.Builder.audioPlayer(body: AudioPlayer.Builder.() -> Unit) {
     audioPlayer = player
 }
 
+/**
+ * [Source](https://yandex.ru/dev/dialogs/alice/doc/ru/request-audioplayer)
+ * */
 @Serializable
 data class AudioPlayer internal constructor(
     val action: AudioPlayerAction,

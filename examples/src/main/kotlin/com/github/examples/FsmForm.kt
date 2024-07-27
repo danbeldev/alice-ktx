@@ -15,6 +15,7 @@ enum class FormState {
 
 fun main() {
     skill {
+        id = "2e3e39c3-9fea-4d55-a754-9fa54b0d5502"
         webServer = ktorWebServer {
             port = 8080
             path = "/alice"
@@ -82,13 +83,12 @@ fun main() {
                 val device = message.request.originalUtterance.toString()
                 state.updateData("device" to device)
                 val data = state.getData()
+                state.clear()
 
                 val text = if(device == "телефон")
                     "С телефона? Да, это самое удобное, с чего можно пользоваться Алисой.\n${showSummary(data)}"
                 else
                     showSummary(data)
-
-                state.clear()
 
                 response {
                     this.text = text

@@ -14,11 +14,11 @@ fun Dispatcher.help(
 }
 
 internal class HelpHandler(
-    private val handle: suspend MessageRequest.() -> MessageResponse
+    private val handleBlock: suspend MessageRequest.() -> MessageResponse
 ) : Handler {
     override suspend fun event(message: MessageRequest): Boolean {
         return message.request.command == "помощь" || message.request.command == "что ты умеешь"
     }
 
-    override suspend fun response(request: MessageRequest): MessageResponse = handle(request)
+    override suspend fun handle(request: MessageRequest): MessageResponse = handleBlock(request)
 }

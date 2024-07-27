@@ -8,19 +8,44 @@ import com.github.alice.ktx.models.FSMStrategy
  * */
 interface FSMContext {
 
+    /**
+     * Получить стратегию FSM.
+     * */
     fun getStrategy(): FSMStrategy
 
+    /**
+     * Получить текущее состояние.
+     * */
     fun getState(): String?
 
-    fun setState(name: String)
+    /**
+     * Установить состояние по ключу.
+     * */
+    fun setState(key: String)
 
+    /**
+     * Получить все данные.
+     * */
     fun getData(): Map<String, String>
 
+    /**
+     * Получить данные по ключу.
+     * */
     fun getData(key: String): String?
 
+    /**
+     * Записать данные (перезапись).
+     * */
     fun setData(vararg pairs: Pair<String, String>)
 
-    fun updateData(vararg pairs: Pair<String, String>)
+    /**
+     * Обновление данные в хранилище по ключу.
+     * @return Обновленные данные.
+     * */
+    fun updateData(vararg pairs: Pair<String, String>): Map<String, String>
 
+    /**
+     * Очистить состояние и данные.
+     * */
     fun clear()
 }

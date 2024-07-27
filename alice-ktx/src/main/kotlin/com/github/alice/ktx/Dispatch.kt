@@ -6,10 +6,21 @@ import com.github.alice.ktx.middleware.Middleware
 import com.github.alice.ktx.middleware.MiddlewareType
 import com.github.alice.ktx.models.FSMStrategy
 
+/**
+ * Расширение для `Skill.Builder`, позволяющее настроить `Dispatcher`.
+ *
+ * @param body Функция, принимающая объект `Dispatcher` и позволяющая настроить его.
+ * Эта функция будет вызвана в контексте `Dispatcher`.
+ */
 fun Skill.Builder.dispatch(body: Dispatcher.() -> Unit) {
     dispatcherConfiguration = body
 }
 
+/**
+ * Класс `Dispatcher` управляет обработчиками команд, обработчиками сетевых ошибок и мидлварами.
+ *
+ * @param fsmStrategy Стратегия конечного автомата состояний (FSM), используемая для управления состояниями.
+ */
 class Dispatcher internal constructor(
     internal val fsmStrategy: FSMStrategy
 ) {
@@ -37,4 +48,7 @@ class Dispatcher internal constructor(
         networkErrorHandlers.add(handler)
     }
 
+    fun removeNetworkErrorHandler(handler: NetworkErrorHandler) {
+        networkErrorHandlers.remove(handler)
+    }
 }

@@ -9,7 +9,7 @@
 
 <div align="center">
 
-[![License](https://img.shields.io/github/license/danbeldev/kotlin-alice-skill)](https://github.com/K1rL3s/aliceio/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/danbeldev/kotlin-alice-skill)](https://github.com/danbeldev/kotlin-alice-skill/blob/master/LICENSE)
 ![Last commit](https://img.shields.io/github/last-commit/danbeldev/kotlin-alice-skill)
 
 </div>
@@ -35,6 +35,7 @@
 ```kotlin
 fun main() {
     skill {
+        id = "..."
         webServer = ktorWebServer {
             port = 8080
             path = "/alice"
@@ -48,7 +49,7 @@ fun main() {
 
             message {
                 response {
-                    text = message.request.command.toString()
+                    text = message.request.originalUtterance.toString()
                 }
             }
         }

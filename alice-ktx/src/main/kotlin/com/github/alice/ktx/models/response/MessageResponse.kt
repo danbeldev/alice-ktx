@@ -13,6 +13,9 @@ fun Request.response(body: MessageResponse.Builder.() -> Unit): MessageResponse 
     return MessageResponse.Builder(this).build(body)
 }
 
+/**
+ * [Source](https://yandex.ru/dev/dialogs/alice/doc/ru/response)
+ * */
 @Serializable
 data class MessageResponse internal constructor(
     val response: Response,
