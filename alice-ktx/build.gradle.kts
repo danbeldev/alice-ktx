@@ -1,5 +1,6 @@
+import org.gradle.api.publish.maven.MavenPublication
+
 plugins {
-    `java-library`
     kotlin("jvm")
     kotlin("plugin.serialization")
     id("io.ktor.plugin") version "2.3.12"
@@ -21,10 +22,15 @@ kotlin {
     jvmToolchain(11)
 }
 
+
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
             from(components["java"])
+
+            groupId = "com.github.danbel"
+            artifactId = "alice-ktx"
+            version = "0.0.1"
         }
     }
 }

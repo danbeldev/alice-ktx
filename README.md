@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/K1rl3s/aliceio">
+  <a href="https://github.com/danbeldev/kotlin-alice-skill/tree/master">
     <img width="200px" height="200px" alt="aliceio" src="/docs/logo.png">
   </a>
 </p>
@@ -9,8 +9,8 @@
 
 <div align="center">
 
-[![License](https://img.shields.io/pypi/l/aliceio.svg?style=flat)](https://github.com/K1rL3s/aliceio/blob/master/LICENSE)
-[![Status](https://img.shields.io/pypi/status/aliceio.svg?style=flat)](https://pypi.org/project/aliceio/)
+[![License](https://img.shields.io/github/license/danbeldev/kotlin-alice-skill)](https://github.com/K1rL3s/aliceio/blob/master/LICENSE)
+![Last commit](https://img.shields.io/github/last-commit/danbeldev/kotlin-alice-skill)
 
 </div>
 <p align="center">
@@ -67,4 +67,4 @@ fun main() {
 
 ## Лицензия
 Copyright © 2024 [DanBel](https://github.com/danbeldev) \
-Этот проект использует [MIT](https://github.com/K1rL3s/aliceio/blob/master/LICENSE) лицензию
+Этот проект использует [MIT](https://github.com/danbeldev/kotlin-alice-skill/blob/master/LICENSE) лицензию
