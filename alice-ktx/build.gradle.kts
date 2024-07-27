@@ -1,15 +1,13 @@
 plugins {
+    `java-library`
     kotlin("jvm")
     kotlin("plugin.serialization")
     id("io.ktor.plugin") version "2.3.12"
+    id("maven-publish")
 }
 
 group = "com.github.alice.ktx"
 version = "0.0.1"
-
-repositories {
-    mavenCentral()
-}
 
 dependencies {
     implementation("io.ktor:ktor-server-content-negotiation-jvm")
@@ -21,4 +19,12 @@ dependencies {
 
 kotlin {
     jvmToolchain(11)
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+        }
+    }
 }
