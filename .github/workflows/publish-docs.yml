@@ -16,7 +16,7 @@ jobs:
       - name: Build documentation
         run: ./gradlew dokkaHtml
       - name: Publish documentation
-        uses: JamesIves/github-pages-deploy-action@releases/v4.6.3
+        uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages
