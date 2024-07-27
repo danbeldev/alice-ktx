@@ -6,17 +6,19 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        with:
-          persist-credentials: false
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Set up JDK
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
           java-version: 11
-      - name: Build documentation
+
+      - name: Build documentation with Dokka
         run: ./gradlew dokkaHtml
-      - name: Publish documentation
-        uses: JamesIves/github-pages-deploy-action@releases/v3
+
+      - name: Deploy documentation to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages
