@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/danbeldev/kotlin-alice-skill/tree/master">
-    <img width="200px" height="200px" alt="aliceio" src="/docs/logo.png">
+    <img width="200px" height="200px" alt="alice-skill" src="/docs/logo.png">
   </a>
 </p>
 <h1 align="center">
@@ -59,6 +59,7 @@ fun main() {
 
 ## Документация
 - [Примеры](https://github.com/danbeldev/kotlin-alice-skill/tree/master/examples/src/main/kotlin/com/github/examples)
+- [Документация](https://danbeldev.github.io/kotlin-alice-skill/)
 
 
 ## Связь
