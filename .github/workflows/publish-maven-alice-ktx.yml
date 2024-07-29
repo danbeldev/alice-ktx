@@ -23,11 +23,11 @@ jobs:
         run: sudo apt-get install -y gnupg
 
       - name: Create GPG directory
-        run: mkdir -p ~/gpg
+        run: mkdir -p gpg/
 
       - name: Import GPG key
         run: |
-          echo "${{ secrets.GPG_SECRET_KEY }}" | gpg --dearmor > ~/gpg/secring.gpg
+          echo "${{ secrets.GPG_SECRET_KEY }}" | gpg --dearmor > gpg/secring.gpg
         env:
           GPG_SECRET_KEY: ${{ secrets.GPG_SECRET_KEY }}
 
