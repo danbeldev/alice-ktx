@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/danbeldev/kotlin-alice-skill/tree/master">
-    <img width="200px" height="200px" alt="alice-skill" src="/docs/logo.png">
+    <img width="200px" height="200px" alt="alice-skill" src="/docs/kotlin_logo.png">
   </a>
 </p>
 <h1 align="center">
@@ -9,6 +9,7 @@
 
 <div align="center">
 
+[![Maven Central](https://badgen.net/badge/Maven%20Central/v0.0.2/blue?icon=github)](https://central.sonatype.com/artifact/io.github.danbeldev/alice-ktx)
 [![License](https://img.shields.io/github/license/danbeldev/kotlin-alice-skill)](https://github.com/danbeldev/kotlin-alice-skill/blob/master/LICENSE)
 ![Last commit](https://img.shields.io/github/last-commit/danbeldev/kotlin-alice-skill)
 
@@ -49,7 +50,7 @@ fun main() {
 
             message {
                 response {
-                    text = message.request.originalUtterance.toString()
+                    text = message.request.command.toString()
                 }
             }
         }
