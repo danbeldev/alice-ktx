@@ -31,18 +31,17 @@ jobs:
         env:
           GPG_SECRET_KEY: ${{ secrets.GPG_SECRET_KEY }}
 
-      - name: Get absolute path of secring.gpg
-        id: gpg_path
-        run: echo "GPG_KEY_RING_PATH=$(realpath ~/.gnupg/secring.gpg)" >> $GITHUB_ENV
+      - name: Restore gradle.properties
+        run: |
+          mkdir -p ~/.gradle/
+          echo "mavenCentralUsername=${{ secrets.MAVEN_CENTRAL_USERNAME }}" >> ~/.gradle/gradle.properties
+          echo "mavenCentralPassword=${{ secrets.MAVEN_CENTRAL_PASSWORD }}" >> ~/.gradle/gradle.properties
+          echo "signing.keyId=${{ secrets.SIGNING_KEY_ID }}" >> ~/.gradle/gradle.properties
+          echo "signing.secretKeyRingFile=$(realpath ~/.gnupg/secring.gpg)" >> ~/.gradle/gradle.properties
+          echo "signing.password=${{ secrets.SIGNING_PASSWORD }}" >> ~/.gradle/gradle.properties
 
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v2
 
       - name: Publish to Maven Central
-        run: ./gradlew publishAllPublicationsToMavenCentralRepository --no-configuration-cache
-        env:
-          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
-          MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
-          SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
-          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-          SIGNING_SECRET_KEY_RING_FILE: ${{ env.GPG_KEY_RING_PATH }}
+        run: ./gradlew publish --warning-mode all --stacktrace
