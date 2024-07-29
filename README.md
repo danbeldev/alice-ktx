@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/danbeldev/kotlin-alice-skill/tree/master">
+  <a href="https://github.com/danbeldev/alice-ktx/tree/master">
     <img width="200px" height="200px" alt="alice-skill" src="/docs/kotlin_logo.png">
   </a>
 </p>
@@ -10,8 +10,8 @@
 <div align="center">
 
 [![Maven Central](https://badgen.net/badge/Maven%20Central/v0.0.2/blue?icon=github)](https://central.sonatype.com/artifact/io.github.danbeldev/alice-ktx)
-[![License](https://img.shields.io/github/license/danbeldev/kotlin-alice-skill)](https://github.com/danbeldev/kotlin-alice-skill/blob/master/LICENSE)
-![Last commit](https://img.shields.io/github/last-commit/danbeldev/kotlin-alice-skill)
+[![License](https://img.shields.io/github/license/danbeldev/alice-ktx)](https://github.com/danbeldev/alice-ktx/blob/master/LICENSE)
+![Last commit](https://img.shields.io/github/last-commit/danbeldev/alice-ktx)
 
 </div>
 <p align="center">
@@ -59,8 +59,8 @@ fun main() {
 ```
 
 ## Документация
-- [Примеры](https://github.com/danbeldev/kotlin-alice-skill/tree/master/examples/src/main/kotlin/com/github/examples)
-- [Документация](https://danbeldev.github.io/kotlin-alice-skill/)
+- [Примеры](https://github.com/danbeldev/alice-ktx/tree/master/examples/src/main/kotlin/com/github/examples)
+- [Документация](https://danbeldev.github.io/alice-ktx/)
 
 
 ## Связь
@@ -70,4 +70,4 @@ fun main() {
 
 ## Лицензия
 Copyright © 2024 [DanBel](https://github.com/danbeldev) \
-Этот проект использует [MIT](https://github.com/danbeldev/kotlin-alice-skill/blob/master/LICENSE) лицензию
+Этот проект использует [MIT](https://github.com/danbeldev/alice-ktx/blob/master/LICENSE) лицензию

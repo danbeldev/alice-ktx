@@ -33,10 +33,10 @@ mavenPublishing {
     )
 
     pom {
-        name.set("kotlin-alice-skill")
+        name.set("alice-ktx")
         description.set("Асинхронный фреймворк для разработки навыков Алисы из Яндекс.Диалогов")
         inceptionYear.set("2024")
-        url.set("https://github.com/danbeldev/kotlin-alice-skill")
+        url.set("https://github.com/danbeldev/alice-ktx")
 
         licenses {
             license {
@@ -54,7 +54,7 @@ mavenPublishing {
         }
 
         scm {
-            url.set("https://github.com/danbeldev/kotlin-alice-skill")
+            url.set("https://github.com/danbeldev/alice-ktx")
         }
     }
 
