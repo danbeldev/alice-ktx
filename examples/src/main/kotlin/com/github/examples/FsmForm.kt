@@ -15,7 +15,7 @@ enum class FormState {
 
 fun main() {
     skill {
-        id = "2e3e39c3-9fea-4d55-a754-9fa54b0d5502"
+        id = "..."
         webServer = ktorWebServer {
             port = 8080
             path = "/alice"
