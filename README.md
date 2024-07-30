@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/danbeldev/alice-ktx/tree/master">
-    <img width="200px" height="200px" alt="alice-skill" src="/docs/resources/kotlin_logo.png">
+    <img width="200px" height="200px" alt="alice-skill" src="/documentation/resources/kotlin_logo.png">
   </a>
 </p>
 <h1 align="center">
@@ -59,7 +59,7 @@ fun main() {
 ```
 
 ## Документация
-- [Туториал](docs/)
+- [Туториал](documentation/)
 - [Документация](https://danbeldev.github.io/alice-ktx/)
 - [Примеры](https://github.com/danbeldev/alice-ktx/tree/master/examples/src/main/kotlin/com/github/examples)
 
