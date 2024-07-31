@@ -1,5 +1,6 @@
 package com.github.alice.ktx
 
+import com.github.alice.ktx.api.dialog.DialogApi
 import com.github.alice.ktx.middleware.MiddlewareType
 import com.github.alice.ktx.models.FSMStrategy
 import com.github.alice.ktx.models.request.MessageRequest
@@ -35,6 +36,7 @@ class Skill internal constructor(
     class Builder {
 
         lateinit var id: String
+        var dialogApi: DialogApi? = null
         lateinit var webServer: WebServer
         var fsmStrategy: FSMStrategy = FSMStrategy.USER
         internal var dispatcherConfiguration: Dispatcher.() -> Unit = { }
@@ -42,7 +44,10 @@ class Skill internal constructor(
         fun build(body: Builder.() -> Unit): Skill {
             body()
 
-            val dispatcher = Dispatcher(fsmStrategy = fsmStrategy).apply(dispatcherConfiguration)
+            val dispatcher = Dispatcher(
+                fsmStrategy = fsmStrategy,
+                dialogApi = dialogApi
+            ).apply(dispatcherConfiguration)
 
             return Skill(
                 id = id,

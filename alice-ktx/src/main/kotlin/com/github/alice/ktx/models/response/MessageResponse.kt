@@ -28,7 +28,7 @@ data class MessageResponse internal constructor(
     var applicationState: StateResponse? = null,
 ) {
     class Builder(private val request: Request) {
-        lateinit var text: String
+        var text: String = ""
         var endSession: Boolean = false
         var shouldListen: Boolean? = null
         var version: String = request.message.version

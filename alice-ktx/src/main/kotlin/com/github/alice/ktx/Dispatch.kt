@@ -1,5 +1,6 @@
 package com.github.alice.ktx
 
+import com.github.alice.ktx.api.dialog.DialogApi
 import com.github.alice.ktx.handlers.Handler
 import com.github.alice.ktx.handlers.error.NetworkErrorHandler
 import com.github.alice.ktx.middleware.Middleware
@@ -22,7 +23,8 @@ fun Skill.Builder.dispatch(body: Dispatcher.() -> Unit) {
  * @param fsmStrategy Стратегия конечного автомата состояний (FSM), используемая для управления состояниями.
  */
 class Dispatcher internal constructor(
-    internal val fsmStrategy: FSMStrategy
+    internal val fsmStrategy: FSMStrategy,
+    val dialogApi: DialogApi? = null
 ) {
     internal val commandHandlers = linkedSetOf<Handler>()
     internal val networkErrorHandlers = linkedSetOf<NetworkErrorHandler>()
