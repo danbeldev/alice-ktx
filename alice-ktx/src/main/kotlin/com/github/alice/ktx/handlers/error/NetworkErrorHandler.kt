@@ -5,6 +5,42 @@ import com.github.alice.ktx.models.Request
 import com.github.alice.ktx.models.request
 import com.github.alice.ktx.models.request.MessageRequest
 import com.github.alice.ktx.models.response.MessageResponse
+import kotlin.reflect.KClass
+
+/**
+ * Расширение для `Dispatcher`, добавляющее обработку сетевых ошибок с помощью заданных функций.
+ *
+ * @param event Функция, которая вызывается при возникновении ошибки. Принимает `Throwable` и возвращает `Boolean`.
+ *              Если функция возвращает `true`, вызывается обработчик `handle`.
+ * @param handle Функция-обработчик, которая вызывается, если `event` возвращает `true`. Принимает `Throwable` и возвращает `MessageResponse?`.
+ */
+fun Dispatcher.responseFailure(
+    event: suspend Request.(throwable: Throwable) -> Boolean,
+    handle: suspend Request.(throwable: Throwable) -> MessageResponse?,
+) {
+    networkError { message, throwable ->
+        request(message).apply {
+            if(event(throwable)) return@networkError handle(throwable)
+        }
+        null
+    }
+}
+
+/**
+ * Расширение для `Dispatcher`, добавляющее обработку сетевых ошибок с помощью указанного класса исключения.
+ *
+ * @param thClass Класс исключения, которое должно быть обработано.
+ * @param block Функция-обработчик, которая вызывается, если исключение принадлежит классу `thClass`. Принимает исключение типа `E` и возвращает `MessageResponse?`.
+ */
+fun <E : Throwable> Dispatcher.responseFailure(thClass: KClass<E>, block: suspend Request.(throwable: E) -> MessageResponse?) {
+    networkError { message, throwable ->
+        if (thClass.isInstance(throwable)) {
+            @Suppress("UNCHECKED_CAST")
+            return@networkError block(request(message), throwable as E)
+        }
+        null
+    }
+}
 
 /**
  * Расширение для `Dispatcher`, добавляющее обработку сетевых ошибок с помощью блоков функций.
