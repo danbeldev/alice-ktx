@@ -9,6 +9,10 @@ import com.github.alice.ktx.api.dialog.yandex.models.sounds.response.Sounds
 import com.github.alice.ktx.api.dialog.yandex.models.status.Status
 import java.io.File
 
+/**
+ * [Image Source](https://yandex.ru/dev/dialogs/alice/doc/ru/resource-upload#http-images-load__quota)
+ * [Sound Source](https://yandex.ru/dev/dialogs/alice/doc/ru/resource-sounds-upload)
+ * */
 interface DialogApi {
     suspend fun getStatus(): Response<Status>
 

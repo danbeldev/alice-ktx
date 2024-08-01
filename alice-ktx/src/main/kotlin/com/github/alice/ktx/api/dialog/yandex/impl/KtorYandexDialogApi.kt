@@ -27,29 +27,40 @@ import java.io.File
 fun Skill.Builder.ktorYandexDialogApi(body: KtorYandexDialogApi.Builder.() -> Unit): KtorYandexDialogApi =
     KtorYandexDialogApi.Builder().apply(body).build(id)
 
+/**
+ * @param oauthToken Токен для загрузки аудио и изображений.
+ * [Source](https://yandex.ru/dev/direct/doc/start/token.html)
+ * */
 class KtorYandexDialogApi(
     private val oauthToken: String,
-    private val skillId: String
+    private val skillId: String,
+    private val json: Json,
+    private val configuration: HttpClientConfig<CIOEngineConfig>.() -> Unit
 ): DialogApi {
 
     class Builder {
 
         lateinit var oauthToken: String
 
+        var json: Json = Json { ignoreUnknownKeys = true }
+        var configuration: HttpClientConfig<CIOEngineConfig>.() -> Unit = {}
+
         fun build(skillId: String): KtorYandexDialogApi {
             return KtorYandexDialogApi(
                 oauthToken = oauthToken,
-                skillId = skillId
+                skillId = skillId,
+                json = json,
+                configuration = configuration
             )
         }
     }
 
     private val client = HttpClient(CIO) {
         install(ContentNegotiation) {
-            json(Json {
-                ignoreUnknownKeys = true
-            })
+            json(json)
         }
+
+        configuration()
 
         defaultRequest {
             url(YandexDialog.BASE_URL)

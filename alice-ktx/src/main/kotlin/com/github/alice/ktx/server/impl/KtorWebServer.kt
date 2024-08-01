@@ -34,7 +34,7 @@ class KtorWebServer(
     private val port: Int,
     private val path: String,
     private val json: Json,
-    var configuration: Application.() -> Unit
+    private val configuration: Application.() -> Unit
 ): WebServer {
 
     /**
@@ -43,9 +43,7 @@ class KtorWebServer(
     class Builder {
         var port: Int = 8080
         var path: String = "/"
-        var json: Json = Json {
-            ignoreUnknownKeys = true
-        }
+        var json: Json = Json { ignoreUnknownKeys = true }
         var configuration: Application.() -> Unit = {}
 
         fun build(body: Builder.() -> Unit): KtorWebServer {
@@ -75,12 +73,12 @@ class KtorWebServer(
                         listener.messageHandle(model)?.let { response ->
                             call.respond(response)
                         }
-                    }catch (e: Throwable) {
-                        listener.responseFailure(model, e)?.let { response ->
+                    }catch (th: Throwable) {
+                        listener.responseFailure(model, th)?.let { response ->
                             call.respond(response)
                             return@post
                         }
-                        throw e
+                        throw th
                     }
                 }
             }

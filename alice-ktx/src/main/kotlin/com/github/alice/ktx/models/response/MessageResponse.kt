@@ -29,6 +29,7 @@ data class MessageResponse internal constructor(
 ) {
     class Builder(private val request: Request) {
         var text: String = ""
+        var tts: String? = null
         var endSession: Boolean = false
         var shouldListen: Boolean? = null
         var version: String = request.message.version
@@ -46,6 +47,7 @@ data class MessageResponse internal constructor(
             val response = MessageResponse(
                 response = Response(
                     text = text,
+                    tts = tts,
                     endSession = endSession,
                     shouldListen = shouldListen,
                     buttons = buttons,

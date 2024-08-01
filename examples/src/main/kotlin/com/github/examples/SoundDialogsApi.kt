@@ -7,18 +7,29 @@ import com.github.alice.ktx.handlers.message
 import com.github.alice.ktx.models.response.response
 import com.github.alice.ktx.server.impl.ktorWebServer
 import com.github.alice.ktx.skill
+import java.io.File
 
 fun main() {
     skill {
-        id = "2e3e39c3-9fea-4d55-a754-9fa54b0d5502"
+        id = "..."
         webServer = ktorWebServer {
             port = 8080
             path = "/alice"
         }
         dialogApi = ktorYandexDialogApi {
-            oauthToken = "y0_AgAAAABDXk7yAAT7owAAAAEMAaQfAABgpmEfuwJPAKvCvEVDyqED1NZJVw"
+            oauthToken = "..."
         }
         dispatch {
+            message({ message.request.originalUtterance == "upload_sound_file" }) {
+                val file = File("examples/src/main/resources/file_example.mp3")
+                val response = dialogApi?.uploadSound(file)
+                response {
+                    text = when(response) {
+                        is Response.Failed, null -> "Failed"
+                        is Response.Success -> response.data.sound.toString()
+                    }
+                }
+            }
             message({ message.session.new }) {
                 when(val response = dialogApi?.getAllSounds()) {
                     is Response.Failed, null -> response { text = "Failed" }
