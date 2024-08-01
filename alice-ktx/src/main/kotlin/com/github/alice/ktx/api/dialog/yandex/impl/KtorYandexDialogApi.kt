@@ -1,23 +1,20 @@
 package com.github.alice.ktx.api.dialog.yandex.impl
 
 import com.github.alice.ktx.Skill
+import com.github.alice.ktx.api.common.ApiConstants.YandexDialog
 import com.github.alice.ktx.api.common.Response
 import com.github.alice.ktx.api.common.extensions.response
 import com.github.alice.ktx.api.dialog.DialogApi
-import com.github.alice.ktx.api.dialog.yandex.models.ErrorBody
 import com.github.alice.ktx.api.dialog.yandex.models.image.request.ImageUploadUrl
-import com.github.alice.ktx.api.dialog.yandex.models.image.response.DeleteImage
 import com.github.alice.ktx.api.dialog.yandex.models.image.response.ImageUpload
 import com.github.alice.ktx.api.dialog.yandex.models.image.response.Images
 import com.github.alice.ktx.api.dialog.yandex.models.status.Status
 import io.ktor.client.*
-import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
-import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.util.*
@@ -31,11 +28,6 @@ class KtorYandexDialogApi(
     private val oauthToken: String,
     private val skillId: String
 ): DialogApi {
-
-    companion object {
-        const val BASE_URL = "https://dialogs.yandex.net/"
-        const val SUCCESS_MESSAGE = "ok"
-    }
 
     class Builder {
 
@@ -57,18 +49,18 @@ class KtorYandexDialogApi(
         }
 
         defaultRequest {
-            url(BASE_URL)
+            url(YandexDialog.BASE_URL)
             headers.appendIfNameAbsent("Authorization", "OAuth $oauthToken")
         }
     }
 
     override suspend fun getStatus(): Response<Status> {
-        return client.get("api/v1/status").response()
+        return client.get(YandexDialog.GET_STATUS_URL).response()
     }
 
     override suspend fun uploadImage(url: String): Response<ImageUpload> {
         val body = ImageUploadUrl(url = url)
-        return client.post("api/v1/skills/$skillId/images") {
+        return client.post(YandexDialog.uploadImageUrl(skillId)) {
             contentType(ContentType.Application.Json)
             setBody(body)
         }.response()
@@ -76,7 +68,7 @@ class KtorYandexDialogApi(
 
     override suspend fun uploadImage(file: File): Response<ImageUpload> {
         return client.submitFormWithBinaryData(
-            url = "api/v1/skills/$skillId/images",
+            url = YandexDialog.uploadImageUrl(skillId),
             formData = formData {
                 append("file", file.readBytes(), Headers.build {
                     append(HttpHeaders.ContentType, "multipart/form-data")
@@ -87,10 +79,10 @@ class KtorYandexDialogApi(
     }
 
     override suspend fun getAllImages(): Response<Images> {
-        return client.get("api/v1/skills/$skillId/images").response()
+        return client.get(YandexDialog.getAllImagesUrl(skillId)).response()
     }
 
     override suspend fun deleteImage(id: String): Response<Unit> {
-        return client.delete("api/v1/skills/$skillId/images/$id").response()
+        return client.delete(YandexDialog.deleteImageUrl(skillId, id)).response()
     }
 }

@@ -15,18 +15,17 @@ import java.io.File
 
 fun main() {
     skill {
-        id = "..."
+        id = "2e3e39c3-9fea-4d55-a754-9fa54b0d5502"
         webServer = ktorWebServer {
             port = 8080
             path = "/alice"
         }
         dialogApi = ktorYandexDialogApi {
-            oauthToken = "..."
+            oauthToken = "y0_AgAAAABDXk7yAAT7owAAAAEMAaQfAABgpmEfuwJPAKvCvEVDyqED1NZJVw"
         }
         dispatch {
             messageCardImages()
             message({ message.request.payload?.keys?.contains("delete_image_id") == true }) {
-
                 val imageId = message.request.payload!!["delete_image_id"].toString()
                 val result = dialogApi?.deleteImage(imageId)
                 response {
@@ -35,7 +34,7 @@ fun main() {
             }
 
             message({ message.request.originalUtterance == "upload_image_file" }) {
-                val file = File("ktor_icon.png")
+                val file = File("examples/src/main/resources/ktor_icon.png")
                 val response = dialogApi?.uploadImage(file)
                 response {
                     text = when(response) {
@@ -51,11 +50,8 @@ fun main() {
 
 private fun Dispatcher.messageCardImages() {
     message({ message.session.new }) {
-        val imageResponse = dialogApi?.getAllImages()
-        when(imageResponse) {
-            is Response.Failed, null -> response {
-                text = "Failed"
-            }
+        when(val imageResponse = dialogApi?.getAllImages()) {
+            is Response.Failed, null -> response { text = "Failed" }
             is Response.Success -> response {
                 cardItemsList {
                     header = "Images (${imageResponse.data.total})"
