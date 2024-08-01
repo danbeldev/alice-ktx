@@ -8,6 +8,8 @@ import com.github.alice.ktx.api.dialog.DialogApi
 import com.github.alice.ktx.api.dialog.yandex.models.image.request.ImageUploadUrl
 import com.github.alice.ktx.api.dialog.yandex.models.image.response.ImageUpload
 import com.github.alice.ktx.api.dialog.yandex.models.image.response.Images
+import com.github.alice.ktx.api.dialog.yandex.models.sounds.response.SoundUpload
+import com.github.alice.ktx.api.dialog.yandex.models.sounds.response.Sounds
 import com.github.alice.ktx.api.dialog.yandex.models.status.Status
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
@@ -16,6 +18,7 @@ import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.http.*
+import io.ktor.http.content.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.util.*
 import kotlinx.serialization.json.Json
@@ -69,12 +72,7 @@ class KtorYandexDialogApi(
     override suspend fun uploadImage(file: File): Response<ImageUpload> {
         return client.submitFormWithBinaryData(
             url = YandexDialog.uploadImageUrl(skillId),
-            formData = formData {
-                append("file", file.readBytes(), Headers.build {
-                    append(HttpHeaders.ContentType, "multipart/form-data")
-                    append(HttpHeaders.ContentDisposition, "filename=\"${file.name}\"")
-                })
-            }
+            formData = uploadBaseFormData(file)
         ).response()
     }
 
@@ -84,5 +82,27 @@ class KtorYandexDialogApi(
 
     override suspend fun deleteImage(id: String): Response<Unit> {
         return client.delete(YandexDialog.deleteImageUrl(skillId, id)).response()
+    }
+
+    override suspend fun uploadSound(file: File): Response<SoundUpload> {
+        return client.submitFormWithBinaryData(
+            url = YandexDialog.uploadSoundUrl(skillId),
+            formData = uploadBaseFormData(file)
+        ).response()
+    }
+
+    override suspend fun getAllSounds(): Response<Sounds> {
+        return client.get(YandexDialog.getAllSoundsUrl(skillId)).response()
+    }
+
+    override suspend fun deleteSound(id: String): Response<Unit> {
+        return client.delete(YandexDialog.deleteSoundUrl(skillId, id)).response()
+    }
+
+    private fun uploadBaseFormData(file: File): List<PartData> = formData {
+        append("file", file.readBytes(), Headers.build {
+            append(HttpHeaders.ContentType, "multipart/form-data")
+            append(HttpHeaders.ContentDisposition, "filename=\"${file.name}\"")
+        })
     }
 }

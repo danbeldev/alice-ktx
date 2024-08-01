@@ -1,4 +1,4 @@
-package com.github.alice.ktx.api.dialog.yandex.models
+package com.github.alice.ktx.api.dialog.yandex.models.error
 
 import kotlinx.serialization.Serializable
 

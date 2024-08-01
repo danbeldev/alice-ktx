@@ -1,7 +1,7 @@
 package com.github.alice.ktx.api.common.extensions
 
 import com.github.alice.ktx.api.common.Response
-import com.github.alice.ktx.api.dialog.yandex.models.ErrorBody
+import com.github.alice.ktx.api.dialog.yandex.models.error.ErrorBody
 import io.ktor.client.call.*
 import io.ktor.client.statement.*
 

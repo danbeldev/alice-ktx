@@ -1,4 +1,4 @@
-## Методы API ([Документация](https://yandex.ru/dev/dialogs/alice/doc/ru/resource-upload#http-images-load__quota))
+## Методы API
 
 Чтобы получить, загрузить и удалить загруженные изображения и звуки, 
 надо передать [OAuth Token](https://yandex.ru/dev/direct/doc/start/token.html) при создании `DialogApi`:
@@ -20,7 +20,7 @@ skill {
 dialogApi?.getStatus()
 ```
 
-### Изображения
+### Изображения ([Документация](https://yandex.ru/dev/dialogs/alice/doc/ru/resource-upload#http-images-load__quota))
 
 - Список изображений, загруженных для навыка, можно получить этим методом.
 ```kotlin
@@ -41,6 +41,24 @@ dialogApi?.uploadImage(file = file)
 - Чтобы удалить загруженное изображение, передайте его идентификатор в этот метод.
 ```kotlin
 dialogApi?.deleteImage(imageId)
+```
+
+### Аудио ([Документация](https://yandex.ru/dev/dialogs/alice/doc/ru/resource-sounds-upload))
+
+- Чтобы посмотреть аудиофайлы, загруженные для навыка, используйте этот метод.
+```kotlin
+dialogApi?.getAllSounds()
+```
+
+- Аудио можно загрузить только файлом, передайте `File` в метод.
+```kotlin
+val file = File("example.mp3")
+dialogApi?.uploadSound(file = file)
+```
+
+- Чтобы удалить загруженное аудио, передайте его идентификатор в этот метод.
+```kotlin
+dialogApi?.deleteSound(soundId)
 ```
 
 ### Response
