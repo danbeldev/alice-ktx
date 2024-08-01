@@ -1,7 +1,10 @@
 package com.github.alice.ktx.api.dialog.yandex.impl
 
 import com.github.alice.ktx.Skill
+import com.github.alice.ktx.api.common.Response
+import com.github.alice.ktx.api.common.extensions.response
 import com.github.alice.ktx.api.dialog.DialogApi
+import com.github.alice.ktx.api.dialog.yandex.models.ErrorBody
 import com.github.alice.ktx.api.dialog.yandex.models.image.request.ImageUploadUrl
 import com.github.alice.ktx.api.dialog.yandex.models.image.response.DeleteImage
 import com.github.alice.ktx.api.dialog.yandex.models.image.response.ImageUpload
@@ -14,6 +17,7 @@ import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
+import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.util.*
@@ -58,19 +62,19 @@ class KtorYandexDialogApi(
         }
     }
 
-    override suspend fun getStatus(): Status {
-        return client.get("api/v1/status").body()
+    override suspend fun getStatus(): Response<Status> {
+        return client.get("api/v1/status").response()
     }
 
-    override suspend fun uploadImage(url: String): ImageUpload {
+    override suspend fun uploadImage(url: String): Response<ImageUpload> {
         val body = ImageUploadUrl(url = url)
         return client.post("api/v1/skills/$skillId/images") {
             contentType(ContentType.Application.Json)
             setBody(body)
-        }.body()
+        }.response()
     }
 
-    override suspend fun uploadImage(file: File): ImageUpload {
+    override suspend fun uploadImage(file: File): Response<ImageUpload> {
         return client.submitFormWithBinaryData(
             url = "api/v1/skills/$skillId/images",
             formData = formData {
@@ -79,15 +83,14 @@ class KtorYandexDialogApi(
                     append(HttpHeaders.ContentDisposition, "filename=\"${file.name}\"")
                 })
             }
-        ).body()
+        ).response()
     }
 
-    override suspend fun getAllImages(): Images {
-        return client.get("api/v1/skills/$skillId/images").body()
+    override suspend fun getAllImages(): Response<Images> {
+        return client.get("api/v1/skills/$skillId/images").response()
     }
 
-    override suspend fun deleteImage(id: String): Boolean {
-        val response = client.delete("api/v1/skills/$skillId/images/$id")
-        return response.status == HttpStatusCode.OK && response.body<DeleteImage>().result == SUCCESS_MESSAGE
+    override suspend fun deleteImage(id: String): Response<Unit> {
+        return client.delete("api/v1/skills/$skillId/images/$id").response()
     }
 }

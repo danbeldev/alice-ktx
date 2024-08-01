@@ -78,7 +78,9 @@ class KtorWebServer(
                     }catch (e: Throwable) {
                         listener.responseFailure(model, e)?.let { response ->
                             call.respond(response)
+                            return@post
                         }
+                        throw e
                     }
                 }
             }

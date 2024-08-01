@@ -1,6 +1,7 @@
 package com.github.examples
 
 import com.github.alice.ktx.Dispatcher
+import com.github.alice.ktx.api.common.Response
 import com.github.alice.ktx.api.dialog.yandex.impl.ktorYandexDialogApi
 import com.github.alice.ktx.dispatch
 import com.github.alice.ktx.handlers.message
@@ -27,17 +28,21 @@ fun main() {
             message({ message.request.payload?.keys?.contains("delete_image_id") == true }) {
 
                 val imageId = message.request.payload!!["delete_image_id"].toString()
-                val result = dialogApi?.deleteImage(imageId) ?: false
+                val result = dialogApi?.deleteImage(imageId)
                 response {
-                    text = if(result) "Success" else "Failure"
+                    text = if(result is Response.Success) "Success" else "Failure"
                 }
             }
 
             message({ message.request.originalUtterance == "upload_image_file" }) {
                 val file = File("ktor_icon.png")
-                val result = dialogApi?.uploadImage(file)
+                val response = dialogApi?.uploadImage(file)
                 response {
-                    text = result?.image.toString()
+                    text = when(response) {
+                        is Response.Failed -> response.message
+                        is Response.Success -> response.data.image.toString()
+                        null -> throw NullPointerException("Response was null")
+                    }
                 }
             }
         }
@@ -47,15 +52,20 @@ fun main() {
 private fun Dispatcher.messageCardImages() {
     message({ message.session.new }) {
         val imageResponse = dialogApi?.getAllImages()
-        response {
-            cardItemsList {
-                header = "Images (${imageResponse?.total})"
-                imageResponse?.images?.forEach { image ->
-                    item {
-                        imageId = image.id
-                        mediaButton {
-                            text = "Delete"
-                            payload = mapOf("delete_image_id" to image.id)
+        when(imageResponse) {
+            is Response.Failed, null -> response {
+                text = "Failed"
+            }
+            is Response.Success -> response {
+                cardItemsList {
+                    header = "Images (${imageResponse.data.total})"
+                    imageResponse.data.images.forEach { image ->
+                        item {
+                            imageId = image.id
+                            mediaButton {
+                                text = "Delete"
+                                payload = mapOf("delete_image_id" to image.id)
+                            }
                         }
                     }
                 }
