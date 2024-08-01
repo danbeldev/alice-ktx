@@ -8,5 +8,6 @@ data class Metadata(
     val locale: String,
     val timezone: String,
     @SerialName("client_id")
-    val clientId: String
+    val clientId: String,
+    val interfaces: MetadataInterfaces
 )

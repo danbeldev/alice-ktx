@@ -5,6 +5,7 @@ import com.github.alice.ktx.models.Request
 import com.github.alice.ktx.models.audioPlayer.AudioPlayer
 import com.github.alice.ktx.models.button.Button
 import com.github.alice.ktx.models.card.Card
+import com.github.alice.ktx.models.request.AccountLinking
 import com.github.alice.ktx.state.FSMContext
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -14,11 +15,27 @@ fun Request.response(body: MessageResponse.Builder.() -> Unit): MessageResponse 
 }
 
 /**
+ * [Source](https://yandex.ru/dev/dialogs/alice/doc/ru/auth/when-to-use)
+ * */
+suspend fun Request.authorization(
+    onAlreadyAuthenticated: (suspend () -> MessageResponse)? = null,
+    onAuthorizationFailed: (suspend () -> MessageResponse)? = null
+): MessageResponse {
+    if(message.session.user?.accessToken != null && onAlreadyAuthenticated != null)
+        return onAlreadyAuthenticated()
+
+    if(message.meta.interfaces.accountLinking == null && onAuthorizationFailed != null)
+        return onAuthorizationFailed()
+
+    return MessageResponse.AuthorizationBuilder(request = this).build()
+}
+
+/**
  * [Source](https://yandex.ru/dev/dialogs/alice/doc/ru/response)
  * */
 @Serializable
 data class MessageResponse internal constructor(
-    val response: Response,
+    val response: Response?,
     val version: String,
     @SerialName("user_state_update")
     var userState: StateResponse? = null,
@@ -26,6 +43,8 @@ data class MessageResponse internal constructor(
     var sessionState: StateResponse? = null,
     @SerialName("application_state")
     var applicationState: StateResponse? = null,
+    @SerialName("start_account_linking")
+    val startAccountLinking: AccountLinking? = null
 ) {
     class Builder(private val request: Request) {
         var text: String = ""
@@ -62,6 +81,18 @@ data class MessageResponse internal constructor(
             response.setState(request.state)
 
             return response
+        }
+    }
+
+    class AuthorizationBuilder(
+        private val request: Request
+    ) {
+        fun build(): MessageResponse {
+            return MessageResponse(
+                response = null,
+                version = request.message.version,
+                startAccountLinking = AccountLinking()
+            )
         }
     }
 

@@ -1,5 +1,6 @@
 package com.github.alice.ktx.models.request
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
@@ -11,5 +12,7 @@ data class MessageRequest(
     val version: String,
     val session: Session,
     val request: RequestContent,
-    val state: State? = null
+    val state: State? = null,
+    @SerialName("account_linking_complete_event")
+    val accountLinkingCompleteEvent: AccountLinking? = null
 )

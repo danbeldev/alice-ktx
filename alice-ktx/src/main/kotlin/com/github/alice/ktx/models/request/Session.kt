@@ -13,7 +13,7 @@ data class Session(
     val skillId: String,
     @SerialName("user_id")
     val userId: String,
-    val user: User?,
+    val user: User? = null,
     val application: Application,
     val new: Boolean
 )
