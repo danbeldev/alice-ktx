@@ -73,3 +73,5 @@ sealed interface Response<T> {
 
 ### Примеры
 [ImageDialogsApi.kt](../examples/src/main/kotlin/com/github/examples/ImageDialogsApi.kt)
+
+### [Авторизация](Авторизация.md)
