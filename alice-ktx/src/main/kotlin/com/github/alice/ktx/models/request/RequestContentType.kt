@@ -1,10 +1,27 @@
 package com.github.alice.ktx.models.request
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
 /**
- * [SimpleUtterance] [Source](https://yandex.ru/dev/dialogs/alice/doc/ru/request-simpleutterance)
- * [ButtonPressed] [Source](https://yandex.ru/dev/dialogs/alice/doc/ru/request-buttonpressed)
+ * [Source](https://yandex.ru/dev/dialogs/alice/doc/ru/request#request-desc)
  * */
+@Serializable
 enum class RequestContentType {
     SimpleUtterance,
-    ButtonPressed
+    ButtonPressed,
+    @SerialName("AudioPlayer.PlaybackStarted")
+    AudioPlayerPlaybackStarted,
+    @SerialName("AudioPlayer.PlaybackFinished")
+    AudioPlayerPlaybackFinished,
+    @SerialName("AudioPlayer.PlaybackNearlyFinished")
+    AudioPlayerPlaybackNearlyFinished,
+    @SerialName("AudioPlayer.PlaybackStopped")
+    AudioPlayerPlaybackStopped,
+    @SerialName("AudioPlayer.PlaybackFailed")
+    AudioPlayerPlaybackFailed,
+    @SerialName("Purchase.Confirmation")
+    PurchaseConfirmation,
+    @SerialName("Show.Pull")
+    ShowPull
 }

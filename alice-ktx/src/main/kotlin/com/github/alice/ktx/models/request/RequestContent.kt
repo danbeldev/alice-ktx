@@ -8,6 +8,6 @@ data class RequestContent(
     val command: String? = null,
     @SerialName("original_utterance")
     val originalUtterance: String? = null,
-    val type: String,
+    val type: RequestContentType,
     val payload: Map<String, String>? = null
 )
