@@ -9,7 +9,7 @@
 
 <div align="center">
 
-[![Maven Central](https://badgen.net/badge/Maven%20Central/v0.0.2/blue?icon=github)](https://central.sonatype.com/artifact/io.github.danbeldev/alice-ktx)
+[![Maven Central](https://badgen.net/badge/Maven%20Central/v0.0.3/blue?icon=github)](https://central.sonatype.com/artifact/io.github.danbeldev/alice-ktx)
 [![License](https://img.shields.io/github/license/danbeldev/alice-ktx)](https://github.com/danbeldev/alice-ktx/blob/master/LICENSE)
 ![Last commit](https://img.shields.io/github/last-commit/danbeldev/alice-ktx)
 
@@ -68,7 +68,7 @@ fun main() {
 
 ## Связь
 Если у вас возникли вопросы, вы можете зайти в чат сообщества в Telegram
--   🇷🇺 [\@alice_skill_chat](https://t.me/alice_skill_chat)
+-   🇷🇺 [\@alice_ktx](https://t.me/alice_ktx)
 
 
 ## Лицензия
