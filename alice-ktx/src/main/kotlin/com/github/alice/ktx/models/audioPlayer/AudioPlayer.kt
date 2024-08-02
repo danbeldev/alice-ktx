@@ -10,7 +10,8 @@ fun MessageResponse.Builder.audioPlayer(body: AudioPlayer.Builder.() -> Unit) {
 }
 
 /**
- * [Source](https://yandex.ru/dev/dialogs/alice/doc/ru/request-audioplayer)
+ * [Source 1](https://yandex.ru/dev/dialogs/alice/doc/ru/request-audioplayer)
+ * [Source 2](https://yandex.ru/dev/dialogs/alice/doc/ru/response-audio-player)
  * */
 @Serializable
 data class AudioPlayer internal constructor(
@@ -20,7 +21,7 @@ data class AudioPlayer internal constructor(
    class Builder {
        var action = AudioPlayerAction.Play
 
-       lateinit var url: String
+       var url: String? = null
        var token = UUID.randomUUID().toString()
        var offsetMs = 0
 
