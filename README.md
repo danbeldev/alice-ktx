@@ -16,10 +16,11 @@
 </div>
 <p align="center">
     <b>
-        Асинхронный фреймворк для разработки
+        Библиотека на Kotlin, упрощающая разработку 
         <a target="_blank" href="https://dialogs.yandex.ru/store">навыков Алисы</a>
         из
         <a target="_blank" href="https://dialogs.yandex.ru/development">Яндекс.Диалогов</a>
+        .
     </b>
 </p>
 
