@@ -6,6 +6,8 @@ import com.github.alice.ktx.handlers.error.NetworkErrorHandler
 import com.github.alice.ktx.middleware.Middleware
 import com.github.alice.ktx.middleware.MiddlewareType
 import com.github.alice.ktx.models.FSMStrategy
+import com.github.alice.ktx.models.request.MessageRequest
+import com.github.alice.ktx.state.FSMContext
 
 /**
  * Расширение для `Skill.Builder`, позволяющее настроить `Dispatcher`.
@@ -23,8 +25,9 @@ fun Skill.Builder.dispatch(body: Dispatcher.() -> Unit) {
  * @param fsmStrategy Стратегия конечного автомата состояний (FSM), используемая для управления состояниями.
  */
 class Dispatcher internal constructor(
-    internal val fsmStrategy: FSMStrategy,
-    val dialogApi: DialogApi? = null
+    val fsmStrategy: FSMStrategy,
+    val dialogApi: DialogApi? = null,
+    internal val fsmContext: (message: MessageRequest) -> FSMContext
 ) {
     internal val commandHandlers = linkedSetOf<Handler>()
     internal val networkErrorHandlers = linkedSetOf<NetworkErrorHandler>()

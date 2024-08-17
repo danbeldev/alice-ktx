@@ -1,5 +1,6 @@
 package com.github.alice.ktx.server.impl
 
+import com.github.alice.ktx.Skill
 import com.github.alice.ktx.models.request.MessageRequest
 import com.github.alice.ktx.server.WebServer
 import com.github.alice.ktx.server.WebServerResponseListener
@@ -20,7 +21,9 @@ import kotlinx.serialization.json.Json
  * Эта функция будет вызвана в контексте `KtorWebServer.Builder`.
  * @return Настроенный объект `KtorWebServer`.
  */
-fun ktorWebServer(body: KtorWebServer.Builder.() -> Unit): KtorWebServer = KtorWebServer.Builder().build(body)
+fun Skill.Builder.ktorWebServer(body: KtorWebServer.Builder.() -> Unit): KtorWebServer {
+    return KtorWebServer.Builder().setJson(json).build(body)
+}
 
 /**
  * Класс `KtorWebServer` представляет собой веб-сервер, работающий на основе Ktor.
@@ -43,8 +46,13 @@ class KtorWebServer(
     class Builder {
         var port: Int = 8080
         var path: String = "/"
-        var json: Json = Json { ignoreUnknownKeys = true }
+        private lateinit var json: Json
         var configuration: Application.() -> Unit = {}
+
+        internal fun setJson(json: Json): Builder {
+            this.json = json
+            return this
+        }
 
         fun build(body: Builder.() -> Unit): KtorWebServer {
             body.invoke(this)
@@ -73,12 +81,12 @@ class KtorWebServer(
                         listener.messageHandle(model)?.let { response ->
                             call.respond(response)
                         }
-                    }catch (th: Throwable) {
-                        listener.responseFailure(model, th)?.let { response ->
+                    }catch (ex: Exception) {
+                        listener.responseFailure(model, ex)?.let { response ->
                             call.respond(response)
                             return@post
                         }
-                        throw th
+                        throw ex
                     }
                 }
             }

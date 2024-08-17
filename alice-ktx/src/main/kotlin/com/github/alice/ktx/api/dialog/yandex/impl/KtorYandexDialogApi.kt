@@ -24,8 +24,11 @@ import io.ktor.util.*
 import kotlinx.serialization.json.Json
 import java.io.File
 
-fun Skill.Builder.ktorYandexDialogApi(body: KtorYandexDialogApi.Builder.() -> Unit): KtorYandexDialogApi =
-    KtorYandexDialogApi.Builder().apply(body).build(id)
+fun Skill.Builder.ktorYandexDialogApi(body: KtorYandexDialogApi.Builder.() -> Unit): KtorYandexDialogApi {
+    val id = id
+        ?: throw IllegalArgumentException("Skill ID не может быть null. Убедитесь, что ID установлен перед вызовом метода.")
+    return KtorYandexDialogApi.Builder().setJson(json).apply(body).build(id)
+}
 
 /**
  * @param oauthToken Токен для загрузки аудио и изображений.
@@ -42,8 +45,13 @@ class KtorYandexDialogApi(
 
         lateinit var oauthToken: String
 
-        var json: Json = Json { ignoreUnknownKeys = true }
+        private lateinit var json: Json
         var configuration: HttpClientConfig<CIOEngineConfig>.() -> Unit = {}
+
+        internal fun setJson(json: Json): Builder {
+            this.json = json
+            return this
+        }
 
         fun build(skillId: String): KtorYandexDialogApi {
             return KtorYandexDialogApi(

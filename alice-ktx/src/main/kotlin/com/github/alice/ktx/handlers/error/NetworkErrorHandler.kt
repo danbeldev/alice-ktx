@@ -10,17 +10,17 @@ import kotlin.reflect.KClass
 /**
  * Расширение для `Dispatcher`, добавляющее обработку сетевых ошибок с помощью заданных функций.
  *
- * @param event Функция, которая вызывается при возникновении ошибки. Принимает `Throwable` и возвращает `Boolean`.
+ * @param event Функция, которая вызывается при возникновении ошибки. Принимает `Exception` и возвращает `Boolean`.
  *              Если функция возвращает `true`, вызывается обработчик `handle`.
- * @param handle Функция-обработчик, которая вызывается, если `event` возвращает `true`. Принимает `Throwable` и возвращает `MessageResponse?`.
+ * @param handle Функция-обработчик, которая вызывается, если `event` возвращает `true`. Принимает `Exception` и возвращает `MessageResponse?`.
  */
 fun Dispatcher.responseFailure(
-    event: suspend Request.(throwable: Throwable) -> Boolean,
-    handle: suspend Request.(throwable: Throwable) -> MessageResponse?,
+    event: suspend Request.(ex: Exception) -> Boolean,
+    handle: suspend Request.(ex: Exception) -> MessageResponse?,
 ) {
-    networkError { message, throwable ->
+    networkError { message, ex ->
         request(message).apply {
-            if(event(throwable)) return@networkError handle(throwable)
+            if(event(ex)) return@networkError handle(ex)
         }
         null
     }
@@ -32,11 +32,11 @@ fun Dispatcher.responseFailure(
  * @param thClass Класс исключения, которое должно быть обработано.
  * @param block Функция-обработчик, которая вызывается, если исключение принадлежит классу `thClass`. Принимает исключение типа `E` и возвращает `MessageResponse?`.
  */
-fun <E : Throwable> Dispatcher.responseFailure(thClass: KClass<E>, block: suspend Request.(throwable: E) -> MessageResponse?) {
-    networkError { message, throwable ->
-        if (thClass.isInstance(throwable)) {
+fun <E : Exception> Dispatcher.responseFailure(thClass: KClass<E>, block: suspend Request.(ex: E) -> MessageResponse?) {
+    networkError { message, ex ->
+        if (thClass.isInstance(ex)) {
             @Suppress("UNCHECKED_CAST")
-            return@networkError block(request(message), throwable as E)
+            return@networkError block(request(message), ex as E)
         }
         null
     }
@@ -45,10 +45,10 @@ fun <E : Throwable> Dispatcher.responseFailure(thClass: KClass<E>, block: suspen
 /**
  * Расширение для `Dispatcher`, добавляющее обработку сетевых ошибок с помощью блоков функций.
  *
- * @param block Функция-обработчик, которая вызывается при возникновении ошибки. Принимает `Throwable` и возвращает `MessageResponse?`.
+ * @param block Функция-обработчик, которая вызывается при возникновении ошибки. Принимает `Exception` и возвращает `MessageResponse?`.
  */
-fun Dispatcher.responseFailure(block: suspend Request.(throwable: Throwable) -> MessageResponse?) {
-    networkError { message, throwable  -> block(request(message), throwable) }
+fun Dispatcher.responseFailure(block: suspend Request.(ex: Exception) -> MessageResponse?) {
+    networkError { message, ex  -> block(request(message), ex) }
 }
 
 /**
@@ -58,11 +58,11 @@ fun Dispatcher.responseFailure(block: suspend Request.(throwable: Throwable) -> 
  * По умолчанию, возвращает `null`, что позволяет передать событие следующему обработчику.
  */
 fun Dispatcher.networkError(
-    responseFailure: suspend (model: MessageRequest, throwable: Throwable) -> MessageResponse? = { _, _ -> null }
+    responseFailure: suspend (model: MessageRequest, ex: Exception) -> MessageResponse? = { _, _ -> null }
 ) {
     val networkErrorHandler = object : NetworkErrorHandler {
-        override suspend fun responseFailure(model: MessageRequest, throwable: Throwable): MessageResponse? {
-            return responseFailure(model, throwable)
+        override suspend fun responseFailure(model: MessageRequest, ex: Exception): MessageResponse? {
+            return responseFailure(model, ex)
         }
     }
     networkError(networkErrorHandler)
@@ -84,11 +84,11 @@ interface NetworkErrorHandler {
     /**
      * Вызывается при возникновении ошибки
      * @param model Модель запроса, при обработке которого произошла ошибка.
-     * @param throwable Исключение, которое возникло.
+     * @param ex Исключение, которое возникло.
      *
      * [responseFailure] должен всегда возвращать null чтобы передать событие следующему хэндлеру.
      * Если вы хотите завершить обработку события, вы должны вернуть [MessageResponse]
      *
      * */
-    suspend fun responseFailure(model: MessageRequest, throwable: Throwable): MessageResponse? = null
+    suspend fun responseFailure(model: MessageRequest, ex: Exception): MessageResponse? = null
 }

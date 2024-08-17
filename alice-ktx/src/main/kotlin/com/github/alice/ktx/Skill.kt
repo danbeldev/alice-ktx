@@ -7,6 +7,9 @@ import com.github.alice.ktx.models.request.MessageRequest
 import com.github.alice.ktx.models.response.MessageResponse
 import com.github.alice.ktx.server.WebServer
 import com.github.alice.ktx.server.WebServerResponseListener
+import com.github.alice.ktx.state.FSMContext
+import com.github.alice.ktx.state.KotlinxSerializationFSMContext
+import kotlinx.serialization.json.Json
 
 /**
  * Создает экземпляр `Skill` с заданной конфигурацией.
@@ -20,12 +23,10 @@ fun skill(body: Skill.Builder.() -> Unit): Skill = Skill.Builder().build(body)
 /**
  * Класс `Skill` представляет собой навык, который обрабатывает запросы и управляет состоянием.
  *
- * @property id Идентификатор навыка, который можно найти в консоли разработчика на странице навыка в разделе "Общие сведения". Запросы без этого ID будут игнорироваться.
  * @property webServer Сервер для прослушивания запросов.
  * @property dispatcher Объект для управления обработчиками команд, мидлварами и обработчиками сетевых ошибок.
  */
 class Skill internal constructor(
-    private val id: String,
     private val webServer: WebServer,
     private val dispatcher: Dispatcher
 ) {
@@ -35,22 +36,27 @@ class Skill internal constructor(
      */
     class Builder {
 
-        lateinit var id: String
+        var id: String? = null
+        var json: Json = Json { ignoreUnknownKeys = true }
         var dialogApi: DialogApi? = null
         lateinit var webServer: WebServer
         var fsmStrategy: FSMStrategy = FSMStrategy.USER
         internal var dispatcherConfiguration: Dispatcher.() -> Unit = { }
+
+        var fsmContext: (message: MessageRequest) -> FSMContext = { message ->
+            KotlinxSerializationFSMContext(message, fsmStrategy, json)
+        }
 
         fun build(body: Builder.() -> Unit): Skill {
             body()
 
             val dispatcher = Dispatcher(
                 fsmStrategy = fsmStrategy,
-                dialogApi = dialogApi
+                dialogApi = dialogApi,
+                fsmContext = fsmContext
             ).apply(dispatcherConfiguration)
 
             return Skill(
-                id = id,
                 webServer = webServer,
                 dispatcher = dispatcher
             )
@@ -72,7 +78,6 @@ class Skill internal constructor(
      */
     private fun webServerResponseCallback(): WebServerResponseListener = object : WebServerResponseListener {
         override suspend fun messageHandle(model: MessageRequest): MessageResponse? {
-            if(model.session.skillId != id) return null
             runMiddlewares(model, MiddlewareType.OUTER)?.let { return it }
             dispatcher.commandHandlers.forEach { handler ->
                 if(handler.event(model)) {
@@ -83,9 +88,9 @@ class Skill internal constructor(
             return null
         }
 
-        override suspend fun responseFailure(model: MessageRequest, throwable: Throwable): MessageResponse? {
+        override suspend fun responseFailure(model: MessageRequest, ex: Exception): MessageResponse? {
             dispatcher.networkErrorHandlers.forEach { errorHandler ->
-                errorHandler.responseFailure(model, throwable)?.let { response ->
+                errorHandler.responseFailure(model, ex)?.let { response ->
                     return response
                 }
             }
