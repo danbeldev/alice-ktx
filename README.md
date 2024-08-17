@@ -34,12 +34,9 @@
 
 ## Быстрый старт
 
-Как узнать `skill_id` и подключить навык к Алисе, читайте [здесь](documentation/Начало.md).
-
 ```kotlin
 fun main() {
     skill {
-        id = "..."
         webServer = ktorWebServer {
             port = 8080
             path = "/alice"
@@ -62,14 +59,8 @@ fun main() {
 ```
 
 ## Документация
-- [Туториал](documentation/)
-- [Документация](https://danbeldev.github.io/alice-ktx/)
+- [Документация](documentation/)
 - [Примеры](https://github.com/danbeldev/alice-ktx/tree/master/examples/src/main/kotlin/com/github/examples)
-
-
-## Связь
-Если у вас возникли вопросы, вы можете зайти в чат сообщества в Telegram
--   🇷🇺 [\@alice_ktx](https://t.me/alice_ktx)
 
 
 ## Лицензия
