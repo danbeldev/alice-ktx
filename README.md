@@ -42,7 +42,7 @@ fun main() {
             path = "/alice"
         }
         dispatch {
-            message({ message.session.new }) {
+            newSession {
                 response {
                     text = "Привет!"
                 }

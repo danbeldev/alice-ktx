@@ -1,6 +1,7 @@
 package com.github.examples.cities
 
 import com.github.alice.ktx.dispatch
+import com.github.alice.ktx.handlers.impl.newSession
 import com.github.alice.ktx.handlers.message
 import com.github.alice.ktx.middleware.outerMiddleware
 import com.github.alice.ktx.models.response.response
@@ -33,7 +34,7 @@ fun main() {
                 null
             }
 
-            message({ message.session.new }) {
+            newSession {
                 val userId = message.session.user!!.userId
                 val isUserExisting = citiesGameService.isUserExisting(userId)
                 if(!isUserExisting) {
@@ -44,7 +45,7 @@ fun main() {
                 }
             }
 
-            message({ state == RegisterUserState.INPUT_FIST_NAME.name }) {
+            message({ context.getState() == RegisterUserState.INPUT_FIST_NAME.name }) {
                 val userId = message.session.user!!.userId
                 val firstName = message.request.originalUtterance!!
                 citiesGameService.createUser(id = userId, firstName = firstName)

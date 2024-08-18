@@ -1,13 +1,14 @@
 package com.github.examples
 
 import com.github.alice.ktx.dispatch
+import com.github.alice.ktx.handlers.impl.newSession
 import com.github.alice.ktx.handlers.message
 import com.github.alice.ktx.models.button.button
 import com.github.alice.ktx.models.response.response
 import com.github.alice.ktx.server.impl.ktorWebServer
 import com.github.alice.ktx.skill
 import com.github.alice.ktx.state.FSMContext
-import com.github.alice.ktx.state.KotlinxSerializationFSMContext
+import com.github.alice.ktx.state.impl.KotlinxSerializationFSMContext
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -36,13 +37,13 @@ fun main() {
             path = "/alice"
         }
         dispatch {
-            message({ message.session.new }) {
+            newSession {
                 state.setState(UserState.SET_NAME.name)
                 response {
                     text = "Привет! Как тебя зовут?"
                 }
             }
-            message({ state == UserState.SET_NAME.name }) {
+            message({ context.getState() == UserState.SET_NAME.name }) {
                 val user = User(username = message.request.originalUtterance!!)
                 state.setTypedData("user" to user, clazz = User::class)
                 state.setState(UserState.GET_NAME.name)

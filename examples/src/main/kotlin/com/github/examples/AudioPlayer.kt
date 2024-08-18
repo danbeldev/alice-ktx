@@ -1,6 +1,7 @@
 package com.github.examples
 
 import com.github.alice.ktx.dispatch
+import com.github.alice.ktx.handlers.impl.newSession
 import com.github.alice.ktx.handlers.message
 import com.github.alice.ktx.models.audioPlayer.audioPlayer
 import com.github.alice.ktx.models.response.response
@@ -15,7 +16,7 @@ fun main() {
             path = "/alice"
         }
         dispatch {
-            message({ message.session.new }) {
+            newSession {
                 response {
                     shouldListen = false
                     audioPlayer {

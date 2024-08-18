@@ -1,6 +1,7 @@
 package com.github.examples
 
 import com.github.alice.ktx.dispatch
+import com.github.alice.ktx.handlers.impl.newSession
 import com.github.alice.ktx.handlers.message
 import com.github.alice.ktx.models.button.button
 import com.github.alice.ktx.models.response.response
@@ -21,7 +22,7 @@ fun main() {
             path = "/alice"
         }
         dispatch {
-            message({ message.session.new }) {
+            newSession {
                 state.setState(FormState.NAME.name)
                 response {
                     text = "Привет! Как тебя зовут?"
@@ -36,7 +37,7 @@ fun main() {
                 }
             }
 
-            message({ state == FormState.NAME.name }) {
+            message({ context.getState() == FormState.NAME.name }) {
                 val name = message.request.originalUtterance.toString()
                 state.updateData("name" to name)
                 state.setState(FormState.LINK_SKILLS.name)
@@ -51,7 +52,7 @@ fun main() {
                 }
             }
 
-            message({ state == FormState.LINK_SKILLS.name && message.request.command == "нет" }) {
+            message({ context.getState() == FormState.LINK_SKILLS.name && message.request.command == "нет" }) {
                 val data = state.getData()
                 state.clear()
                 response {
@@ -60,14 +61,14 @@ fun main() {
                 }
             }
 
-            message({ state == FormState.LINK_SKILLS.name && message.request.command == "да" }) {
+            message({ context.getState() == FormState.LINK_SKILLS.name && message.request.command == "да" }) {
                 state.setState(FormState.DEVICE.name)
                 response {
                     text = "Класс! Мне тоже!\nЧерез какое устройство ты обычно их используешь?"
                 }
             }
 
-            message({ state == FormState.LINK_SKILLS.name }) {
+            message({ context.getState() == FormState.LINK_SKILLS.name }) {
                 response {
                     text = "Не могу понять тебя... Можешь повторить, пожалуйста?"
                     button {
@@ -79,7 +80,7 @@ fun main() {
                 }
             }
 
-            message({ state == FormState.DEVICE.name }) {
+            message({ context.getState() == FormState.DEVICE.name }) {
                 val device = message.request.originalUtterance.toString()
                 state.updateData("device" to device)
                 val data = state.getData()
