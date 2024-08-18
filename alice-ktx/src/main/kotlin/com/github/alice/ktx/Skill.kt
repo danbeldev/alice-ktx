@@ -8,7 +8,7 @@ import com.github.alice.ktx.models.response.MessageResponse
 import com.github.alice.ktx.server.WebServer
 import com.github.alice.ktx.server.WebServerResponseListener
 import com.github.alice.ktx.state.FSMContext
-import com.github.alice.ktx.state.KotlinxSerializationFSMContext
+import com.github.alice.ktx.state.impl.KotlinxSerializationFSMContext
 import kotlinx.serialization.json.Json
 
 /**
@@ -47,7 +47,7 @@ class Skill internal constructor(
             KotlinxSerializationFSMContext(message, fsmStrategy, json)
         }
 
-        fun build(body: Builder.() -> Unit): Skill {
+        internal fun build(body: Builder.() -> Unit): Skill {
             body()
 
             val dispatcher = Dispatcher(

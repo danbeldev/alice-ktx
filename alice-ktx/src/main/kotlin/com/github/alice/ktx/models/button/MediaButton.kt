@@ -36,7 +36,7 @@ data class MediaButton(
         var url: String? = null
         var payload: Map<String, String>? = null
 
-        fun build(body: Builder.() -> Unit): MediaButton {
+        internal fun build(body: Builder.() -> Unit): MediaButton {
             body()
             return MediaButton(
                 text = text,

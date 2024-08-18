@@ -17,7 +17,7 @@ data class CardFooter(
         lateinit var text: String
         var button: MediaButton? = null
 
-        fun build(body: Builder.() -> Unit): CardFooter {
+        internal fun build(body: Builder.() -> Unit): CardFooter {
             body()
             return CardFooter(
                 text = text,

@@ -21,7 +21,7 @@ data class Button(
         var hide: Boolean = true
         var payload: Map<String, String>? = null
 
-        fun build(body: Builder.() -> Unit): Button {
+        internal fun build(body: Builder.() -> Unit): Button {
             body()
             return Button(
                 title = title,

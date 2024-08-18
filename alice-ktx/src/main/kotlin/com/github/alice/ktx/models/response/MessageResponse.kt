@@ -56,11 +56,11 @@ data class MessageResponse internal constructor(
         internal var audioPlayer: AudioPlayer? = null
         private val buttons = mutableListOf<Button>()
 
-        fun addButton(button: Button) {
+        internal fun addButton(button: Button) {
             buttons.add(button)
         }
 
-        fun build(body: Builder.() -> Unit): MessageResponse {
+        internal fun build(body: Builder.() -> Unit): MessageResponse {
             body()
 
             val response = MessageResponse(
@@ -84,10 +84,10 @@ data class MessageResponse internal constructor(
         }
     }
 
-    class AuthorizationBuilder(
+    internal class AuthorizationBuilder(
         private val request: Request
     ) {
-        fun build(): MessageResponse {
+        internal fun build(): MessageResponse {
             return MessageResponse(
                 response = null,
                 version = request.message.version,

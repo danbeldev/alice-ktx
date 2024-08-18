@@ -47,7 +47,7 @@ data class Card internal constructor(
         var description: String? = null
         var button: MediaButton? = null
 
-        fun build(body: BigImageBuilder.() -> Unit): Card {
+        internal fun build(body: BigImageBuilder.() -> Unit): Card {
             body()
             return Card(
                 type = CardType.BigImage,
@@ -62,11 +62,11 @@ data class Card internal constructor(
     class ImageGalleryBuilder {
         private val items = mutableListOf<CardItem>()
 
-        fun addItem(item: CardItem) {
+        internal fun addItem(item: CardItem) {
             items.add(item)
         }
 
-        fun build(body: ImageGalleryBuilder.() -> Unit): Card {
+        internal fun build(body: ImageGalleryBuilder.() -> Unit): Card {
             body()
             return Card(
                 type = CardType.ImageGallery,
@@ -80,11 +80,11 @@ data class Card internal constructor(
         lateinit var header: String
         var footer: CardFooter? = null
 
-        fun addItem(item: CardItem) {
+        internal fun addItem(item: CardItem) {
             items.add(item)
         }
 
-        fun build(body: ItemsListBuilder.() -> Unit): Card {
+        internal fun build(body: ItemsListBuilder.() -> Unit): Card {
             body()
             return Card(
                 type = CardType.ItemsList,

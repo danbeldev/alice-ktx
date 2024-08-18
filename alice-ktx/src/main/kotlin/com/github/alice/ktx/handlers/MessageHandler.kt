@@ -5,17 +5,15 @@ import com.github.alice.ktx.models.Request
 import com.github.alice.ktx.models.request
 import com.github.alice.ktx.models.request.MessageRequest
 import com.github.alice.ktx.models.response.MessageResponse
+import com.github.alice.ktx.state.ReadOnlyFSMContext
 
 /**
  * Данные события, включающие состояние и данные состояния.
  *
- * @param state Текущее состояние, или `null`, если состояние не установлено.
- * @param stateData Данные состояния, хранящиеся в виде карты ключ-значение.
  * @param message Запрос сообщения.
  */
 data class EventMessage(
-    val state: String?,
-    val stateData: Map<String, String>,
+    val context: ReadOnlyFSMContext,
     val message: MessageRequest
 )
 
@@ -31,10 +29,8 @@ fun Dispatcher.message(
 ) {
     val messageHandler = MessageHandler(
         eventBlock = { message ->
-            val state = request(message).state
             val eventMessage = EventMessage(
-                state = state.getState(),
-                stateData = state.getData(),
+                context = request(message).state,
                 message = message
             )
             event(eventMessage)

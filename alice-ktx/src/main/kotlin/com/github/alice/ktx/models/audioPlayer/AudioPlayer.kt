@@ -30,7 +30,7 @@ data class AudioPlayer internal constructor(
        var artUrl: String? = null
        var backgroundImageUrl: String? = null
 
-       fun build(body: Builder.() -> Unit): AudioPlayer {
+       internal fun build(body: Builder.() -> Unit): AudioPlayer {
            body()
            return AudioPlayer(
                action = action,

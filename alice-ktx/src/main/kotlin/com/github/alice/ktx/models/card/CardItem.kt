@@ -27,7 +27,7 @@ data class CardItem(
         var title: String? = null
         var button: MediaButton? = null
 
-        fun build(body: ImageGalleryBuilder.() -> Unit): CardItem {
+        internal fun build(body: ImageGalleryBuilder.() -> Unit): CardItem {
             body()
             return CardItem(
                 imageId = imageId,
@@ -43,7 +43,7 @@ data class CardItem(
         var description: String? = null
         var button: MediaButton? = null
 
-        fun build(body: ItemsListBuilder.() -> Unit): CardItem {
+        internal fun build(body: ItemsListBuilder.() -> Unit): CardItem {
             body()
             return CardItem(
                 imageId = imageId,

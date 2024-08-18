@@ -37,23 +37,15 @@ class Dispatcher internal constructor(
         MiddlewareType.entries.forEach { middlewares[it] = mutableListOf() }
     }
 
-    fun addHandler(handler: Handler) {
+    internal fun addHandler(handler: Handler) {
         commandHandlers.add(handler)
     }
 
-    fun removeHandler(handler: Handler) {
-        commandHandlers.remove(handler)
-    }
-
-    fun addMiddleware(middleware: Middleware, type: MiddlewareType) {
+    internal fun addMiddleware(middleware: Middleware, type: MiddlewareType) {
         middlewares[type]?.add(middleware)
     }
 
-    fun addNetworkErrorHandler(handler: NetworkErrorHandler) {
+    internal fun addNetworkErrorHandler(handler: NetworkErrorHandler) {
         networkErrorHandlers.add(handler)
-    }
-
-    fun removeNetworkErrorHandler(handler: NetworkErrorHandler) {
-        networkErrorHandlers.remove(handler)
     }
 }

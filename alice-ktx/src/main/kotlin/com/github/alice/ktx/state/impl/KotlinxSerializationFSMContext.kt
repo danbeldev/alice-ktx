@@ -1,14 +1,15 @@
-package com.github.alice.ktx.state
+package com.github.alice.ktx.state.impl
 
 import com.github.alice.ktx.models.FSMStrategy
 import com.github.alice.ktx.models.request.MessageRequest
+import com.github.alice.ktx.state.FSMContext
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
 import kotlin.reflect.KClass
 
 /**
- * Класс `KotlinxSerializationFSMContext` предоставляет реализацию интерфейса `FSMContext` для управления состоянием и данными конкретного пользователя.
+ * Класс `KotlinxSerializationFSMContext` предоставляет реализацию интерфейса `FSMContext` для управления состоянием и данными пользователя.
  *
  * @param message Сообщение запроса, содержащего начальное состояние и данные пользователя.
  * @param strategy Стратегия конечного автомата состояний (FSM), используемая для управления состояниями.
