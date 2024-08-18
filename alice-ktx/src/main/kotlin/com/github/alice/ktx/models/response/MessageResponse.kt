@@ -6,6 +6,8 @@ import com.github.alice.ktx.models.audioPlayer.AudioPlayer
 import com.github.alice.ktx.models.button.Button
 import com.github.alice.ktx.models.card.Card
 import com.github.alice.ktx.models.request.AccountLinking
+import com.github.alice.ktx.models.response.analytics.Analytics
+import com.github.alice.ktx.models.response.analytics.AnalyticsEvent
 import com.github.alice.ktx.state.FSMContext
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -44,7 +46,8 @@ data class MessageResponse internal constructor(
     @SerialName("application_state")
     var applicationState: StateResponse? = null,
     @SerialName("start_account_linking")
-    val startAccountLinking: AccountLinking? = null
+    val startAccountLinking: AccountLinking? = null,
+    val analytics: Analytics? = null
 ) {
     class Builder(private val request: Request) {
         var text: String = ""
@@ -55,6 +58,7 @@ data class MessageResponse internal constructor(
         internal var card: Card? = null
         internal var audioPlayer: AudioPlayer? = null
         private val buttons = mutableListOf<Button>()
+        var analytics: Analytics? = null
 
         internal fun addButton(button: Button) {
             buttons.add(button)
@@ -76,6 +80,7 @@ data class MessageResponse internal constructor(
                     )
                 ),
                 version = version,
+                analytics = analytics
             )
 
             response.setState(request.state)
