@@ -17,4 +17,5 @@ response {
 ```
 
 ### Примеры
+
 - [AudioPlayer.kt](../examples/src/main/kotlin/com/github/examples/AudioPlayer.kt)
