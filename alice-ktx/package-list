@@ -347,6 +347,14 @@ $dokka.location:com.github.alice.ktx.models.request/User///PointingToDeclaration
 $dokka.location:com.github.alice.ktx.models.request/User/User/#kotlin.String#kotlin.String?/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.request/-user/-user.html
 $dokka.location:com.github.alice.ktx.models.request/User/accessToken/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.request/-user/access-token.html
 $dokka.location:com.github.alice.ktx.models.request/User/userId/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.request/-user/user-id.html
+$dokka.location:com.github.alice.ktx.models.response.analytics////PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response.analytics/index.html
+$dokka.location:com.github.alice.ktx.models.response.analytics/Analytics///PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response.analytics/-analytics/index.html
+$dokka.location:com.github.alice.ktx.models.response.analytics/Analytics/Analytics/#kotlin.collections.List[com.github.alice.ktx.models.response.analytics.AnalyticsEvent]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response.analytics/-analytics/-analytics.html
+$dokka.location:com.github.alice.ktx.models.response.analytics/Analytics/events/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response.analytics/-analytics/events.html
+$dokka.location:com.github.alice.ktx.models.response.analytics/AnalyticsEvent///PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response.analytics/-analytics-event/index.html
+$dokka.location:com.github.alice.ktx.models.response.analytics/AnalyticsEvent/AnalyticsEvent/#kotlin.String#kotlin.collections.Map[kotlin.String,kotlin.String]?/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response.analytics/-analytics-event/-analytics-event.html
+$dokka.location:com.github.alice.ktx.models.response.analytics/AnalyticsEvent/name/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response.analytics/-analytics-event/name.html
+$dokka.location:com.github.alice.ktx.models.response.analytics/AnalyticsEvent/value/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response.analytics/-analytics-event/value.html
 $dokka.location:com.github.alice.ktx.models.response////PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/index.html
 $dokka.location:com.github.alice.ktx.models.response//authorization/com.github.alice.ktx.models.Request#kotlin.coroutines.SuspendFunction0[com.github.alice.ktx.models.response.MessageResponse]?#kotlin.coroutines.SuspendFunction0[com.github.alice.ktx.models.response.MessageResponse]?/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/authorization.html
 $dokka.location:com.github.alice.ktx.models.response//response/com.github.alice.ktx.models.Request#kotlin.Function1[com.github.alice.ktx.models.response.MessageResponse.Builder,kotlin.Unit]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/response.html
@@ -355,12 +363,14 @@ $dokka.location:com.github.alice.ktx.models.response/Directives/Directives/#com.
 $dokka.location:com.github.alice.ktx.models.response/Directives/audioPlayer/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-directives/audio-player.html
 $dokka.location:com.github.alice.ktx.models.response/MessageResponse.Builder///PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-message-response/-builder/index.html
 $dokka.location:com.github.alice.ktx.models.response/MessageResponse.Builder/Builder/#com.github.alice.ktx.models.Request/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-message-response/-builder/-builder.html
+$dokka.location:com.github.alice.ktx.models.response/MessageResponse.Builder/analytics/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-message-response/-builder/analytics.html
 $dokka.location:com.github.alice.ktx.models.response/MessageResponse.Builder/endSession/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-message-response/-builder/end-session.html
 $dokka.location:com.github.alice.ktx.models.response/MessageResponse.Builder/shouldListen/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-message-response/-builder/should-listen.html
 $dokka.location:com.github.alice.ktx.models.response/MessageResponse.Builder/text/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-message-response/-builder/text.html
 $dokka.location:com.github.alice.ktx.models.response/MessageResponse.Builder/tts/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-message-response/-builder/tts.html
 $dokka.location:com.github.alice.ktx.models.response/MessageResponse.Builder/version/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-message-response/-builder/version.html
 $dokka.location:com.github.alice.ktx.models.response/MessageResponse///PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-message-response/index.html
+$dokka.location:com.github.alice.ktx.models.response/MessageResponse/analytics/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-message-response/analytics.html
 $dokka.location:com.github.alice.ktx.models.response/MessageResponse/applicationState/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-message-response/application-state.html
 $dokka.location:com.github.alice.ktx.models.response/MessageResponse/response/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-message-response/response.html
 $dokka.location:com.github.alice.ktx.models.response/MessageResponse/sessionState/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-message-response/session-state.html
@@ -479,6 +489,7 @@ com.github.alice.ktx.models.button
 com.github.alice.ktx.models.card
 com.github.alice.ktx.models.request
 com.github.alice.ktx.models.response
+com.github.alice.ktx.models.response.analytics
 com.github.alice.ktx.server
 com.github.alice.ktx.server.impl
 com.github.alice.ktx.state
