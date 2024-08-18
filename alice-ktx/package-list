@@ -114,14 +114,20 @@ $dokka.location:com.github.alice.ktx.handlers.error//responseFailure/com.github.
 $dokka.location:com.github.alice.ktx.handlers.error//responseFailure/com.github.alice.ktx.Dispatcher#kotlin.reflect.KClass[TypeParam(bounds=[java.lang.Exception])]#kotlin.coroutines.SuspendFunction2[com.github.alice.ktx.models.Request,TypeParam(bounds=[java.lang.Exception]),com.github.alice.ktx.models.response.MessageResponse?]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.handlers.error/response-failure.html
 $dokka.location:com.github.alice.ktx.handlers.error/NetworkErrorHandler///PointingToDeclaration/alice-ktx/com.github.alice.ktx.handlers.error/-network-error-handler/index.html
 $dokka.location:com.github.alice.ktx.handlers.error/NetworkErrorHandler/responseFailure/#com.github.alice.ktx.models.request.MessageRequest#java.lang.Exception/PointingToDeclaration/alice-ktx/com.github.alice.ktx.handlers.error/-network-error-handler/response-failure.html
+$dokka.location:com.github.alice.ktx.handlers.impl////PointingToDeclaration/alice-ktx/com.github.alice.ktx.handlers.impl/index.html
+$dokka.location:com.github.alice.ktx.handlers.impl//buttonPressed/com.github.alice.ktx.Dispatcher#kotlin.coroutines.SuspendFunction1[com.github.alice.ktx.handlers.impl.EventButtonPressed,kotlin.Boolean]#kotlin.coroutines.SuspendFunction1[com.github.alice.ktx.models.Request,com.github.alice.ktx.models.response.MessageResponse]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.handlers.impl/button-pressed.html
+$dokka.location:com.github.alice.ktx.handlers.impl//newSession/com.github.alice.ktx.Dispatcher#kotlin.coroutines.SuspendFunction1[com.github.alice.ktx.models.Request,com.github.alice.ktx.models.response.MessageResponse]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.handlers.impl/new-session.html
+$dokka.location:com.github.alice.ktx.handlers.impl/EventButtonPressed///PointingToDeclaration/alice-ktx/com.github.alice.ktx.handlers.impl/-event-button-pressed/index.html
+$dokka.location:com.github.alice.ktx.handlers.impl/EventButtonPressed/EventButtonPressed/#com.github.alice.ktx.state.ReadOnlyFSMContext#kotlin.collections.Map[kotlin.String,kotlin.String]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.handlers.impl/-event-button-pressed/-event-button-pressed.html
+$dokka.location:com.github.alice.ktx.handlers.impl/EventButtonPressed/context/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.handlers.impl/-event-button-pressed/context.html
+$dokka.location:com.github.alice.ktx.handlers.impl/EventButtonPressed/payload/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.handlers.impl/-event-button-pressed/payload.html
 $dokka.location:com.github.alice.ktx.handlers////PointingToDeclaration/alice-ktx/com.github.alice.ktx.handlers/index.html
 $dokka.location:com.github.alice.ktx.handlers//help/com.github.alice.ktx.Dispatcher#kotlin.coroutines.SuspendFunction1[com.github.alice.ktx.models.Request,com.github.alice.ktx.models.response.MessageResponse]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.handlers/help.html
 $dokka.location:com.github.alice.ktx.handlers//message/com.github.alice.ktx.Dispatcher#kotlin.coroutines.SuspendFunction1[com.github.alice.ktx.handlers.EventMessage,kotlin.Boolean]#kotlin.coroutines.SuspendFunction1[com.github.alice.ktx.models.Request,com.github.alice.ktx.models.response.MessageResponse]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.handlers/message.html
 $dokka.location:com.github.alice.ktx.handlers/EventMessage///PointingToDeclaration/alice-ktx/com.github.alice.ktx.handlers/-event-message/index.html
-$dokka.location:com.github.alice.ktx.handlers/EventMessage/EventMessage/#kotlin.String?#kotlin.collections.Map[kotlin.String,kotlin.String]#com.github.alice.ktx.models.request.MessageRequest/PointingToDeclaration/alice-ktx/com.github.alice.ktx.handlers/-event-message/-event-message.html
+$dokka.location:com.github.alice.ktx.handlers/EventMessage/EventMessage/#com.github.alice.ktx.state.ReadOnlyFSMContext#com.github.alice.ktx.models.request.MessageRequest/PointingToDeclaration/alice-ktx/com.github.alice.ktx.handlers/-event-message/-event-message.html
+$dokka.location:com.github.alice.ktx.handlers/EventMessage/context/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.handlers/-event-message/context.html
 $dokka.location:com.github.alice.ktx.handlers/EventMessage/message/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.handlers/-event-message/message.html
-$dokka.location:com.github.alice.ktx.handlers/EventMessage/state/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.handlers/-event-message/state.html
-$dokka.location:com.github.alice.ktx.handlers/EventMessage/stateData/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.handlers/-event-message/state-data.html
 $dokka.location:com.github.alice.ktx.handlers/Handler///PointingToDeclaration/alice-ktx/com.github.alice.ktx.handlers/-handler/index.html
 $dokka.location:com.github.alice.ktx.handlers/Handler/event/#com.github.alice.ktx.models.request.MessageRequest/PointingToDeclaration/alice-ktx/com.github.alice.ktx.handlers/-handler/event.html
 $dokka.location:com.github.alice.ktx.handlers/Handler/handle/#com.github.alice.ktx.models.request.MessageRequest/PointingToDeclaration/alice-ktx/com.github.alice.ktx.handlers/-handler/handle.html
@@ -144,7 +150,6 @@ $dokka.location:com.github.alice.ktx.models.audioPlayer/AudioPlayer.Builder/Buil
 $dokka.location:com.github.alice.ktx.models.audioPlayer/AudioPlayer.Builder/action/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.audioPlayer/-audio-player/-builder/action.html
 $dokka.location:com.github.alice.ktx.models.audioPlayer/AudioPlayer.Builder/artUrl/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.audioPlayer/-audio-player/-builder/art-url.html
 $dokka.location:com.github.alice.ktx.models.audioPlayer/AudioPlayer.Builder/backgroundImageUrl/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.audioPlayer/-audio-player/-builder/background-image-url.html
-$dokka.location:com.github.alice.ktx.models.audioPlayer/AudioPlayer.Builder/build/#kotlin.Function1[com.github.alice.ktx.models.audioPlayer.AudioPlayer.Builder,kotlin.Unit]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.audioPlayer/-audio-player/-builder/build.html
 $dokka.location:com.github.alice.ktx.models.audioPlayer/AudioPlayer.Builder/offsetMs/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.audioPlayer/-audio-player/-builder/offset-ms.html
 $dokka.location:com.github.alice.ktx.models.audioPlayer/AudioPlayer.Builder/subTitle/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.audioPlayer/-audio-player/-builder/sub-title.html
 $dokka.location:com.github.alice.ktx.models.audioPlayer/AudioPlayer.Builder/title/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.audioPlayer/-audio-player/-builder/title.html
@@ -188,7 +193,6 @@ $dokka.location:com.github.alice.ktx.models.button//mediaButton/com.github.alice
 $dokka.location:com.github.alice.ktx.models.button//mediaButton/com.github.alice.ktx.models.card.CardItem.ItemsListBuilder#kotlin.Function1[com.github.alice.ktx.models.button.MediaButton.Builder,kotlin.Unit]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.button/media-button.html
 $dokka.location:com.github.alice.ktx.models.button/Button.Builder///PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.button/-button/-builder/index.html
 $dokka.location:com.github.alice.ktx.models.button/Button.Builder/Builder/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.button/-button/-builder/-builder.html
-$dokka.location:com.github.alice.ktx.models.button/Button.Builder/build/#kotlin.Function1[com.github.alice.ktx.models.button.Button.Builder,kotlin.Unit]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.button/-button/-builder/build.html
 $dokka.location:com.github.alice.ktx.models.button/Button.Builder/hide/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.button/-button/-builder/hide.html
 $dokka.location:com.github.alice.ktx.models.button/Button.Builder/payload/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.button/-button/-builder/payload.html
 $dokka.location:com.github.alice.ktx.models.button/Button.Builder/title/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.button/-button/-builder/title.html
@@ -201,7 +205,6 @@ $dokka.location:com.github.alice.ktx.models.button/Button/title/#/PointingToDecl
 $dokka.location:com.github.alice.ktx.models.button/Button/url/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.button/-button/url.html
 $dokka.location:com.github.alice.ktx.models.button/MediaButton.Builder///PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.button/-media-button/-builder/index.html
 $dokka.location:com.github.alice.ktx.models.button/MediaButton.Builder/Builder/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.button/-media-button/-builder/-builder.html
-$dokka.location:com.github.alice.ktx.models.button/MediaButton.Builder/build/#kotlin.Function1[com.github.alice.ktx.models.button.MediaButton.Builder,kotlin.Unit]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.button/-media-button/-builder/build.html
 $dokka.location:com.github.alice.ktx.models.button/MediaButton.Builder/payload/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.button/-media-button/-builder/payload.html
 $dokka.location:com.github.alice.ktx.models.button/MediaButton.Builder/text/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.button/-media-button/-builder/text.html
 $dokka.location:com.github.alice.ktx.models.button/MediaButton.Builder/url/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.button/-media-button/-builder/url.html
@@ -219,19 +222,14 @@ $dokka.location:com.github.alice.ktx.models.card//item/com.github.alice.ktx.mode
 $dokka.location:com.github.alice.ktx.models.card//item/com.github.alice.ktx.models.card.Card.ItemsListBuilder#kotlin.Function1[com.github.alice.ktx.models.card.CardItem.ItemsListBuilder,kotlin.Unit]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/item.html
 $dokka.location:com.github.alice.ktx.models.card/Card.BigImageBuilder///PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card/-big-image-builder/index.html
 $dokka.location:com.github.alice.ktx.models.card/Card.BigImageBuilder/BigImageBuilder/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card/-big-image-builder/-big-image-builder.html
-$dokka.location:com.github.alice.ktx.models.card/Card.BigImageBuilder/build/#kotlin.Function1[com.github.alice.ktx.models.card.Card.BigImageBuilder,kotlin.Unit]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card/-big-image-builder/build.html
 $dokka.location:com.github.alice.ktx.models.card/Card.BigImageBuilder/button/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card/-big-image-builder/button.html
 $dokka.location:com.github.alice.ktx.models.card/Card.BigImageBuilder/description/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card/-big-image-builder/description.html
 $dokka.location:com.github.alice.ktx.models.card/Card.BigImageBuilder/imageId/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card/-big-image-builder/image-id.html
 $dokka.location:com.github.alice.ktx.models.card/Card.BigImageBuilder/title/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card/-big-image-builder/title.html
 $dokka.location:com.github.alice.ktx.models.card/Card.ImageGalleryBuilder///PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card/-image-gallery-builder/index.html
 $dokka.location:com.github.alice.ktx.models.card/Card.ImageGalleryBuilder/ImageGalleryBuilder/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card/-image-gallery-builder/-image-gallery-builder.html
-$dokka.location:com.github.alice.ktx.models.card/Card.ImageGalleryBuilder/addItem/#com.github.alice.ktx.models.card.CardItem/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card/-image-gallery-builder/add-item.html
-$dokka.location:com.github.alice.ktx.models.card/Card.ImageGalleryBuilder/build/#kotlin.Function1[com.github.alice.ktx.models.card.Card.ImageGalleryBuilder,kotlin.Unit]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card/-image-gallery-builder/build.html
 $dokka.location:com.github.alice.ktx.models.card/Card.ItemsListBuilder///PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card/-items-list-builder/index.html
 $dokka.location:com.github.alice.ktx.models.card/Card.ItemsListBuilder/ItemsListBuilder/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card/-items-list-builder/-items-list-builder.html
-$dokka.location:com.github.alice.ktx.models.card/Card.ItemsListBuilder/addItem/#com.github.alice.ktx.models.card.CardItem/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card/-items-list-builder/add-item.html
-$dokka.location:com.github.alice.ktx.models.card/Card.ItemsListBuilder/build/#kotlin.Function1[com.github.alice.ktx.models.card.Card.ItemsListBuilder,kotlin.Unit]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card/-items-list-builder/build.html
 $dokka.location:com.github.alice.ktx.models.card/Card.ItemsListBuilder/footer/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card/-items-list-builder/footer.html
 $dokka.location:com.github.alice.ktx.models.card/Card.ItemsListBuilder/header/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card/-items-list-builder/header.html
 $dokka.location:com.github.alice.ktx.models.card/Card///PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card/index.html
@@ -245,7 +243,6 @@ $dokka.location:com.github.alice.ktx.models.card/Card/title/#/PointingToDeclarat
 $dokka.location:com.github.alice.ktx.models.card/Card/type/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card/type.html
 $dokka.location:com.github.alice.ktx.models.card/CardFooter.Builder///PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card-footer/-builder/index.html
 $dokka.location:com.github.alice.ktx.models.card/CardFooter.Builder/Builder/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card-footer/-builder/-builder.html
-$dokka.location:com.github.alice.ktx.models.card/CardFooter.Builder/build/#kotlin.Function1[com.github.alice.ktx.models.card.CardFooter.Builder,kotlin.Unit]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card-footer/-builder/build.html
 $dokka.location:com.github.alice.ktx.models.card/CardFooter.Builder/button/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card-footer/-builder/button.html
 $dokka.location:com.github.alice.ktx.models.card/CardFooter.Builder/text/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card-footer/-builder/text.html
 $dokka.location:com.github.alice.ktx.models.card/CardFooter///PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card-footer/index.html
@@ -257,13 +254,11 @@ $dokka.location:com.github.alice.ktx.models.card/CardHeader/CardHeader/#kotlin.S
 $dokka.location:com.github.alice.ktx.models.card/CardHeader/text/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card-header/text.html
 $dokka.location:com.github.alice.ktx.models.card/CardItem.ImageGalleryBuilder///PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card-item/-image-gallery-builder/index.html
 $dokka.location:com.github.alice.ktx.models.card/CardItem.ImageGalleryBuilder/ImageGalleryBuilder/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card-item/-image-gallery-builder/-image-gallery-builder.html
-$dokka.location:com.github.alice.ktx.models.card/CardItem.ImageGalleryBuilder/build/#kotlin.Function1[com.github.alice.ktx.models.card.CardItem.ImageGalleryBuilder,kotlin.Unit]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card-item/-image-gallery-builder/build.html
 $dokka.location:com.github.alice.ktx.models.card/CardItem.ImageGalleryBuilder/button/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card-item/-image-gallery-builder/button.html
 $dokka.location:com.github.alice.ktx.models.card/CardItem.ImageGalleryBuilder/imageId/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card-item/-image-gallery-builder/image-id.html
 $dokka.location:com.github.alice.ktx.models.card/CardItem.ImageGalleryBuilder/title/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card-item/-image-gallery-builder/title.html
 $dokka.location:com.github.alice.ktx.models.card/CardItem.ItemsListBuilder///PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card-item/-items-list-builder/index.html
 $dokka.location:com.github.alice.ktx.models.card/CardItem.ItemsListBuilder/ItemsListBuilder/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card-item/-items-list-builder/-items-list-builder.html
-$dokka.location:com.github.alice.ktx.models.card/CardItem.ItemsListBuilder/build/#kotlin.Function1[com.github.alice.ktx.models.card.CardItem.ItemsListBuilder,kotlin.Unit]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card-item/-items-list-builder/build.html
 $dokka.location:com.github.alice.ktx.models.card/CardItem.ItemsListBuilder/button/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card-item/-items-list-builder/button.html
 $dokka.location:com.github.alice.ktx.models.card/CardItem.ItemsListBuilder/description/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card-item/-items-list-builder/description.html
 $dokka.location:com.github.alice.ktx.models.card/CardItem.ItemsListBuilder/imageId/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.card/-card-item/-items-list-builder/image-id.html
@@ -358,13 +353,8 @@ $dokka.location:com.github.alice.ktx.models.response//response/com.github.alice.
 $dokka.location:com.github.alice.ktx.models.response/Directives///PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-directives/index.html
 $dokka.location:com.github.alice.ktx.models.response/Directives/Directives/#com.github.alice.ktx.models.audioPlayer.AudioPlayer?/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-directives/-directives.html
 $dokka.location:com.github.alice.ktx.models.response/Directives/audioPlayer/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-directives/audio-player.html
-$dokka.location:com.github.alice.ktx.models.response/MessageResponse.AuthorizationBuilder///PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-message-response/-authorization-builder/index.html
-$dokka.location:com.github.alice.ktx.models.response/MessageResponse.AuthorizationBuilder/AuthorizationBuilder/#com.github.alice.ktx.models.Request/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-message-response/-authorization-builder/-authorization-builder.html
-$dokka.location:com.github.alice.ktx.models.response/MessageResponse.AuthorizationBuilder/build/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-message-response/-authorization-builder/build.html
 $dokka.location:com.github.alice.ktx.models.response/MessageResponse.Builder///PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-message-response/-builder/index.html
 $dokka.location:com.github.alice.ktx.models.response/MessageResponse.Builder/Builder/#com.github.alice.ktx.models.Request/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-message-response/-builder/-builder.html
-$dokka.location:com.github.alice.ktx.models.response/MessageResponse.Builder/addButton/#com.github.alice.ktx.models.button.Button/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-message-response/-builder/add-button.html
-$dokka.location:com.github.alice.ktx.models.response/MessageResponse.Builder/build/#kotlin.Function1[com.github.alice.ktx.models.response.MessageResponse.Builder,kotlin.Unit]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-message-response/-builder/build.html
 $dokka.location:com.github.alice.ktx.models.response/MessageResponse.Builder/endSession/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-message-response/-builder/end-session.html
 $dokka.location:com.github.alice.ktx.models.response/MessageResponse.Builder/shouldListen/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-message-response/-builder/should-listen.html
 $dokka.location:com.github.alice.ktx.models.response/MessageResponse.Builder/text/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.models.response/-message-response/-builder/text.html
@@ -419,14 +409,25 @@ $dokka.location:com.github.alice.ktx.server/WebServer/run/#com.github.alice.ktx.
 $dokka.location:com.github.alice.ktx.server/WebServerResponseListener///PointingToDeclaration/alice-ktx/com.github.alice.ktx.server/-web-server-response-listener/index.html
 $dokka.location:com.github.alice.ktx.server/WebServerResponseListener/messageHandle/#com.github.alice.ktx.models.request.MessageRequest/PointingToDeclaration/alice-ktx/com.github.alice.ktx.server/-web-server-response-listener/message-handle.html
 $dokka.location:com.github.alice.ktx.server/WebServerResponseListener/responseFailure/#com.github.alice.ktx.models.request.MessageRequest#java.lang.Exception/PointingToDeclaration/alice-ktx/com.github.alice.ktx.server/-web-server-response-listener/response-failure.html
+$dokka.location:com.github.alice.ktx.state.impl////PointingToDeclaration/alice-ktx/com.github.alice.ktx.state.impl/index.html
+$dokka.location:com.github.alice.ktx.state.impl/KotlinxSerializationFSMContext///PointingToDeclaration/alice-ktx/com.github.alice.ktx.state.impl/-kotlinx-serialization-f-s-m-context/index.html
+$dokka.location:com.github.alice.ktx.state.impl/KotlinxSerializationFSMContext/KotlinxSerializationFSMContext/#com.github.alice.ktx.models.request.MessageRequest#com.github.alice.ktx.models.FSMStrategy#kotlinx.serialization.json.Json/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state.impl/-kotlinx-serialization-f-s-m-context/-kotlinx-serialization-f-s-m-context.html
+$dokka.location:com.github.alice.ktx.state.impl/KotlinxSerializationFSMContext/clear/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state.impl/-kotlinx-serialization-f-s-m-context/clear.html
+$dokka.location:com.github.alice.ktx.state.impl/KotlinxSerializationFSMContext/getData/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state.impl/-kotlinx-serialization-f-s-m-context/get-data.html
+$dokka.location:com.github.alice.ktx.state.impl/KotlinxSerializationFSMContext/getData/#kotlin.String/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state.impl/-kotlinx-serialization-f-s-m-context/get-data.html
+$dokka.location:com.github.alice.ktx.state.impl/KotlinxSerializationFSMContext/getState/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state.impl/-kotlinx-serialization-f-s-m-context/get-state.html
+$dokka.location:com.github.alice.ktx.state.impl/KotlinxSerializationFSMContext/getStrategy/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state.impl/-kotlinx-serialization-f-s-m-context/get-strategy.html
+$dokka.location:com.github.alice.ktx.state.impl/KotlinxSerializationFSMContext/getTypedData/#kotlin.String#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state.impl/-kotlinx-serialization-f-s-m-context/get-typed-data.html
+$dokka.location:com.github.alice.ktx.state.impl/KotlinxSerializationFSMContext/removeData/#kotlin.String/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state.impl/-kotlinx-serialization-f-s-m-context/remove-data.html
+$dokka.location:com.github.alice.ktx.state.impl/KotlinxSerializationFSMContext/removeTypedData/#kotlin.String#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state.impl/-kotlinx-serialization-f-s-m-context/remove-typed-data.html
+$dokka.location:com.github.alice.ktx.state.impl/KotlinxSerializationFSMContext/setData/#kotlin.Array[kotlin.Pair[kotlin.String,kotlin.String]]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state.impl/-kotlinx-serialization-f-s-m-context/set-data.html
+$dokka.location:com.github.alice.ktx.state.impl/KotlinxSerializationFSMContext/setState/#kotlin.String/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state.impl/-kotlinx-serialization-f-s-m-context/set-state.html
+$dokka.location:com.github.alice.ktx.state.impl/KotlinxSerializationFSMContext/setTypedData/#kotlin.Array[kotlin.Pair[kotlin.String,TypeParam(bounds=[kotlin.Any])]]#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state.impl/-kotlinx-serialization-f-s-m-context/set-typed-data.html
+$dokka.location:com.github.alice.ktx.state.impl/KotlinxSerializationFSMContext/updateData/#kotlin.Array[kotlin.Pair[kotlin.String,kotlin.String]]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state.impl/-kotlinx-serialization-f-s-m-context/update-data.html
+$dokka.location:com.github.alice.ktx.state.impl/KotlinxSerializationFSMContext/updateTypedData/#kotlin.Array[kotlin.Pair[kotlin.String,TypeParam(bounds=[kotlin.Any])]]#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state.impl/-kotlinx-serialization-f-s-m-context/update-typed-data.html
 $dokka.location:com.github.alice.ktx.state////PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/index.html
 $dokka.location:com.github.alice.ktx.state/FSMContext///PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-f-s-m-context/index.html
 $dokka.location:com.github.alice.ktx.state/FSMContext/clear/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-f-s-m-context/clear.html
-$dokka.location:com.github.alice.ktx.state/FSMContext/getData/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-f-s-m-context/get-data.html
-$dokka.location:com.github.alice.ktx.state/FSMContext/getData/#kotlin.String/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-f-s-m-context/get-data.html
-$dokka.location:com.github.alice.ktx.state/FSMContext/getState/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-f-s-m-context/get-state.html
-$dokka.location:com.github.alice.ktx.state/FSMContext/getStrategy/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-f-s-m-context/get-strategy.html
-$dokka.location:com.github.alice.ktx.state/FSMContext/getTypedData/#kotlin.String#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-f-s-m-context/get-typed-data.html
 $dokka.location:com.github.alice.ktx.state/FSMContext/removeData/#kotlin.String/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-f-s-m-context/remove-data.html
 $dokka.location:com.github.alice.ktx.state/FSMContext/removeTypedData/#kotlin.String#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-f-s-m-context/remove-typed-data.html
 $dokka.location:com.github.alice.ktx.state/FSMContext/setData/#kotlin.Array[kotlin.Pair[kotlin.String,kotlin.String]]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-f-s-m-context/set-data.html
@@ -434,35 +435,20 @@ $dokka.location:com.github.alice.ktx.state/FSMContext/setState/#kotlin.String/Po
 $dokka.location:com.github.alice.ktx.state/FSMContext/setTypedData/#kotlin.Array[kotlin.Pair[kotlin.String,TypeParam(bounds=[kotlin.Any])]]#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-f-s-m-context/set-typed-data.html
 $dokka.location:com.github.alice.ktx.state/FSMContext/updateData/#kotlin.Array[kotlin.Pair[kotlin.String,kotlin.String]]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-f-s-m-context/update-data.html
 $dokka.location:com.github.alice.ktx.state/FSMContext/updateTypedData/#kotlin.Array[kotlin.Pair[kotlin.String,TypeParam(bounds=[kotlin.Any])]]#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-f-s-m-context/update-typed-data.html
-$dokka.location:com.github.alice.ktx.state/KotlinxSerializationFSMContext///PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-kotlinx-serialization-f-s-m-context/index.html
-$dokka.location:com.github.alice.ktx.state/KotlinxSerializationFSMContext/KotlinxSerializationFSMContext/#com.github.alice.ktx.models.request.MessageRequest#com.github.alice.ktx.models.FSMStrategy#kotlinx.serialization.json.Json/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-kotlinx-serialization-f-s-m-context/-kotlinx-serialization-f-s-m-context.html
-$dokka.location:com.github.alice.ktx.state/KotlinxSerializationFSMContext/clear/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-kotlinx-serialization-f-s-m-context/clear.html
-$dokka.location:com.github.alice.ktx.state/KotlinxSerializationFSMContext/getData/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-kotlinx-serialization-f-s-m-context/get-data.html
-$dokka.location:com.github.alice.ktx.state/KotlinxSerializationFSMContext/getData/#kotlin.String/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-kotlinx-serialization-f-s-m-context/get-data.html
-$dokka.location:com.github.alice.ktx.state/KotlinxSerializationFSMContext/getState/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-kotlinx-serialization-f-s-m-context/get-state.html
-$dokka.location:com.github.alice.ktx.state/KotlinxSerializationFSMContext/getStrategy/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-kotlinx-serialization-f-s-m-context/get-strategy.html
-$dokka.location:com.github.alice.ktx.state/KotlinxSerializationFSMContext/getTypedData/#kotlin.String#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-kotlinx-serialization-f-s-m-context/get-typed-data.html
-$dokka.location:com.github.alice.ktx.state/KotlinxSerializationFSMContext/removeData/#kotlin.String/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-kotlinx-serialization-f-s-m-context/remove-data.html
-$dokka.location:com.github.alice.ktx.state/KotlinxSerializationFSMContext/removeTypedData/#kotlin.String#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-kotlinx-serialization-f-s-m-context/remove-typed-data.html
-$dokka.location:com.github.alice.ktx.state/KotlinxSerializationFSMContext/setData/#kotlin.Array[kotlin.Pair[kotlin.String,kotlin.String]]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-kotlinx-serialization-f-s-m-context/set-data.html
-$dokka.location:com.github.alice.ktx.state/KotlinxSerializationFSMContext/setState/#kotlin.String/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-kotlinx-serialization-f-s-m-context/set-state.html
-$dokka.location:com.github.alice.ktx.state/KotlinxSerializationFSMContext/setTypedData/#kotlin.Array[kotlin.Pair[kotlin.String,TypeParam(bounds=[kotlin.Any])]]#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-kotlinx-serialization-f-s-m-context/set-typed-data.html
-$dokka.location:com.github.alice.ktx.state/KotlinxSerializationFSMContext/updateData/#kotlin.Array[kotlin.Pair[kotlin.String,kotlin.String]]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-kotlinx-serialization-f-s-m-context/update-data.html
-$dokka.location:com.github.alice.ktx.state/KotlinxSerializationFSMContext/updateTypedData/#kotlin.Array[kotlin.Pair[kotlin.String,TypeParam(bounds=[kotlin.Any])]]#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-kotlinx-serialization-f-s-m-context/update-typed-data.html
+$dokka.location:com.github.alice.ktx.state/ReadOnlyFSMContext///PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-read-only-f-s-m-context/index.html
+$dokka.location:com.github.alice.ktx.state/ReadOnlyFSMContext/getData/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-read-only-f-s-m-context/get-data.html
+$dokka.location:com.github.alice.ktx.state/ReadOnlyFSMContext/getData/#kotlin.String/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-read-only-f-s-m-context/get-data.html
+$dokka.location:com.github.alice.ktx.state/ReadOnlyFSMContext/getState/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-read-only-f-s-m-context/get-state.html
+$dokka.location:com.github.alice.ktx.state/ReadOnlyFSMContext/getStrategy/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-read-only-f-s-m-context/get-strategy.html
+$dokka.location:com.github.alice.ktx.state/ReadOnlyFSMContext/getTypedData/#kotlin.String#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/alice-ktx/com.github.alice.ktx.state/-read-only-f-s-m-context/get-typed-data.html
 $dokka.location:com.github.alice.ktx////PointingToDeclaration/alice-ktx/com.github.alice.ktx/index.html
 $dokka.location:com.github.alice.ktx//dispatch/com.github.alice.ktx.Skill.Builder#kotlin.Function1[com.github.alice.ktx.Dispatcher,kotlin.Unit]/PointingToDeclaration/alice-ktx/com.github.alice.ktx/dispatch.html
 $dokka.location:com.github.alice.ktx//skill/#kotlin.Function1[com.github.alice.ktx.Skill.Builder,kotlin.Unit]/PointingToDeclaration/alice-ktx/com.github.alice.ktx/skill.html
 $dokka.location:com.github.alice.ktx/Dispatcher///PointingToDeclaration/alice-ktx/com.github.alice.ktx/-dispatcher/index.html
-$dokka.location:com.github.alice.ktx/Dispatcher/addHandler/#com.github.alice.ktx.handlers.Handler/PointingToDeclaration/alice-ktx/com.github.alice.ktx/-dispatcher/add-handler.html
-$dokka.location:com.github.alice.ktx/Dispatcher/addMiddleware/#com.github.alice.ktx.middleware.Middleware#com.github.alice.ktx.middleware.MiddlewareType/PointingToDeclaration/alice-ktx/com.github.alice.ktx/-dispatcher/add-middleware.html
-$dokka.location:com.github.alice.ktx/Dispatcher/addNetworkErrorHandler/#com.github.alice.ktx.handlers.error.NetworkErrorHandler/PointingToDeclaration/alice-ktx/com.github.alice.ktx/-dispatcher/add-network-error-handler.html
 $dokka.location:com.github.alice.ktx/Dispatcher/dialogApi/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx/-dispatcher/dialog-api.html
 $dokka.location:com.github.alice.ktx/Dispatcher/fsmStrategy/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx/-dispatcher/fsm-strategy.html
-$dokka.location:com.github.alice.ktx/Dispatcher/removeHandler/#com.github.alice.ktx.handlers.Handler/PointingToDeclaration/alice-ktx/com.github.alice.ktx/-dispatcher/remove-handler.html
-$dokka.location:com.github.alice.ktx/Dispatcher/removeNetworkErrorHandler/#com.github.alice.ktx.handlers.error.NetworkErrorHandler/PointingToDeclaration/alice-ktx/com.github.alice.ktx/-dispatcher/remove-network-error-handler.html
 $dokka.location:com.github.alice.ktx/Skill.Builder///PointingToDeclaration/alice-ktx/com.github.alice.ktx/-skill/-builder/index.html
 $dokka.location:com.github.alice.ktx/Skill.Builder/Builder/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx/-skill/-builder/-builder.html
-$dokka.location:com.github.alice.ktx/Skill.Builder/build/#kotlin.Function1[com.github.alice.ktx.Skill.Builder,kotlin.Unit]/PointingToDeclaration/alice-ktx/com.github.alice.ktx/-skill/-builder/build.html
 $dokka.location:com.github.alice.ktx/Skill.Builder/dialogApi/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx/-skill/-builder/dialog-api.html
 $dokka.location:com.github.alice.ktx/Skill.Builder/fsmContext/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx/-skill/-builder/fsm-context.html
 $dokka.location:com.github.alice.ktx/Skill.Builder/fsmStrategy/#/PointingToDeclaration/alice-ktx/com.github.alice.ktx/-skill/-builder/fsm-strategy.html
@@ -485,6 +471,7 @@ com.github.alice.ktx.api.dialog.yandex.models.sounds.response
 com.github.alice.ktx.api.dialog.yandex.models.status
 com.github.alice.ktx.handlers
 com.github.alice.ktx.handlers.error
+com.github.alice.ktx.handlers.impl
 com.github.alice.ktx.middleware
 com.github.alice.ktx.models
 com.github.alice.ktx.models.audioPlayer
@@ -495,4 +482,5 @@ com.github.alice.ktx.models.response
 com.github.alice.ktx.server
 com.github.alice.ktx.server.impl
 com.github.alice.ktx.state
+com.github.alice.ktx.state.impl
 
