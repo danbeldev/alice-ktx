@@ -25,27 +25,28 @@ fun Skill.Builder.dispatch(body: Dispatcher.() -> Unit) {
  * @param fsmStrategy Стратегия конечного автомата состояний (FSM), используемая для управления состояниями.
  */
 class Dispatcher internal constructor(
-    val fsmStrategy: FSMStrategy,
+    internal val fsmStrategy: FSMStrategy,
     val dialogApi: DialogApi? = null,
-    internal val fsmContext: (message: MessageRequest) -> FSMContext
+    internal val fsmContext: (message: MessageRequest) -> FSMContext,
+    internal val enableApiStorage: Boolean = false
 ) {
     internal val commandHandlers = linkedSetOf<Handler>()
     internal val networkErrorHandlers = linkedSetOf<NetworkErrorHandler>()
-    internal val middlewares = linkedMapOf<MiddlewareType, MutableList<Middleware>>()
+    internal val middlewares = mutableMapOf<MiddlewareType, LinkedHashSet<Middleware>>()
 
     init {
-        MiddlewareType.entries.forEach { middlewares[it] = mutableListOf() }
+        MiddlewareType.entries.forEach { middlewares[it] = linkedSetOf() }
     }
 
-    internal fun addHandler(handler: Handler) {
+    fun addHandler(handler: Handler) {
         commandHandlers.add(handler)
     }
 
-    internal fun addMiddleware(middleware: Middleware, type: MiddlewareType) {
+    fun addMiddleware(middleware: Middleware, type: MiddlewareType) {
         middlewares[type]?.add(middleware)
     }
 
-    internal fun addNetworkErrorHandler(handler: NetworkErrorHandler) {
+    fun addNetworkErrorHandler(handler: NetworkErrorHandler) {
         networkErrorHandlers.add(handler)
     }
 }

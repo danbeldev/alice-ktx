@@ -25,6 +25,9 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.5.6")
 
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
+
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
 }
 
 kotlin {

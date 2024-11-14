@@ -23,7 +23,7 @@ fun Dispatcher.buttonPressed(
             event(
                 EventButtonPressed(
                     payload = message.request.payload!!,
-                    context = request(message).state
+                    context = request(message).context
                 )
             )
         },

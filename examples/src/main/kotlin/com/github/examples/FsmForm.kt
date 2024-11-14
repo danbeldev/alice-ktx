@@ -23,14 +23,14 @@ fun main() {
         }
         dispatch {
             newSession {
-                state.setState(FormState.NAME.name)
+                context.setState(FormState.NAME.name)
                 response {
                     text = "Привет! Как тебя зовут?"
                 }
             }
 
             message({ message.request.command == "отмена" }) {
-                state.clear()
+                context.clear()
                 response {
                     text = "Окей, стою. Пока-пока!"
                     endSession = true
@@ -39,8 +39,8 @@ fun main() {
 
             message({ context.getState() == FormState.NAME.name }) {
                 val name = message.request.originalUtterance.toString()
-                state.updateData("name" to name)
-                state.setState(FormState.LINK_SKILLS.name)
+                context.updateData("name" to name)
+                context.setState(FormState.LINK_SKILLS.name)
                 response {
                     text = "Рад познакомиться, $name!\nТебе нравятся навыки Алисы?"
                     button {
@@ -53,8 +53,8 @@ fun main() {
             }
 
             message({ context.getState() == FormState.LINK_SKILLS.name && message.request.command == "нет" }) {
-                val data = state.getData()
-                state.clear()
+                val data = context.getData()
+                context.clear()
                 response {
                     text = "Ну, бывает.\n ${showSummary(data=data, positive=false)}"
                     endSession = true
@@ -62,7 +62,7 @@ fun main() {
             }
 
             message({ context.getState() == FormState.LINK_SKILLS.name && message.request.command == "да" }) {
-                state.setState(FormState.DEVICE.name)
+                context.setState(FormState.DEVICE.name)
                 response {
                     text = "Класс! Мне тоже!\nЧерез какое устройство ты обычно их используешь?"
                 }
@@ -82,9 +82,9 @@ fun main() {
 
             message({ context.getState() == FormState.DEVICE.name }) {
                 val device = message.request.originalUtterance.toString()
-                state.updateData("device" to device)
-                val data = state.getData()
-                state.clear()
+                context.updateData("device" to device)
+                val data = context.getData()
+                context.clear()
 
                 val text = if(device == "телефон")
                     "С телефона? Да, это самое удобное, с чего можно пользоваться Алисой.\n${showSummary(data)}"

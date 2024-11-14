@@ -30,7 +30,7 @@ fun Dispatcher.message(
     val messageHandler = MessageHandler(
         eventBlock = { message ->
             val eventMessage = EventMessage(
-                context = request(message).state,
+                context = request(message).context,
                 message = message
             )
             event(eventMessage)

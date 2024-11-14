@@ -8,7 +8,7 @@ import com.github.alice.ktx.models.response.response
 import com.github.alice.ktx.server.impl.ktorWebServer
 import com.github.alice.ktx.skill
 import com.github.alice.ktx.state.FSMContext
-import com.github.alice.ktx.state.impl.KotlinxSerializationFSMContext
+import com.github.alice.ktx.state.impl.BaseFSMContext
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -22,7 +22,7 @@ enum class UserState {
 }
 /**
  * Демонстрация работы с новыми методами (getTypedData, setTypedData, updateTypedData, removeTypedDate)
- * [FSMContext], [KotlinxSerializationFSMContext]
+ * [FSMContext], [BaseFSMContext]
  * */
 fun main() {
     skill {
@@ -30,7 +30,7 @@ fun main() {
          * Теперь можно заменить стандартный fsmContext на свою реализацию, если требуется
          * */
         fsmContext = { message ->
-            KotlinxSerializationFSMContext(message, fsmStrategy, json)
+            BaseFSMContext(storage, id, fsmStrategy, message)
         }
         webServer = ktorWebServer {
             port = 8080
@@ -38,15 +38,15 @@ fun main() {
         }
         dispatch {
             newSession {
-                state.setState(UserState.SET_NAME.name)
+                context.setState(UserState.SET_NAME.name)
                 response {
                     text = "Привет! Как тебя зовут?"
                 }
             }
             message({ context.getState() == UserState.SET_NAME.name }) {
                 val user = User(username = message.request.originalUtterance!!)
-                state.setTypedData("user" to user, clazz = User::class)
-                state.setState(UserState.GET_NAME.name)
+                context.setTypedData("user" to user, clazz = User::class)
+                context.setState(UserState.GET_NAME.name)
                 response {
                     text = "Рад познакомиться, ${user.username}!"
                     button {
@@ -55,7 +55,7 @@ fun main() {
                 }
             }
             message({ message.request.command == "узнать имя" }) {
-                val user = state.getTypedData("user", User::class)
+                val user = context.getTypedData("user", User::class)
                 response {
                     text = user?.username.toString()
                     endSession = true

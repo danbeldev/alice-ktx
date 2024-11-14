@@ -38,7 +38,7 @@ fun main() {
                 val userId = message.session.user!!.userId
                 val isUserExisting = citiesGameService.isUserExisting(userId)
                 if(!isUserExisting) {
-                    state.setState(RegisterUserState.INPUT_FIST_NAME.name)
+                    context.setState(RegisterUserState.INPUT_FIST_NAME.name)
                     response { text = "Как тебя зовут?" }
                 }else {
                     response { text = citiesGameService.startGame(userId).name }
@@ -49,7 +49,7 @@ fun main() {
                 val userId = message.session.user!!.userId
                 val firstName = message.request.originalUtterance!!
                 citiesGameService.createUser(id = userId, firstName = firstName)
-                state.clear()
+                context.clear()
                 response { text = citiesGameService.startGame(userId).name }
             }
 

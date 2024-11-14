@@ -23,31 +23,31 @@ fun main() {
         }
         dispatch {
             newSession {
-                state.setState(InfoState.SET_NAME.name)
+                context.setState(InfoState.SET_NAME.name)
                 response {
                     text = "Добро пожаловать в навык, как вас зовут?"
                 }
             }
             message({ context.getState() == InfoState.SET_NAME.name }) {
                 val username = message.request.originalUtterance.toString()
-                state.updateData("name" to username)
-                state.setState(InfoState.SET_AGE.name)
+                context.updateData("name" to username)
+                context.setState(InfoState.SET_AGE.name)
                 response {
                     text = "Рад познакомиться $username, сколько вам лет?"
                 }
             }
             message({ context.getState() == InfoState.SET_AGE.name }) {
                 val age = message.request.originalUtterance.toString()
-                state.updateData("age" to age)
-                state.setState(InfoState.SET_INFO.name)
+                context.updateData("age" to age)
+                context.setState(InfoState.SET_INFO.name)
                 response {
                     text = "Супер, расскажите о себе"
                 }
             }
             message({context.getState() == InfoState.SET_INFO.name}) {
                 val info = message.request.originalUtterance.toString()
-                val data = state.getData()
-                state.clear()
+                val data = context.getData()
+                context.clear()
                 response {
                     text = "Вот что мне удалось узнать\n\nИмя-${data["name"]}\nВозраст-${data["age"]}\nИнформация-$info"
                     endSession = true

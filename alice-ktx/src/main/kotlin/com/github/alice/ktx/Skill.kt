@@ -8,7 +8,9 @@ import com.github.alice.ktx.models.response.MessageResponse
 import com.github.alice.ktx.server.WebServer
 import com.github.alice.ktx.server.WebServerResponseListener
 import com.github.alice.ktx.state.FSMContext
-import com.github.alice.ktx.state.impl.KotlinxSerializationFSMContext
+import com.github.alice.ktx.state.impl.BaseFSMContext
+import com.github.alice.ktx.storage.apiStorage.EnableApiStorage
+import com.github.alice.ktx.storage.impl.memoryStorage
 import kotlinx.serialization.json.Json
 
 /**
@@ -43,22 +45,23 @@ class Skill internal constructor(
         var fsmStrategy: FSMStrategy = FSMStrategy.USER
         internal var dispatcherConfiguration: Dispatcher.() -> Unit = { }
 
+        var storage = memoryStorage { }
+
         var fsmContext: (message: MessageRequest) -> FSMContext = { message ->
-            KotlinxSerializationFSMContext(message, fsmStrategy, json)
+            BaseFSMContext(storage, id, fsmStrategy, message)
         }
 
         internal fun build(body: Builder.() -> Unit): Skill {
             body()
 
-            val dispatcher = Dispatcher(
-                fsmStrategy = fsmStrategy,
-                dialogApi = dialogApi,
-                fsmContext = fsmContext
-            ).apply(dispatcherConfiguration)
-
             return Skill(
                 webServer = webServer,
-                dispatcher = dispatcher
+                dispatcher = Dispatcher(
+                    fsmStrategy = fsmStrategy,
+                    dialogApi = dialogApi,
+                    fsmContext = fsmContext,
+                    enableApiStorage = storage.javaClass.isAnnotationPresent(EnableApiStorage::class.java)
+                ).apply(dispatcherConfiguration)
             )
         }
     }
@@ -80,7 +83,7 @@ class Skill internal constructor(
         override suspend fun messageHandle(model: MessageRequest): MessageResponse? {
             runMiddlewares(model, MiddlewareType.OUTER)?.let { return it }
             dispatcher.commandHandlers.forEach { handler ->
-                if(handler.event(model)) {
+                if (handler.event(model)) {
                     runMiddlewares(model, MiddlewareType.INNER)?.let { return it }
                     return handler.handle(model)
                 }

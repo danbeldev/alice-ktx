@@ -7,13 +7,15 @@ import com.github.alice.ktx.models.button.Button
 import com.github.alice.ktx.models.card.Card
 import com.github.alice.ktx.models.request.AccountLinking
 import com.github.alice.ktx.models.response.analytics.Analytics
-import com.github.alice.ktx.models.response.analytics.AnalyticsEvent
-import com.github.alice.ktx.state.FSMContext
+import com.github.alice.ktx.state.ReadOnlyFSMContext
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-fun Request.response(body: MessageResponse.Builder.() -> Unit): MessageResponse {
-    return MessageResponse.Builder(this).build(body)
+suspend fun Request.response(body: suspend MessageResponse.Builder.() -> Unit): MessageResponse {
+    return MessageResponse.Builder(this)
+        .setFSMStrategy(fsmStrategy)
+        .setEnableApiStorage(enableApiStorage)
+        .build(body)
 }
 
 /**
@@ -23,10 +25,10 @@ suspend fun Request.authorization(
     onAlreadyAuthenticated: (suspend () -> MessageResponse)? = null,
     onAuthorizationFailed: (suspend () -> MessageResponse)? = null
 ): MessageResponse {
-    if(message.session.user?.accessToken != null && onAlreadyAuthenticated != null)
+    if (message.session.user?.accessToken != null && onAlreadyAuthenticated != null)
         return onAlreadyAuthenticated()
 
-    if(message.meta.interfaces.accountLinking == null && onAuthorizationFailed != null)
+    if (message.meta.interfaces.accountLinking == null && onAuthorizationFailed != null)
         return onAuthorizationFailed()
 
     return MessageResponse.AuthorizationBuilder(request = this).build()
@@ -59,12 +61,24 @@ data class MessageResponse internal constructor(
         internal var audioPlayer: AudioPlayer? = null
         private val buttons = mutableListOf<Button>()
         var analytics: Analytics? = null
+        private var fSMStrategy = FSMStrategy.USER
+        private var enableApiStorage = false
 
         internal fun addButton(button: Button) {
             buttons.add(button)
         }
 
-        internal fun build(body: Builder.() -> Unit): MessageResponse {
+        internal fun setFSMStrategy(strategy: FSMStrategy): Builder {
+            fSMStrategy = strategy
+            return this
+        }
+
+        internal fun setEnableApiStorage(enable: Boolean): Builder {
+            this.enableApiStorage = enable
+            return this
+        }
+
+        internal suspend fun build(body: suspend Builder.() -> Unit): MessageResponse {
             body()
 
             val response = MessageResponse(
@@ -83,7 +97,7 @@ data class MessageResponse internal constructor(
                 analytics = analytics
             )
 
-            response.setState(request.state)
+            if (enableApiStorage) response.setState(fSMStrategy, request.context)
 
             return response
         }
@@ -101,9 +115,9 @@ data class MessageResponse internal constructor(
         }
     }
 
-    private fun setState(state: FSMContext) {
+    private suspend fun setState(fSMStrategy: FSMStrategy, state: ReadOnlyFSMContext) {
         val stateResponse = getStateResponse(state.getState(), state.getData())
-        when (state.getStrategy()) {
+        when (fSMStrategy) {
             FSMStrategy.USER -> userState = stateResponse
             FSMStrategy.SESSION -> sessionState = stateResponse
             FSMStrategy.APPLICATION -> applicationState = stateResponse
