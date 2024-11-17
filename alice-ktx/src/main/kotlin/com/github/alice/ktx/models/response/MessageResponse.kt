@@ -7,7 +7,7 @@ import com.github.alice.ktx.models.button.Button
 import com.github.alice.ktx.models.card.Card
 import com.github.alice.ktx.models.request.AccountLinking
 import com.github.alice.ktx.models.response.analytics.Analytics
-import com.github.alice.ktx.state.ReadOnlyFSMContext
+import com.github.alice.ktx.context.ReadOnlyFSMContext
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

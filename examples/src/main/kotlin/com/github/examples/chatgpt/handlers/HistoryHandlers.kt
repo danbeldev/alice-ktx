@@ -1,7 +1,7 @@
 package com.github.examples.chatgpt.handlers
 
 import com.github.alice.ktx.Dispatcher
-import com.github.alice.ktx.handlers.message
+import com.github.alice.ktx.handlers.impl.message
 import com.github.alice.ktx.models.button.button
 import com.github.alice.ktx.models.response.MessageResponse
 import com.github.alice.ktx.models.response.response

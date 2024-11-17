@@ -2,8 +2,6 @@ package com.github.alice.ktx.handlers.error
 
 import com.github.alice.ktx.Dispatcher
 import com.github.alice.ktx.models.Request
-import com.github.alice.ktx.models.request
-import com.github.alice.ktx.models.request.MessageRequest
 import com.github.alice.ktx.models.response.MessageResponse
 import kotlin.reflect.KClass
 
@@ -18,10 +16,8 @@ fun Dispatcher.responseFailure(
     event: suspend Request.(ex: Exception) -> Boolean,
     handle: suspend Request.(ex: Exception) -> MessageResponse?,
 ) {
-    networkError { message, ex ->
-        request(message).apply {
-            if(event(ex)) return@networkError handle(ex)
-        }
+    networkError { request, ex ->
+        if(request.event(ex)) return@networkError request.handle(ex)
         null
     }
 }
@@ -33,10 +29,10 @@ fun Dispatcher.responseFailure(
  * @param block Функция-обработчик, которая вызывается, если исключение принадлежит классу `thClass`. Принимает исключение типа `E` и возвращает `MessageResponse?`.
  */
 fun <E : Exception> Dispatcher.responseFailure(thClass: KClass<E>, block: suspend Request.(ex: E) -> MessageResponse?) {
-    networkError { message, ex ->
+    networkError { request, ex ->
         if (thClass.isInstance(ex)) {
             @Suppress("UNCHECKED_CAST")
-            return@networkError block(request(message), ex as E)
+            return@networkError block(request, ex as E)
         }
         null
     }
@@ -48,7 +44,7 @@ fun <E : Exception> Dispatcher.responseFailure(thClass: KClass<E>, block: suspen
  * @param block Функция-обработчик, которая вызывается при возникновении ошибки. Принимает `Exception` и возвращает `MessageResponse?`.
  */
 fun Dispatcher.responseFailure(block: suspend Request.(ex: Exception) -> MessageResponse?) {
-    networkError { message, ex  -> block(request(message), ex) }
+    networkError { request, ex  -> block(request, ex) }
 }
 
 /**
@@ -58,11 +54,11 @@ fun Dispatcher.responseFailure(block: suspend Request.(ex: Exception) -> Message
  * По умолчанию, возвращает `null`, что позволяет передать событие следующему обработчику.
  */
 fun Dispatcher.networkError(
-    responseFailure: suspend (model: MessageRequest, ex: Exception) -> MessageResponse? = { _, _ -> null }
+    responseFailure: suspend (model: Request, ex: Exception) -> MessageResponse? = { _, _ -> null }
 ) {
     val networkErrorHandler = object : NetworkErrorHandler {
-        override suspend fun responseFailure(model: MessageRequest, ex: Exception): MessageResponse? {
-            return responseFailure(model, ex)
+        override suspend fun responseFailure(request: Request, ex: Exception): MessageResponse? {
+            return responseFailure(request, ex)
         }
     }
     networkError(networkErrorHandler)
@@ -83,12 +79,12 @@ fun Dispatcher.networkError(handler: NetworkErrorHandler) {
 interface NetworkErrorHandler {
     /**
      * Вызывается при возникновении ошибки
-     * @param model Модель запроса, при обработке которого произошла ошибка.
+     * @param request Запроса, при обработке которого произошла ошибка.
      * @param ex Исключение, которое возникло.
      *
      * [responseFailure] должен всегда возвращать null чтобы передать событие следующему хэндлеру.
      * Если вы хотите завершить обработку события, вы должны вернуть [MessageResponse]
      *
      * */
-    suspend fun responseFailure(model: MessageRequest, ex: Exception): MessageResponse? = null
+    suspend fun responseFailure(request: Request, ex: Exception): MessageResponse? = null
 }

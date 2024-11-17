@@ -2,7 +2,7 @@ package com.github.examples
 
 import com.github.alice.ktx.dispatch
 import com.github.alice.ktx.handlers.impl.newSession
-import com.github.alice.ktx.handlers.message
+import com.github.alice.ktx.handlers.impl.message
 import com.github.alice.ktx.models.response.analytics.Analytics
 import com.github.alice.ktx.models.response.analytics.AnalyticsEvent
 import com.github.alice.ktx.models.response.response

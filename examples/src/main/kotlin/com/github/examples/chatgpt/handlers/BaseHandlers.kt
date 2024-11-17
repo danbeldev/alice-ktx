@@ -2,7 +2,7 @@ package com.github.examples.chatgpt.handlers
 
 import com.github.alice.ktx.Dispatcher
 import com.github.alice.ktx.handlers.error.responseFailure
-import com.github.alice.ktx.handlers.help
+import com.github.alice.ktx.handlers.impl.help
 import com.github.alice.ktx.handlers.impl.newSession
 import com.github.alice.ktx.middleware.outerMiddleware
 import com.github.alice.ktx.models.response.response

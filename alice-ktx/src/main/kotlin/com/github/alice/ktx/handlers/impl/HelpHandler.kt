@@ -6,28 +6,19 @@ import com.github.alice.ktx.models.EventRequest
 import com.github.alice.ktx.models.Request
 import com.github.alice.ktx.models.response.MessageResponse
 
-fun Dispatcher.newSession(
-    event: suspend EventRequest.() -> Boolean = { true },
+fun Dispatcher.help(
     handle: suspend Request.() -> MessageResponse
 ) {
-    addHandler(
-        NewSessionHandler(
-            eventBlock = event,
-            handleBlock = handle
-        )
-    )
+    addHandler(HelpHandler(handleBlock = handle))
 }
 
-internal class NewSessionHandler(
-    private val eventBlock: suspend EventRequest.() -> Boolean,
+internal class HelpHandler(
     private val handleBlock: suspend Request.() -> MessageResponse
 ) : Handler {
 
     override suspend fun event(request: EventRequest): Boolean {
-        return request.message.session.new && eventBlock(request)
+        return request.message.request.command == "помощь" || request.message.request.command == "что ты умеешь"
     }
 
-    override suspend fun handle(request: Request): MessageResponse {
-        return handleBlock(request)
-    }
+    override suspend fun handle(request: Request): MessageResponse = handleBlock(request)
 }

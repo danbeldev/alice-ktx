@@ -1,6 +1,7 @@
 package com.github.alice.ktx.storage.impl
 
 import com.github.alice.ktx.models.FSMStrategy
+import com.github.alice.ktx.storage.key.impl.baseKeyBuilder
 import com.github.alice.ktx.storage.models.StorageKey
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.Serializable
@@ -12,7 +13,9 @@ import java.util.*
 
 class MemoryStorageTest {
 
-    private val storage = MemoryStorage(json = Json)
+    private val storage = MemoryStorage.Builder().json(Json).build {
+        keyBuilder = baseKeyBuilder()
+    }
 
     private val defaultKey = StorageKey(
         skillId = UUID.randomUUID().toString(),

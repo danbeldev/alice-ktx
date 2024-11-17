@@ -3,12 +3,16 @@ package com.github.alice.ktx
 import com.github.alice.ktx.api.dialog.DialogApi
 import com.github.alice.ktx.middleware.MiddlewareType
 import com.github.alice.ktx.models.FSMStrategy
+import com.github.alice.ktx.models.Request
+import com.github.alice.ktx.models.request
 import com.github.alice.ktx.models.request.MessageRequest
 import com.github.alice.ktx.models.response.MessageResponse
+import com.github.alice.ktx.models.toEventRequest
 import com.github.alice.ktx.server.WebServer
 import com.github.alice.ktx.server.WebServerResponseListener
-import com.github.alice.ktx.state.FSMContext
-import com.github.alice.ktx.state.impl.BaseFSMContext
+import com.github.alice.ktx.context.FSMContext
+import com.github.alice.ktx.context.impl.BaseFSMContext
+import com.github.alice.ktx.storage.Storage
 import com.github.alice.ktx.storage.apiStorage.EnableApiStorage
 import com.github.alice.ktx.storage.impl.memoryStorage
 import kotlinx.serialization.json.Json
@@ -42,13 +46,13 @@ class Skill internal constructor(
         var json: Json = Json { ignoreUnknownKeys = true }
         var dialogApi: DialogApi? = null
         lateinit var webServer: WebServer
-        var fsmStrategy: FSMStrategy = FSMStrategy.USER
+        var defaultFSMStrategy: FSMStrategy = FSMStrategy.USER
         internal var dispatcherConfiguration: Dispatcher.() -> Unit = { }
 
-        var storage = memoryStorage { }
+        var storage: Storage = memoryStorage()
 
         var fsmContext: (message: MessageRequest) -> FSMContext = { message ->
-            BaseFSMContext(storage, id, fsmStrategy, message)
+            BaseFSMContext(storage, defaultFSMStrategy, message, id)
         }
 
         internal fun build(body: Builder.() -> Unit): Skill {
@@ -57,7 +61,7 @@ class Skill internal constructor(
             return Skill(
                 webServer = webServer,
                 dispatcher = Dispatcher(
-                    fsmStrategy = fsmStrategy,
+                    fsmStrategy = defaultFSMStrategy,
                     dialogApi = dialogApi,
                     fsmContext = fsmContext,
                     enableApiStorage = storage.javaClass.isAnnotationPresent(EnableApiStorage::class.java)
@@ -81,19 +85,23 @@ class Skill internal constructor(
      */
     private fun webServerResponseCallback(): WebServerResponseListener = object : WebServerResponseListener {
         override suspend fun messageHandle(model: MessageRequest): MessageResponse? {
-            runMiddlewares(model, MiddlewareType.OUTER)?.let { return it }
+            val request = dispatcher.request(model)
+            val eventRequest = request.toEventRequest()
+
+            runMiddlewares(request, MiddlewareType.OUTER)?.let { return it }
             dispatcher.commandHandlers.forEach { handler ->
-                if (handler.event(model)) {
-                    runMiddlewares(model, MiddlewareType.INNER)?.let { return it }
-                    return handler.handle(model)
+                if (handler.event(eventRequest)) {
+                    runMiddlewares(request, MiddlewareType.INNER)?.let { return it }
+                    return handler.handle(request)
                 }
             }
             return null
         }
 
         override suspend fun responseFailure(model: MessageRequest, ex: Exception): MessageResponse? {
+            val request = dispatcher.request(model)
             dispatcher.networkErrorHandlers.forEach { errorHandler ->
-                errorHandler.responseFailure(model, ex)?.let { response ->
+                errorHandler.responseFailure(request, ex)?.let { response ->
                     return response
                 }
             }
@@ -103,13 +111,12 @@ class Skill internal constructor(
         /**
          * Выполняет мидлвари указанного типа.
          *
-         * @param model Модель запроса сообщения.
          * @param type Тип мидлвари, который следует выполнить.
          * @return `MessageResponse?` — ответ от мидлвари, или `null`, если обработка не завершена.
          */
-        private suspend fun runMiddlewares(model: MessageRequest, type: MiddlewareType): MessageResponse? {
+        private suspend fun runMiddlewares(request: Request, type: MiddlewareType): MessageResponse? {
             dispatcher.middlewares[type]?.forEach { middleware ->
-                middleware.invoke(model)?.let { response ->
+                middleware.invoke(request)?.let { response ->
                     return response
                 }
             }

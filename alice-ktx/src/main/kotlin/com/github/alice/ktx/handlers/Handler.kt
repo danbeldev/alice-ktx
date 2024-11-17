@@ -1,6 +1,7 @@
 package com.github.alice.ktx.handlers
 
-import com.github.alice.ktx.models.request.MessageRequest
+import com.github.alice.ktx.models.EventRequest
+import com.github.alice.ktx.models.Request
 import com.github.alice.ktx.models.response.MessageResponse
 
 /**
@@ -16,7 +17,7 @@ interface Handler {
      * @param message Сообщение, которое проверяется на соответствие условиям обработчика.
      * @return `true`, если обработчик должен сработать для данного сообщения; `false` в противном случае.
      */
-    suspend fun event(message: MessageRequest): Boolean
+    suspend fun event(request: EventRequest): Boolean
 
     /**
      * Выполняет обработку запроса сообщения и возвращает ответ.
@@ -24,5 +25,5 @@ interface Handler {
      * @param request Запрос сообщения, который будет обработан.
      * @return Ответ на запрос в виде `MessageResponse`.
      */
-    suspend fun handle(request: MessageRequest): MessageResponse
+    suspend fun handle(request: Request): MessageResponse
 }

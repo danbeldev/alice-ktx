@@ -2,8 +2,6 @@ package com.github.alice.ktx.middleware
 
 import com.github.alice.ktx.Dispatcher
 import com.github.alice.ktx.models.Request
-import com.github.alice.ktx.models.request
-import com.github.alice.ktx.models.request.MessageRequest
 import com.github.alice.ktx.models.response.MessageResponse
 
 /**
@@ -14,7 +12,7 @@ import com.github.alice.ktx.models.response.MessageResponse
  * Если требуется завершить обработку события, необходимо вернуть `MessageResponse`.
  */
 fun Dispatcher.outerMiddleware(invoke: suspend Request.() -> MessageResponse?) {
-    val middleware = middleware { message -> invoke(request(message)) }
+    val middleware = middleware { request -> invoke(request) }
     addMiddleware(middleware, MiddlewareType.OUTER)
 }
 
@@ -26,7 +24,7 @@ fun Dispatcher.outerMiddleware(invoke: suspend Request.() -> MessageResponse?) {
  * Если требуется завершить обработку события, необходимо вернуть `MessageResponse`.
  */
 fun Dispatcher.innerMiddleware(invoke: suspend Request.() -> MessageResponse?) {
-    val middleware = middleware { message -> invoke(request(message)) }
+    val middleware = middleware { request -> invoke(request) }
     addMiddleware(middleware, MiddlewareType.INNER)
 }
 
@@ -38,8 +36,8 @@ fun Dispatcher.innerMiddleware(invoke: suspend Request.() -> MessageResponse?) {
  * Если требуется завершить обработку события, необходимо вернуть `MessageResponse`.
  * @return Реализованный объект `Middleware`.
  */
-fun middleware(invoke: suspend (MessageRequest) -> MessageResponse?): Middleware = object : Middleware {
-    override suspend fun invoke(model: MessageRequest): MessageResponse? = invoke(model)
+fun middleware(invoke: suspend (Request) -> MessageResponse?): Middleware = object : Middleware {
+    override suspend fun invoke(request: Request): MessageResponse? = invoke(request)
 }
 
 /**
@@ -51,5 +49,5 @@ interface Middleware {
      * Если вы хотите завершить обработку события, вы должны вернуть [MessageResponse]
      *
      * */
-    suspend fun invoke(model: MessageRequest): MessageResponse?
+    suspend fun invoke(request: Request): MessageResponse?
 }

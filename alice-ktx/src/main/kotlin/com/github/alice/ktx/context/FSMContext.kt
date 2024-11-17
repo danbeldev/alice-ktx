@@ -1,4 +1,4 @@
-package com.github.alice.ktx.state
+package com.github.alice.ktx.context
 
 /**
  * Интерфейс для доступа к информации состояния конкретного пользователя.

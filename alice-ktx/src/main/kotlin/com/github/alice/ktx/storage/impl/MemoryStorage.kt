@@ -2,40 +2,54 @@ package com.github.alice.ktx.storage.impl
 
 import com.github.alice.ktx.Skill
 import com.github.alice.ktx.storage.Storage
+import com.github.alice.ktx.storage.key.KeyBuilder
+import com.github.alice.ktx.storage.key.impl.baseKeyBuilder
 import com.github.alice.ktx.storage.models.*
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
 import kotlin.reflect.KClass
 
-fun Skill.Builder.memoryStorage(body: MemoryStorage.Builder.() -> Unit): MemoryStorage {
-    return MemoryStorage.Builder().setJson(json).build(body)
+/**
+ * Создает экземпляр `MemoryStorage` для хранения данных в памяти.
+ *
+ * `MemoryStorage` сохраняет все данные в `HashMap` в оперативной памяти и теряет их при остановке или перезапуске.
+ *
+ * **Внимание:** не рекомендуется для использования в продакшн-окружении, так как данные теряются при каждом перезапуске навыка.
+ *
+ * @param body лямбда-функция для настройки экземпляра `MemoryStorage` перед его созданием.
+ * @return настроенный экземпляр `MemoryStorage`.
+ */
+fun Skill.Builder.memoryStorage(body: MemoryStorage.Builder.() -> Unit = {}): MemoryStorage {
+    return MemoryStorage.Builder().json(json).build(body)
 }
 
 open class MemoryStorage(
-    private val json: Json
+    private val json: Json,
+    private val keyBuilder: KeyBuilder
 ) : Storage {
 
-    private val currentState = mutableMapOf<StorageKey, StorageState>()
-    private val currentData = mutableMapOf<StorageKey, MutableMap<StorageKeyData, String>>()
+    private val currentState = mutableMapOf<String, StorageState>()
+    private val currentData = mutableMapOf<String, MutableMap<StorageKeyData, String>>()
 
     class Builder {
 
-        private lateinit var json: Json
+        lateinit var json: Json
+        var keyBuilder: KeyBuilder = baseKeyBuilder()
 
-        fun setJson(json: Json): Builder {
+        fun json(json: Json): Builder {
             this.json = json
             return this
         }
 
-        fun build(body: Builder.() -> Unit): MemoryStorage {
+        fun build(body: Builder.() -> Unit = {}): MemoryStorage {
             body()
-            return MemoryStorage(json = json)
+            return MemoryStorage(json = json, keyBuilder = keyBuilder)
         }
     }
 
     override suspend fun setState(key: StorageKey, state: StorageState) {
-        currentState[key] = state
+        currentState[keyBuilder.build(key, "state")] = state
     }
 
     @OptIn(InternalSerializationApi::class)
@@ -47,10 +61,11 @@ open class MemoryStorage(
     }
 
     override suspend fun setData(key: StorageKey, vararg pairs: StorageData) {
-        val data = currentData.getOrDefault(key, mutableMapOf())
+        val storageKey = keyBuilder.build(key, "data")
+        val data = currentData.getOrDefault(storageKey, mutableMapOf())
         data.clear()
         data.putAll(pairs)
-        currentData[key] = data
+        currentData[storageKey] = data
     }
 
     @OptIn(InternalSerializationApi::class)
@@ -66,38 +81,39 @@ open class MemoryStorage(
     }
 
     override suspend fun updateData(key: StorageKey, vararg pairs: StorageData): Map<StorageKeyData, String> {
-        val data = currentData.getOrDefault(key, mutableMapOf())
+        val storageKey = keyBuilder.build(key, "data")
+        val data = currentData.getOrDefault(storageKey, mutableMapOf())
         data.putAll(pairs)
-        currentData[key] = data
+        currentData[storageKey] = data
         return data.toMap()
     }
 
     override suspend fun removeData(key: StorageKey, keyData: StorageKeyData): String? {
-        val data = currentData.getOrDefault(key, mutableMapOf())
+        val storageKey = keyBuilder.build(key, "data")
+        val data = currentData.getOrDefault(storageKey, mutableMapOf())
         return data.remove(keyData)
     }
 
     @OptIn(InternalSerializationApi::class)
     override suspend fun <V : Any> removeTypedData(key: StorageKey, keyData: StorageKeyData, clazz: KClass<V>): V? {
-        val data = currentData.getOrDefault(key, mutableMapOf())
+        val storageKey = keyBuilder.build(key, "data")
+        val data = currentData.getOrDefault(storageKey, mutableMapOf())
         val value = data[keyData] ?: return null
         data.remove(keyData)
         return json.decodeFromString(clazz.serializer(), value)
     }
 
     override suspend fun clear(key: StorageKey) {
-        currentState.remove(key)
-        currentData.remove(key)
+        currentState.remove(keyBuilder.build(key, "state"))
+        currentData.remove(keyBuilder.build(key, "data"))
     }
 
-    override suspend fun close() = Unit
-
     override suspend fun getState(key: StorageKey): StorageState {
-        return currentState[key]
+        return currentState[keyBuilder.build(key, "state")]
     }
 
     override suspend fun getData(key: StorageKey): Map<StorageKeyData, String> {
-        return currentData.getOrDefault(key, mutableMapOf())
+        return currentData.getOrDefault(keyBuilder.build(key, "data"), mutableMapOf())
     }
 
     override suspend fun getData(key: StorageKey, keyData: StorageKeyData): String? {
@@ -106,7 +122,7 @@ open class MemoryStorage(
 
     @OptIn(InternalSerializationApi::class)
     override suspend fun <V : Any> getTypedData(key: StorageKey, keyData: StorageKeyData, clazz: KClass<V>): V? {
-        val data = currentData.getOrDefault(key, mutableMapOf())
+        val data = currentData.getOrDefault(keyBuilder.build(key, "data"), mutableMapOf())
         val value = data[keyData] ?: return null
         return json.decodeFromString(clazz.serializer(), value)
     }

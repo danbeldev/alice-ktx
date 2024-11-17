@@ -1,12 +1,14 @@
 package com.github.examples
 
 import com.github.alice.ktx.dispatch
+import com.github.alice.ktx.handlers.impl.message
 import com.github.alice.ktx.handlers.impl.newSession
-import com.github.alice.ktx.handlers.message
 import com.github.alice.ktx.models.button.button
 import com.github.alice.ktx.models.response.response
 import com.github.alice.ktx.server.impl.ktorWebServer
 import com.github.alice.ktx.skill
+import com.github.alice.ktx.storage.impl.redisStorage
+import com.github.alice.ktx.storage.key.impl.baseKeyBuilder
 
 enum class FormState {
     NAME,
@@ -16,13 +18,19 @@ enum class FormState {
 
 fun main() {
     skill {
-        id = "..."
         webServer = ktorWebServer {
             port = 8080
             path = "/alice"
         }
+        storage = redisStorage {
+            connect(host = "danbel.ru", password = "ggtt1234redis")
+            keyBuilder = baseKeyBuilder {
+                prefix = "alice"
+            }
+        }
         dispatch {
             newSession {
+                context.clear()
                 context.setState(FormState.NAME.name)
                 response {
                     text = "Привет! Как тебя зовут?"

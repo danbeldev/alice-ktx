@@ -1,21 +1,10 @@
-package com.github.alice.ktx.handlers
+package com.github.alice.ktx.handlers.impl
 
 import com.github.alice.ktx.Dispatcher
+import com.github.alice.ktx.handlers.Handler
+import com.github.alice.ktx.models.EventRequest
 import com.github.alice.ktx.models.Request
-import com.github.alice.ktx.models.request
-import com.github.alice.ktx.models.request.MessageRequest
 import com.github.alice.ktx.models.response.MessageResponse
-import com.github.alice.ktx.state.ReadOnlyFSMContext
-
-/**
- * Данные события, включающие состояние и данные состояния.
- *
- * @param message Запрос сообщения.
- */
-data class EventMessage(
-    val context: ReadOnlyFSMContext,
-    val message: MessageRequest
-)
 
 /**
  * Расширение для `Dispatcher`, позволяющее установить обработчик сообщений.
@@ -24,22 +13,15 @@ data class EventMessage(
  * @param handle Функция-обработчик, которая будет вызвана, если условие события возвращает `true`. Принимает объект `Request` и возвращает `MessageResponse`.
  */
 fun Dispatcher.message(
-    event: suspend EventMessage.() -> Boolean = { true },
+    event: suspend EventRequest.() -> Boolean = { true },
     handle: suspend Request.() -> MessageResponse
 ) {
-    val messageHandler = MessageHandler(
-        eventBlock = { message ->
-            val eventMessage = EventMessage(
-                context = request(message).context,
-                message = message
-            )
-            event(eventMessage)
-        },
-        handleBlock = {
-            handle(request(this))
-        }
+    addHandler(
+        MessageHandler(
+            eventBlock = event,
+            handleBlock = handle
+        )
     )
-    addHandler(messageHandler)
 }
 
 /**
@@ -49,13 +31,13 @@ fun Dispatcher.message(
  * @param handleBlock Функция-обработчик запроса. Принимает объект `MessageRequest` и возвращает `MessageResponse`.
  */
 internal class MessageHandler(
-    private val eventBlock: suspend (MessageRequest) -> Boolean,
-    private val handleBlock: suspend MessageRequest.() -> MessageResponse
+    private val eventBlock: suspend EventRequest.() -> Boolean,
+    private val handleBlock: suspend Request.() -> MessageResponse
 ) : Handler {
 
-    override suspend fun event(message: MessageRequest): Boolean = eventBlock(message)
+    override suspend fun event(request: EventRequest): Boolean = eventBlock(request)
 
-    override suspend fun handle(request: MessageRequest): MessageResponse {
+    override suspend fun handle(request: Request): MessageResponse {
         return handleBlock(request)
     }
 }
