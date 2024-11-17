@@ -23,7 +23,7 @@ fun main() {
             path = "/alice"
         }
         storage = redisStorage {
-            connect(host = "danbel.ru", password = "ggtt1234redis")
+            connect(host = "localhost")
             keyBuilder = baseKeyBuilder {
                 prefix = "alice"
             }
