@@ -1,10 +1,10 @@
 <p align="center">
   <a href="https://github.com/danbeldev/alice-ktx/tree/master">
-    <img width="200px" height="200px" alt="alice-skill" src="/documentation/resources/kotlin_logo.png">
+    <img width="200px" height="200px" alt="alice-skill" src="/documentation/resources/alice_ktx.png">
   </a>
 </p>
 <h1 align="center">
-  Alice Skill
+  Alice-ktx
 </h1>
 
 <div align="center">
@@ -16,7 +16,7 @@
 </div>
 <p align="center">
     <b>
-        Библиотека на Kotlin, упрощающая разработку 
+        Фреймворк на Kotlin, упрощающая разработку 
         <a target="_blank" href="https://dialogs.yandex.ru/store">навыков Алисы</a>
         из
         <a target="_blank" href="https://dialogs.yandex.ru/development">Яндекс.Диалогов</a>
