@@ -1,13 +1,10 @@
 package com.github.alice.ktx
 
-import com.github.alice.ktx.api.dialog.DialogApi
+import com.github.alice.ktx.common.AliceDsl
 import com.github.alice.ktx.handlers.Handler
 import com.github.alice.ktx.handlers.error.NetworkErrorHandler
 import com.github.alice.ktx.middleware.Middleware
 import com.github.alice.ktx.middleware.MiddlewareType
-import com.github.alice.ktx.models.FSMStrategy
-import com.github.alice.ktx.models.request.MessageRequest
-import com.github.alice.ktx.context.FSMContext
 
 /**
  * Расширение для `Skill.Builder`, позволяющее настроить `Dispatcher`.
@@ -15,21 +12,13 @@ import com.github.alice.ktx.context.FSMContext
  * @param body Функция, принимающая объект `Dispatcher` и позволяющая настроить его.
  * Эта функция будет вызвана в контексте `Dispatcher`.
  */
+@AliceDsl
 fun Skill.Builder.dispatch(body: Dispatcher.() -> Unit) {
     dispatcherConfiguration = body
 }
 
-/**
- * Класс `Dispatcher` управляет обработчиками команд, обработчиками сетевых ошибок и мидлварами.
- *
- * @param fsmStrategy Стратегия конечного автомата состояний (FSM), используемая для управления состояниями.
- */
-class Dispatcher internal constructor(
-    internal val fsmStrategy: FSMStrategy,
-    val dialogApi: DialogApi? = null,
-    internal val fsmContext: (message: MessageRequest) -> FSMContext,
-    internal val enableApiStorage: Boolean = false
-) {
+@AliceDsl
+class Dispatcher internal constructor() {
     internal val commandHandlers = linkedSetOf<Handler>()
     internal val networkErrorHandlers = linkedSetOf<NetworkErrorHandler>()
     internal val middlewares = mutableMapOf<MiddlewareType, LinkedHashSet<Middleware>>()

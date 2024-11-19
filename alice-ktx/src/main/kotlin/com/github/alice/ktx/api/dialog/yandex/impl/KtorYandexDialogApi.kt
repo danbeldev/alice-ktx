@@ -11,6 +11,7 @@ import com.github.alice.ktx.api.dialog.yandex.models.image.response.Images
 import com.github.alice.ktx.api.dialog.yandex.models.sounds.response.SoundUpload
 import com.github.alice.ktx.api.dialog.yandex.models.sounds.response.Sounds
 import com.github.alice.ktx.api.dialog.yandex.models.status.Status
+import com.github.alice.ktx.common.AliceDsl
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.*
@@ -24,10 +25,11 @@ import io.ktor.util.*
 import kotlinx.serialization.json.Json
 import java.io.File
 
+@AliceDsl
 fun Skill.Builder.ktorYandexDialogApi(body: KtorYandexDialogApi.Builder.() -> Unit): KtorYandexDialogApi {
-    val id = id
+    val id = skillId
         ?: throw IllegalArgumentException("Skill ID не может быть null. Убедитесь, что ID установлен перед вызовом метода.")
-    return KtorYandexDialogApi.Builder().setJson(json).apply(body).build(id)
+    return KtorYandexDialogApi.Builder().json(json).apply(body).build(id)
 }
 
 /**
@@ -41,14 +43,15 @@ class KtorYandexDialogApi(
     private val configuration: HttpClientConfig<CIOEngineConfig>.() -> Unit
 ): DialogApi {
 
+    @AliceDsl
     class Builder {
 
         lateinit var oauthToken: String
+        lateinit var json: Json
 
-        private lateinit var json: Json
         var configuration: HttpClientConfig<CIOEngineConfig>.() -> Unit = {}
 
-        internal fun setJson(json: Json): Builder {
+        internal fun json(json: Json): Builder {
             this.json = json
             return this
         }

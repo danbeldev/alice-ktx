@@ -11,7 +11,7 @@ import java.io.File
 
 fun main() {
     skill {
-        id = "..."
+        skillId = "..."
         webServer = ktorWebServer {
             port = 8080
             path = "/alice"

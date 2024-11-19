@@ -1,9 +1,10 @@
 package com.github.alice.ktx.server.impl
 
 import com.github.alice.ktx.Skill
+import com.github.alice.ktx.common.AliceDsl
 import com.github.alice.ktx.models.request.MessageRequest
 import com.github.alice.ktx.server.WebServer
-import com.github.alice.ktx.server.WebServerResponseListener
+import com.github.alice.ktx.server.WebServerListener
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
@@ -21,8 +22,9 @@ import kotlinx.serialization.json.Json
  * Эта функция будет вызвана в контексте `KtorWebServer.Builder`.
  * @return Настроенный объект `KtorWebServer`.
  */
+@AliceDsl
 fun Skill.Builder.ktorWebServer(body: KtorWebServer.Builder.() -> Unit): KtorWebServer {
-    return KtorWebServer.Builder().setJson(json).build(body)
+    return KtorWebServer.Builder().json(json).build(body)
 }
 
 /**
@@ -43,13 +45,14 @@ class KtorWebServer(
     /**
      * Класс `Builder` предназначен для настройки и создания экземпляра `KtorWebServer`.
      */
+    @AliceDsl
     class Builder {
         var port: Int = 8080
         var path: String = "/"
-        private lateinit var json: Json
+        lateinit var json: Json
         var configuration: Application.() -> Unit = {}
 
-        internal fun setJson(json: Json): Builder {
+        internal fun json(json: Json): Builder {
             this.json = json
             return this
         }
@@ -65,7 +68,7 @@ class KtorWebServer(
         }
     }
 
-    override fun run(listener: WebServerResponseListener) {
+    override fun run(listener: WebServerListener) {
         embeddedServer(Netty, port = port) {
 
             install(ContentNegotiation) {
@@ -78,15 +81,15 @@ class KtorWebServer(
                 post(path) {
                     val model = call.receive<MessageRequest>()
                     try {
-                        listener.messageHandle(model)?.let { response ->
+                        listener.handleRequest(model)?.let { response ->
                             call.respond(response)
                         }
-                    }catch (ex: Exception) {
-                        listener.responseFailure(model, ex)?.let { response ->
+                    }catch (exception: Exception) {
+                        listener.handleError(model, exception)?.let { response ->
                             call.respond(response)
                             return@post
                         }
-                        throw ex
+                        throw exception
                     }
                 }
             }

@@ -1,43 +1,83 @@
 package com.github.alice.ktx.handlers.impl
 
 import com.github.alice.ktx.Dispatcher
+import com.github.alice.ktx.common.AliceDsl
 import com.github.alice.ktx.handlers.Handler
-import com.github.alice.ktx.models.EventRequest
-import com.github.alice.ktx.models.Request
+import com.github.alice.ktx.handlers.environments.ProcessRequestEnvironment
+import com.github.alice.ktx.handlers.environments.ShouldRequestEnvironment
 import com.github.alice.ktx.models.response.MessageResponse
 
 /**
- * Расширение для `Dispatcher`, позволяющее установить обработчик сообщений.
- *
- * @param event Функция-условие, определяющая, должен ли обработчик сработать для данного события. Принимает объект `EventMessage` и возвращает `Boolean`.
- * @param handle Функция-обработчик, которая будет вызвана, если условие события возвращает `true`. Принимает объект `Request` и возвращает `MessageResponse`.
+ * Окружение для проверки, следует ли обрабатывать сообщение.
  */
+@AliceDsl
+data class MessageShouldHandleEnvironment(
+    private val request: ShouldRequestEnvironment
+) : ShouldRequestEnvironment by request {
+
+    val command = request.message.request.command ?: ""
+    val messageText = request.message.request.originalUtterance ?: ""
+}
+
+/**
+ * Окружение для обработки запроса сообщения.
+ */
+@AliceDsl
+data class MessageProcessRequestEnvironment(
+    private val request: ProcessRequestEnvironment
+) : ProcessRequestEnvironment by request {
+
+    val command = request.message.request.command ?: ""
+    val messageText = request.message.request.originalUtterance ?: ""
+}
+
+/**
+ * Функция расширения для `Dispatcher`, которая добавляет обработчик для сообщений.
+ * Этот обработчик срабатывает, если:
+ *
+ * 1. Пользователь произносит фразу.
+ * 2. Пользователь нажимает кнопку в бабле из предыдущего ответа навыка (свойство hide со значением false).
+ * 3. Пользователь нажимает отдельную кнопку в предыдущем ответе навыка (свойство hide со значением true) с отсутствующим значением в поле payload.
+ *
+ * @param shouldHandle Логика, которая определяет, следует ли обрабатывать это сообщение.
+ * @param processRequest Логика обработки сообщения, которая будет выполнена при удовлетворении условиям.
+ */
+@AliceDsl
 fun Dispatcher.message(
-    event: suspend EventRequest.() -> Boolean = { true },
-    handle: suspend Request.() -> MessageResponse
+    shouldHandle: suspend MessageShouldHandleEnvironment.() -> Boolean = { true },
+    processRequest: suspend MessageProcessRequestEnvironment.() -> MessageResponse
 ) {
     addHandler(
         MessageHandler(
-            eventBlock = event,
-            handleBlock = handle
+            shouldHandleBlock = shouldHandle,
+            processRequestBlock = processRequest
         )
     )
 }
 
-/**
- * Внутренний класс `MessageHandler`, реализующий интерфейс `Handler`.
- *
- * @param eventBlock Функция, определяющая условие срабатывания обработчика. Принимает объект `MessageRequest` и возвращает `Boolean`.
- * @param handleBlock Функция-обработчик запроса. Принимает объект `MessageRequest` и возвращает `MessageResponse`.
- */
 internal class MessageHandler(
-    private val eventBlock: suspend EventRequest.() -> Boolean,
-    private val handleBlock: suspend Request.() -> MessageResponse
+    private val shouldHandleBlock: suspend MessageShouldHandleEnvironment.() -> Boolean,
+    private val processRequestBlock: suspend MessageProcessRequestEnvironment.() -> MessageResponse
 ) : Handler {
 
-    override suspend fun event(request: EventRequest): Boolean = eventBlock(request)
-
-    override suspend fun handle(request: Request): MessageResponse {
-        return handleBlock(request)
+    /**
+     * Определяет, следует ли обрабатывать данный запрос.
+     *
+     * @param request Запрос, который проверяется.
+     * @return `true`, если обработчик должен сработать, в противном случае `false`.
+     */
+    override suspend fun shouldHandle(request: ShouldRequestEnvironment): Boolean {
+        return request.message.request.command != null &&
+                request.message.request.originalUtterance != null &&
+                shouldHandleBlock(MessageShouldHandleEnvironment(request))
     }
+
+    /**
+     * Выполняет обработку запроса и возвращает соответствующий ответ.
+     *
+     * @param request Запрос, который будет обработан.
+     * @return Ответ на запрос в виде `MessageResponse`.
+     */
+    override suspend fun processRequest(request: ProcessRequestEnvironment): MessageResponse =
+        processRequestBlock(MessageProcessRequestEnvironment(request))
 }

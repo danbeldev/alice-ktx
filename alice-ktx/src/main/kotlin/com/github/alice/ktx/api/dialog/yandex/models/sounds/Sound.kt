@@ -1,6 +1,6 @@
 package com.github.alice.ktx.api.dialog.yandex.models.sounds
 
-import com.github.alice.ktx.common.LocalDateTimeSerializer
+import com.github.alice.ktx.common.serializers.LocalDateTimeSerializer
 import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 

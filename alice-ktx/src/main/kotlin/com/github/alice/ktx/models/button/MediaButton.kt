@@ -1,25 +1,30 @@
 package com.github.alice.ktx.models.button
 
+import com.github.alice.ktx.common.AliceResponseDsl
 import com.github.alice.ktx.models.card.Card
 import com.github.alice.ktx.models.card.CardFooter
 import com.github.alice.ktx.models.card.CardItem
 import kotlinx.serialization.Serializable
 
+@AliceResponseDsl
 fun Card.BigImageBuilder.mediaButton(body: MediaButton.Builder.() -> Unit) {
     val mediaButton = MediaButton.Builder().build(body)
     button = mediaButton
 }
 
+@AliceResponseDsl
 fun CardItem.ImageGalleryBuilder.mediaButton(body: MediaButton.Builder.() -> Unit) {
     val mediaButton = MediaButton.Builder().build(body)
     button = mediaButton
 }
 
+@AliceResponseDsl
 fun CardItem.ItemsListBuilder.mediaButton(body: MediaButton.Builder.() -> Unit) {
     val mediaButton = MediaButton.Builder().build(body)
     button = mediaButton
 }
 
+@AliceResponseDsl
 fun CardFooter.Builder.mediaButton(body: MediaButton.Builder.() -> Unit) {
     val mediaButton = MediaButton.Builder().build(body)
     button = mediaButton
@@ -31,6 +36,7 @@ data class MediaButton(
     val url: String? = null,
     val payload: Map<String, String>? = null
 ) {
+    @AliceResponseDsl
     class Builder {
         var text: String? = null
         var url: String? = null

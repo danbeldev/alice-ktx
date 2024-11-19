@@ -19,7 +19,7 @@ import kotlinx.serialization.json.Json
  * @return настроенный экземпляр `BaseApiStorage`, который будет использовать хранилище Алисы для сохранения данных.
  */
 fun Skill.Builder.apiStorage(body: BaseApiStorage.Builder.() -> Unit = {}): BaseApiStorage {
-    return BaseApiStorage.Builder().setJson(json).build(body)
+    return BaseApiStorage.Builder().json(json).build(body)
 }
 
 @EnableApiStorage
@@ -34,7 +34,7 @@ class BaseApiStorage(
 
         var keyBuilder: KeyBuilder = baseKeyBuilder()
 
-        fun setJson(json: Json): Builder {
+        fun json(json: Json): Builder {
             this.json = json
             return this
         }

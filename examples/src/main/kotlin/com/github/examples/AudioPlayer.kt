@@ -9,7 +9,7 @@ import com.github.alice.ktx.skill
 
 fun main() {
     skill {
-        id = "..."
+        skillId = "..."
         webServer = ktorWebServer {
             port = 8080
             path = "/alice"

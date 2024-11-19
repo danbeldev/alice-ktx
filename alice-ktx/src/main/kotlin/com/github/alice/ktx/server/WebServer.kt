@@ -10,6 +10,6 @@ interface WebServer {
      *
      * @param listener Обработчик, который будет вызван при получении запроса.
      */
-    fun run(listener: WebServerResponseListener)
+    fun run(listener: WebServerListener)
 
 }

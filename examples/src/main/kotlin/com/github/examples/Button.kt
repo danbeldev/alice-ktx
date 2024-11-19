@@ -16,7 +16,7 @@ private enum class SchedulesType(val title: String) {
 
 fun main() {
     skill {
-        id = "..."
+        skillId = "..."
         webServer = ktorWebServer {
             port = 8080
             path = "/alice"
@@ -27,14 +27,14 @@ fun main() {
                     text = "Выберите тип"
                     SchedulesType.entries.forEach {
                         button {
-                            text = it.name
+                            title = it.name
                             payload = mapOf("schedule_type" to it.name)
                         }
                     }
                 }
             }
-            message({ message.request.payload?.keys?.contains("schedule_type") == true }) {
-                val scheduleType = SchedulesType.valueOf(message.request.payload?.get("schedule_type")!!)
+            message({ message.request.payload.keys.contains("schedule_type") }) {
+                val scheduleType = SchedulesType.valueOf(message.request.payload["schedule_type"]!!.toString())
                 response {
                     text = "Result: ${scheduleType.title}"
                 }

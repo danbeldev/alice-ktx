@@ -8,32 +8,32 @@ import com.github.alice.ktx.handlers.environments.ShouldRequestEnvironment
 import com.github.alice.ktx.models.response.MessageResponse
 
 /**
- * Функция расширения для `Dispatcher`, которая добавляет обработчик для запроса помощи.
- * Этот обработчик срабатывает, когда пользователь запрашивает помощь.
+ * Функция расширения для `Dispatcher`, которая добавляет обработчик для запроса "что ты умеешь".
+ * Этот обработчик срабатывает, когда пользователь запрашивает информацию о возможностях системы.
  *
  * @param processRequest Логика обработки запроса, которая будет выполнена, когда сработает обработчик.
  */
 @AliceDsl
-fun Dispatcher.help(
+fun Dispatcher.whatCanYouDo(
     processRequest: suspend ProcessRequestEnvironment.() -> MessageResponse
 ) {
-    addHandler(HelpHandler(processRequestBlock = processRequest))
+    addHandler(WhatCanYouDoHandler(processRequestBlock = processRequest))
 }
 
-internal class HelpHandler(
+internal class WhatCanYouDoHandler(
     private val processRequestBlock: suspend ProcessRequestEnvironment.() -> MessageResponse
 ) : Handler {
 
     /**
      * Определяет, должен ли обработчик сработать для данного запроса.
-     * Обработчик срабатывает, если команда запроса соответствует "помощь".
+     * Обработчик срабатывает, если команда запроса соответствует "что ты умеешь".
      *
      * @param request Запрос, который проверяется.
-     * @return `true`, если команда запроса соответствует "помощь";
+     * @return `true`, если команда запроса соответствует "что ты умеешь";
      *         `false` в противном случае.
      */
     override suspend fun shouldHandle(request: ShouldRequestEnvironment): Boolean {
-        return request.message.request.command == "помощь"
+        return request.message.request.command == "что ты умеешь"
     }
 
     /**

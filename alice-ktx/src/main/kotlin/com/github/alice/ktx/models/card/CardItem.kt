@@ -1,14 +1,17 @@
 package com.github.alice.ktx.models.card
 
+import com.github.alice.ktx.common.AliceResponseDsl
 import com.github.alice.ktx.models.button.MediaButton
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@AliceResponseDsl
 fun Card.ImageGalleryBuilder.item(body: CardItem.ImageGalleryBuilder.() -> Unit) {
     val item = CardItem.ImageGalleryBuilder().build(body)
     addItem(item)
 }
 
+@AliceResponseDsl
 fun Card.ItemsListBuilder.item(body: CardItem.ItemsListBuilder.() -> Unit) {
     val item = CardItem.ItemsListBuilder().build(body)
     addItem(item)
@@ -22,6 +25,7 @@ data class CardItem(
     val description: String? = null,
     val button: MediaButton? = null
 ) {
+    @AliceResponseDsl
     class ImageGalleryBuilder {
         lateinit var imageId: String
         var title: String? = null
@@ -37,6 +41,7 @@ data class CardItem(
         }
     }
 
+    @AliceResponseDsl
     class ItemsListBuilder {
         lateinit var imageId: String
         var title: String? = null

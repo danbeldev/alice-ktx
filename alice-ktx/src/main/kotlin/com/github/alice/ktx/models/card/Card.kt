@@ -1,5 +1,6 @@
 package com.github.alice.ktx.models.card
 
+import com.github.alice.ktx.common.AliceResponseDsl
 import com.github.alice.ktx.models.button.MediaButton
 import com.github.alice.ktx.models.response.MessageResponse
 import kotlinx.serialization.SerialName
@@ -8,6 +9,7 @@ import kotlinx.serialization.Serializable
 /**
  * [Source](https://yandex.ru/dev/dialogs/alice/doc/ru/response-card-bigimage)
  * */
+@AliceResponseDsl
 fun MessageResponse.Builder.cardBigImage(body: Card.BigImageBuilder.() -> Unit) {
     val card = Card.BigImageBuilder().build(body)
     this.card = card
@@ -16,6 +18,7 @@ fun MessageResponse.Builder.cardBigImage(body: Card.BigImageBuilder.() -> Unit) 
 /**
  * [Source](https://yandex.ru/dev/dialogs/alice/doc/ru/response-card-imagegallery)
  * */
+@AliceResponseDsl
 fun MessageResponse.Builder.cardImageGallery(body: Card.ImageGalleryBuilder.() -> Unit) {
     val card = Card.ImageGalleryBuilder().build(body)
     this.card = card
@@ -24,6 +27,7 @@ fun MessageResponse.Builder.cardImageGallery(body: Card.ImageGalleryBuilder.() -
 /**
  * [Source](https://yandex.ru/dev/dialogs/alice/doc/ru/response-card-itemslist)
  * */
+@AliceResponseDsl
 fun MessageResponse.Builder.cardItemsList(body: Card.ItemsListBuilder.() -> Unit) {
     val card = Card.ItemsListBuilder().build(body)
     this.card = card
@@ -41,6 +45,7 @@ data class Card internal constructor(
     val items: List<CardItem>? = null,
     val footer: CardFooter? = null
 ) {
+    @AliceResponseDsl
     class BigImageBuilder {
         lateinit var imageId: String
         var title: String? = null
@@ -59,6 +64,7 @@ data class Card internal constructor(
         }
     }
 
+    @AliceResponseDsl
     class ImageGalleryBuilder {
         private val items = mutableListOf<CardItem>()
 
@@ -75,6 +81,7 @@ data class Card internal constructor(
         }
     }
 
+    @AliceResponseDsl
     class ItemsListBuilder {
         private val items = mutableListOf<CardItem>()
         lateinit var header: String

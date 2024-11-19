@@ -1,4 +1,4 @@
-package com.github.alice.ktx.context
+package com.github.alice.ktx.fsm
 
 /**
  * Интерфейс для доступа к информации состояния конкретного пользователя.

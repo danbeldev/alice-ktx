@@ -1,5 +1,6 @@
 package com.github.examples
 
+import com.github.alice.ktx.common.connectToRedis
 import com.github.alice.ktx.dispatch
 import com.github.alice.ktx.handlers.impl.message
 import com.github.alice.ktx.handlers.impl.newSession
@@ -23,7 +24,7 @@ fun main() {
             path = "/alice"
         }
         storage = redisStorage {
-            connect(host = "localhost")
+            redis = connectToRedis(host = "localhost")
             keyBuilder = baseKeyBuilder {
                 prefix = "alice"
             }

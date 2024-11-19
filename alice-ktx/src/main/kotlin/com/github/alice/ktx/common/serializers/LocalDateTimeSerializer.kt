@@ -1,4 +1,4 @@
-package com.github.alice.ktx.common
+package com.github.alice.ktx.common.serializers
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind

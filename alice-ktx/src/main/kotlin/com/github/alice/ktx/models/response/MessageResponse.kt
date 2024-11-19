@@ -1,27 +1,32 @@
 package com.github.alice.ktx.models.response
 
+import com.github.alice.ktx.common.AliceResponseDsl
+import com.github.alice.ktx.fsm.MutableFSMContext
+import com.github.alice.ktx.fsm.ReadOnlyFSMContext
+import com.github.alice.ktx.handlers.environments.ProcessRequestEnvironment
 import com.github.alice.ktx.models.FSMStrategy
-import com.github.alice.ktx.models.Request
 import com.github.alice.ktx.models.audioPlayer.AudioPlayer
 import com.github.alice.ktx.models.button.Button
 import com.github.alice.ktx.models.card.Card
 import com.github.alice.ktx.models.request.AccountLinking
 import com.github.alice.ktx.models.response.analytics.Analytics
-import com.github.alice.ktx.context.ReadOnlyFSMContext
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-suspend fun Request.response(body: suspend MessageResponse.Builder.() -> Unit): MessageResponse {
-    return MessageResponse.Builder(this)
-        .setFSMStrategy(fsmStrategy)
-        .setEnableApiStorage(enableApiStorage)
-        .build(body)
+@AliceResponseDsl
+suspend fun ProcessRequestEnvironment.response(block: MessageResponse.Builder.() -> Unit): MessageResponse {
+    return MessageResponse.Builder(message.version)
+        .fsmStrategy(fsmStrategy)
+        .enableApiStorage(enableApiStorage)
+        .apply(block)
+        .build(context)
 }
 
 /**
  * [Source](https://yandex.ru/dev/dialogs/alice/doc/ru/auth/when-to-use)
  * */
-suspend fun Request.authorization(
+@AliceResponseDsl
+suspend fun ProcessRequestEnvironment.authorization(
     onAlreadyAuthenticated: (suspend () -> MessageResponse)? = null,
     onAuthorizationFailed: (suspend () -> MessageResponse)? = null
 ): MessageResponse {
@@ -31,7 +36,7 @@ suspend fun Request.authorization(
     if (message.meta.interfaces.accountLinking == null && onAuthorizationFailed != null)
         return onAuthorizationFailed()
 
-    return MessageResponse.AuthorizationBuilder(request = this).build()
+    return MessageResponse.AuthorizationBuilder(version = message.version).build()
 }
 
 /**
@@ -51,16 +56,18 @@ data class MessageResponse internal constructor(
     val startAccountLinking: AccountLinking? = null,
     val analytics: Analytics? = null
 ) {
-    class Builder(private val request: Request) {
+    @AliceResponseDsl
+    class Builder(private val version: String) {
         var text: String = ""
         var tts: String? = null
         var endSession: Boolean = false
         var shouldListen: Boolean? = null
-        var version: String = request.message.version
+        var analytics: Analytics? = null
+
         internal var card: Card? = null
         internal var audioPlayer: AudioPlayer? = null
+
         private val buttons = mutableListOf<Button>()
-        var analytics: Analytics? = null
         private var fSMStrategy = FSMStrategy.USER
         private var enableApiStorage = false
 
@@ -68,19 +75,17 @@ data class MessageResponse internal constructor(
             buttons.add(button)
         }
 
-        internal fun setFSMStrategy(strategy: FSMStrategy): Builder {
+        internal fun fsmStrategy(strategy: FSMStrategy): Builder {
             fSMStrategy = strategy
             return this
         }
 
-        internal fun setEnableApiStorage(enable: Boolean): Builder {
+        internal fun enableApiStorage(enable: Boolean): Builder {
             this.enableApiStorage = enable
             return this
         }
 
-        internal suspend fun build(body: suspend Builder.() -> Unit): MessageResponse {
-            body()
-
+        internal suspend fun build(context: MutableFSMContext): MessageResponse {
             val response = MessageResponse(
                 response = Response(
                     text = text,
@@ -97,19 +102,20 @@ data class MessageResponse internal constructor(
                 analytics = analytics
             )
 
-            if (enableApiStorage) response.setState(fSMStrategy, request.context)
+            if (enableApiStorage) response.setState(fSMStrategy, context)
 
             return response
         }
     }
 
+    @AliceResponseDsl
     internal class AuthorizationBuilder(
-        private val request: Request
+        private val version: String
     ) {
         internal fun build(): MessageResponse {
             return MessageResponse(
                 response = null,
-                version = request.message.version,
+                version = version,
                 startAccountLinking = AccountLinking()
             )
         }

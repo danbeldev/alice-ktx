@@ -7,6 +7,8 @@ import kotlinx.serialization.Serializable
 data class MetadataInterfaces(
     @SerialName("account_linking")
     val accountLinking: AccountLinking? = null,
+    @SerialName("audio_player")
+    val audioPlayer: AudioPlayer? = null,
     val screen: Screen? = null,
     val payments: Payments? = null
 )
@@ -19,3 +21,6 @@ class Screen
 
 @Serializable
 class Payments
+
+@Serializable
+class AudioPlayer

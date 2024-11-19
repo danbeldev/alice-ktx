@@ -17,6 +17,8 @@ dependencies {
     implementation("io.ktor:ktor-client-content-negotiation-jvm")
 
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
+
+    implementation("io.lettuce:lettuce-core:6.5.0.RELEASE")
 }
 
 kotlin {

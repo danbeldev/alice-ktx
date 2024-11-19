@@ -18,7 +18,7 @@ fun main() {
     val citiesGameService = CitiesGameService()
 
     skill {
-        id = "..."
+        skillId = "..."
         webServer = ktorWebServer {
             port = 8080
             path = "/alice"

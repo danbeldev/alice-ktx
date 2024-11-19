@@ -9,5 +9,8 @@ data class RequestContent(
     @SerialName("original_utterance")
     val originalUtterance: String? = null,
     val type: RequestContentType,
-    val payload: Map<String, String>? = null
+    val payload: Map<String, String> = emptyMap(),
+    val markup: Markup? = null,
+    val nlu: Nlu = Nlu(),
+    val tokens: Map<String, String> = emptyMap()
 )

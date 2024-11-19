@@ -5,21 +5,21 @@ import com.github.alice.ktx.models.response.MessageResponse
 import java.lang.Exception
 
 /**
- * Интерфейс `WebServerResponseListener` представляет собой обработчик, который будет вызываться при получении запроса веб-сервером.
+ * Интерфейс `WebServerListener` представляет собой обработчик, который будет вызываться при получении запроса веб-сервером.
  */
-interface WebServerResponseListener {
+interface WebServerListener {
 
     /**
      * Вызывается при получении запроса от Яндекс Диалогов
      *
      * @param model Модель запроса, полученного от Яндекс Диалогов.
      * */
-    suspend fun messageHandle(model: MessageRequest): MessageResponse?
+    suspend fun handleRequest(model: MessageRequest): MessageResponse?
 
     /**
      * Вызывается при возникновении ошибки
      * @param model Модель запроса, при обработке которого произошла ошибка.
-     * @param ex Исключение, которое возникло.
+     * @param exception Исключение, которое возникло.
      * */
-    suspend fun responseFailure(model: MessageRequest, ex: Exception): MessageResponse?
+    suspend fun handleError(model: MessageRequest, exception: Exception): MessageResponse?
 }

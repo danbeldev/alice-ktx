@@ -6,6 +6,7 @@ import com.github.alice.ktx.handlers.impl.message
 import com.github.alice.ktx.models.response.response
 import com.github.alice.ktx.server.impl.ktorWebServer
 import com.github.alice.ktx.skill
+import com.github.alice.ktx.storage.impl.apiStorage
 
 private enum class InfoState {
     SET_NAME,
@@ -16,11 +17,12 @@ private enum class InfoState {
 fun main() {
 
     skill {
-        id = "..."
+        skillId = "..."
         webServer = ktorWebServer {
             port = 8080
             path = "/alice"
         }
+        storage = apiStorage()
         dispatch {
             newSession {
                 context.setState(InfoState.SET_NAME.name)

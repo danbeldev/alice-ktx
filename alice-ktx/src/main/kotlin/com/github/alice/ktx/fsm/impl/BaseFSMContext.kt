@@ -1,8 +1,8 @@
-package com.github.alice.ktx.context.impl
+package com.github.alice.ktx.fsm.impl
 
 import com.github.alice.ktx.models.FSMStrategy
 import com.github.alice.ktx.models.request.MessageRequest
-import com.github.alice.ktx.context.FSMContext
+import com.github.alice.ktx.fsm.FSMContext
 import com.github.alice.ktx.storage.Storage
 import com.github.alice.ktx.storage.apiStorage.ApiStorageDetails
 import com.github.alice.ktx.storage.models.StorageKey

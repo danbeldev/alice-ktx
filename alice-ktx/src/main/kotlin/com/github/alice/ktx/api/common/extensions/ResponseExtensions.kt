@@ -16,5 +16,5 @@ suspend inline fun <reified T> HttpResponse.response(): Response<T> {
     return if(status.value in 200..299)
         Response.Success(this.body())
     else
-        Response.Failed(this.body<ErrorBody>().message)
+        Response.Failed(this.body<ErrorBody>().message, status.value)
 }

@@ -1,33 +1,55 @@
 package com.github.alice.ktx.handlers.impl
 
 import com.github.alice.ktx.Dispatcher
+import com.github.alice.ktx.common.AliceDsl
 import com.github.alice.ktx.handlers.Handler
-import com.github.alice.ktx.models.EventRequest
-import com.github.alice.ktx.models.Request
+import com.github.alice.ktx.handlers.environments.ProcessRequestEnvironment
+import com.github.alice.ktx.handlers.environments.ShouldRequestEnvironment
 import com.github.alice.ktx.models.response.MessageResponse
 
+/**
+ * Функция расширения для `Dispatcher`, которая добавляет обработчик для нового сеанса.
+ * Этот обработчик срабатывает, когда создается новый сеанс, и выполняет соответствующую логику.
+ *
+ * @param shouldHandle Логика, которая определяет, должен ли обработчик сработать для данного запроса.
+ * @param processRequest Логика обработки запроса, которая будет выполнена, когда сработает обработчик.
+ */
+@AliceDsl
 fun Dispatcher.newSession(
-    event: suspend EventRequest.() -> Boolean = { true },
-    handle: suspend Request.() -> MessageResponse
+    shouldHandle: suspend ShouldRequestEnvironment.() -> Boolean = { true },
+    processRequest: suspend ProcessRequestEnvironment.() -> MessageResponse
 ) {
     addHandler(
         NewSessionHandler(
-            eventBlock = event,
-            handleBlock = handle
+            shouldHandleBlock = shouldHandle,
+            processRequestBlock = processRequest
         )
     )
 }
 
 internal class NewSessionHandler(
-    private val eventBlock: suspend EventRequest.() -> Boolean,
-    private val handleBlock: suspend Request.() -> MessageResponse
+    private val shouldHandleBlock: suspend ShouldRequestEnvironment.() -> Boolean,
+    private val processRequestBlock: suspend ProcessRequestEnvironment.() -> MessageResponse
 ) : Handler {
 
-    override suspend fun event(request: EventRequest): Boolean {
-        return request.message.session.new && eventBlock(request)
+    /**
+     * Определяет, сработает ли обработчик для данного запроса.
+     * Обработчик срабатывает, если запрос связан с новым сеансом.
+     *
+     * @param request Запрос, который проверяется.
+     * @return `true`, если запрос относится к новому сеансу и условие `shouldHandle` выполняется.
+     */
+    override suspend fun shouldHandle(request: ShouldRequestEnvironment): Boolean {
+        return request.message.session.new && shouldHandleBlock(request)
     }
 
-    override suspend fun handle(request: Request): MessageResponse {
-        return handleBlock(request)
+    /**
+     * Выполняет обработку запроса и возвращает соответствующий ответ.
+     *
+     * @param request Запрос, который будет обработан.
+     * @return Ответ на запрос в виде `MessageResponse`.
+     */
+    override suspend fun processRequest(request: ProcessRequestEnvironment): MessageResponse {
+        return processRequestBlock(request)
     }
 }

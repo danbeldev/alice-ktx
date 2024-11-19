@@ -1,7 +1,7 @@
 package com.github.alice.ktx.handlers
 
-import com.github.alice.ktx.models.EventRequest
-import com.github.alice.ktx.models.Request
+import com.github.alice.ktx.handlers.environments.ProcessRequestEnvironment
+import com.github.alice.ktx.handlers.environments.ShouldRequestEnvironment
 import com.github.alice.ktx.models.response.MessageResponse
 
 /**
@@ -14,10 +14,10 @@ interface Handler {
     /**
      * Определяет, сработает ли обработчик для данного сообщения.
      *
-     * @param message Сообщение, которое проверяется на соответствие условиям обработчика.
+     * @param request Запрос, который проверяется на соответствие условиям обработчика.
      * @return `true`, если обработчик должен сработать для данного сообщения; `false` в противном случае.
      */
-    suspend fun event(request: EventRequest): Boolean
+    suspend fun shouldHandle(request: ShouldRequestEnvironment): Boolean
 
     /**
      * Выполняет обработку запроса сообщения и возвращает ответ.
@@ -25,5 +25,5 @@ interface Handler {
      * @param request Запрос сообщения, который будет обработан.
      * @return Ответ на запрос в виде `MessageResponse`.
      */
-    suspend fun handle(request: Request): MessageResponse
+    suspend fun processRequest(request: ProcessRequestEnvironment): MessageResponse
 }

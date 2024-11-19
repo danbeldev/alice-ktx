@@ -1,8 +1,10 @@
 package com.github.alice.ktx.models.button
 
+import com.github.alice.ktx.common.AliceResponseDsl
 import com.github.alice.ktx.models.response.MessageResponse
 import kotlinx.serialization.Serializable
 
+@AliceResponseDsl
 fun MessageResponse.Builder.button(body: Button.Builder.() -> Unit) {
     val button = Button.Builder().build(body)
     addButton(button)
@@ -15,6 +17,7 @@ data class Button(
     val url: String?,
     val hide: Boolean
 ) {
+    @AliceResponseDsl
     class Builder {
         lateinit var title: String
         var url: String? = null

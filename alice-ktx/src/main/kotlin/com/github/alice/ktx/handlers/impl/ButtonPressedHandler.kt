@@ -1,40 +1,58 @@
 package com.github.alice.ktx.handlers.impl
 
 import com.github.alice.ktx.Dispatcher
+import com.github.alice.ktx.common.AliceDsl
 import com.github.alice.ktx.handlers.Handler
-import com.github.alice.ktx.models.EventRequest
-import com.github.alice.ktx.models.Request
+import com.github.alice.ktx.handlers.environments.ProcessRequestEnvironment
+import com.github.alice.ktx.handlers.environments.ShouldRequestEnvironment
 import com.github.alice.ktx.models.request.RequestContentType
 import com.github.alice.ktx.models.response.MessageResponse
-import com.github.alice.ktx.context.ReadOnlyFSMContext
 
-data class EventButtonPressed(
-    val context: ReadOnlyFSMContext,
-    val payload: Map<String, String>
-)
+@AliceDsl
+data class ButtonPressedShouldHandleEnvironment(
+    private val requestEnvironment: ShouldRequestEnvironment
+): ShouldRequestEnvironment by requestEnvironment {
 
+    val payload: Map<String, Any> = requestEnvironment.message.request.payload
+}
+
+/**
+ * Функция расширения для `Dispatcher`, которая добавляет обработчик событий для нажатия кнопки.
+ *
+ * Навык получает запрос с типом ButtonPressed, если в предыдущем ответе пользователь нажал:
+ *
+ * 1. отдельную кнопку (свойство hide со значением true) с непустым полем payload;
+ * 2. изображение (тип BigImage) с непустым полем payload в card.button;
+ * 3. элемент списка (тип ItemList) с непустым полем payload в items.button;
+ * 4. изображение из галереи (тип ImageGallery) с непустым полем payload в items.button.
+ *
+ * @param shouldHandle Логика, определяющая, должен ли обработчик сработать для данного события.
+ * @param processRequest Логика обработки запроса, если событие было подтверждено.
+ */
+@AliceDsl
 fun Dispatcher.buttonPressed(
-    event: suspend EventButtonPressed.() -> Boolean = { true },
-    handle: suspend Request.() -> MessageResponse
+    shouldHandle: suspend ButtonPressedShouldHandleEnvironment.() -> Boolean = { true },
+    processRequest: suspend ProcessRequestEnvironment.() -> MessageResponse
 ) {
     addHandler(
         ButtonPressedHandler(
-            eventBlock = event,
-            handleBlock = handle
+            shouldHandleBlock = shouldHandle,
+            processRequestBlock = processRequest
         )
     )
 }
 
 internal class ButtonPressedHandler(
-    private val eventBlock: suspend EventButtonPressed.() -> Boolean,
-    private val handleBlock: suspend Request.() -> MessageResponse
+    private val shouldHandleBlock: suspend ButtonPressedShouldHandleEnvironment.() -> Boolean,
+    private val processRequestBlock: suspend ProcessRequestEnvironment.() -> MessageResponse
 ) : Handler {
-    override suspend fun event(request: EventRequest): Boolean {
+
+    override suspend fun shouldHandle(request: ShouldRequestEnvironment): Boolean {
         return request.message.request.type == RequestContentType.ButtonPressed &&
-                eventBlock(EventButtonPressed(context = request.context, payload = request.message.request.payload!!))
+                shouldHandleBlock(ButtonPressedShouldHandleEnvironment(request))
     }
 
-    override suspend fun handle(request: Request): MessageResponse {
-        return handleBlock(request)
+    override suspend fun processRequest(request: ProcessRequestEnvironment): MessageResponse {
+        return processRequestBlock(request)
     }
 }

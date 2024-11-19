@@ -1,4 +1,4 @@
-package com.github.alice.ktx.context
+package com.github.alice.ktx.fsm
 
 import com.github.alice.ktx.models.FSMStrategy
 import kotlin.reflect.KClass

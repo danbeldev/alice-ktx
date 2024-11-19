@@ -13,7 +13,7 @@ sealed interface Response<T> {
      * @param T Тип данных, которые были бы возвращены в успешном ответе.
      * @param message Сообщение об ошибке, объясняющее причину неудачи.
      */
-    data class Failed<T>(val message: String): Response<T>
+    data class Failed<T>(val message: String, val code: Int): Response<T>
 
     /**
      * Представляет успешный ответ.

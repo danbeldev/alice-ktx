@@ -1,17 +1,17 @@
 package com.github.alice.ktx
 
 import com.github.alice.ktx.api.dialog.DialogApi
+import com.github.alice.ktx.common.AliceDsl
 import com.github.alice.ktx.middleware.MiddlewareType
 import com.github.alice.ktx.models.FSMStrategy
-import com.github.alice.ktx.models.Request
-import com.github.alice.ktx.models.request
 import com.github.alice.ktx.models.request.MessageRequest
 import com.github.alice.ktx.models.response.MessageResponse
-import com.github.alice.ktx.models.toEventRequest
 import com.github.alice.ktx.server.WebServer
-import com.github.alice.ktx.server.WebServerResponseListener
-import com.github.alice.ktx.context.FSMContext
-import com.github.alice.ktx.context.impl.BaseFSMContext
+import com.github.alice.ktx.server.WebServerListener
+import com.github.alice.ktx.fsm.FSMContext
+import com.github.alice.ktx.fsm.MutableFSMContext
+import com.github.alice.ktx.fsm.impl.BaseFSMContext
+import com.github.alice.ktx.handlers.environments.ProcessRequestEnvironment
 import com.github.alice.ktx.storage.Storage
 import com.github.alice.ktx.storage.apiStorage.EnableApiStorage
 import com.github.alice.ktx.storage.impl.memoryStorage
@@ -24,7 +24,8 @@ import kotlinx.serialization.json.Json
  * Эта функция будет вызвана в контексте `Skill.Builder`.
  * @return Настроенный объект `Skill`.
  */
-fun skill(body: Skill.Builder.() -> Unit): Skill = Skill.Builder().build(body)
+@AliceDsl
+fun skill(body: Skill.Builder.() -> Unit): Skill = Skill.Builder().apply(body).build()
 
 /**
  * Класс `Skill` представляет собой навык, который обрабатывает запросы и управляет состоянием.
@@ -34,38 +35,46 @@ fun skill(body: Skill.Builder.() -> Unit): Skill = Skill.Builder().build(body)
  */
 class Skill internal constructor(
     private val webServer: WebServer,
-    private val dispatcher: Dispatcher
+    private val dispatcher: Dispatcher,
+    private val dialogApi: DialogApi?,
+    private val defaultFSMStrategy: FSMStrategy,
+    private val fsmContext: (message: MessageRequest) -> FSMContext,
+    private val enableApiStorage: Boolean = false
 ) {
 
     /**
      * Конструктор `Builder` для создания экземпляра `Skill`.
      */
+    @AliceDsl
     class Builder {
 
-        var id: String? = null
-        var json: Json = Json { ignoreUnknownKeys = true }
-        var dialogApi: DialogApi? = null
         lateinit var webServer: WebServer
-        var defaultFSMStrategy: FSMStrategy = FSMStrategy.USER
-        internal var dispatcherConfiguration: Dispatcher.() -> Unit = { }
 
-        var storage: Storage = memoryStorage()
-
-        var fsmContext: (message: MessageRequest) -> FSMContext = { message ->
-            BaseFSMContext(storage, defaultFSMStrategy, message, id)
+        var skillId: String? = null
+        var json: Json = Json {
+            isLenient = true
+            ignoreUnknownKeys = true
+            encodeDefaults = true
         }
 
-        internal fun build(body: Builder.() -> Unit): Skill {
-            body()
+        var dialogApi: DialogApi? = null
+        var storage: Storage = memoryStorage()
 
+        var defaultFSMStrategy: FSMStrategy = FSMStrategy.USER
+        var fsmContext: (message: MessageRequest) -> FSMContext = { message ->
+            BaseFSMContext(storage, defaultFSMStrategy, message, skillId)
+        }
+
+        internal var dispatcherConfiguration: Dispatcher.() -> Unit = { }
+
+        fun build(): Skill {
             return Skill(
                 webServer = webServer,
-                dispatcher = Dispatcher(
-                    fsmStrategy = defaultFSMStrategy,
-                    dialogApi = dialogApi,
-                    fsmContext = fsmContext,
-                    enableApiStorage = storage.javaClass.isAnnotationPresent(EnableApiStorage::class.java)
-                ).apply(dispatcherConfiguration)
+                dialogApi = dialogApi,
+                defaultFSMStrategy = defaultFSMStrategy,
+                fsmContext = fsmContext,
+                enableApiStorage = storage.javaClass.isAnnotationPresent(EnableApiStorage::class.java),
+                dispatcher = Dispatcher().apply(dispatcherConfiguration)
             )
         }
     }
@@ -83,25 +92,24 @@ class Skill internal constructor(
      *
      * @return Реализованный объект `WebServerResponseListener`, который обрабатывает входящие сообщения и ошибки.
      */
-    private fun webServerResponseCallback(): WebServerResponseListener = object : WebServerResponseListener {
-        override suspend fun messageHandle(model: MessageRequest): MessageResponse? {
-            val request = dispatcher.request(model)
-            val eventRequest = request.toEventRequest()
+    private fun webServerResponseCallback(): WebServerListener = object : WebServerListener {
+        override suspend fun handleRequest(model: MessageRequest): MessageResponse? {
+            val requestEnvironment = createRequestEnvironment(model)
 
-            runMiddlewares(request, MiddlewareType.OUTER)?.let { return it }
+            runMiddlewares(requestEnvironment, MiddlewareType.OUTER)?.let { return it }
             dispatcher.commandHandlers.forEach { handler ->
-                if (handler.event(eventRequest)) {
-                    runMiddlewares(request, MiddlewareType.INNER)?.let { return it }
-                    return handler.handle(request)
+                if (handler.shouldHandle(requestEnvironment)) {
+                    runMiddlewares(requestEnvironment, MiddlewareType.INNER)?.let { return it }
+                    return handler.processRequest(requestEnvironment)
                 }
             }
             return null
         }
 
-        override suspend fun responseFailure(model: MessageRequest, ex: Exception): MessageResponse? {
-            val request = dispatcher.request(model)
+        override suspend fun handleError(model: MessageRequest, exception: Exception): MessageResponse? {
+            val request = createRequestEnvironment(model)
             dispatcher.networkErrorHandlers.forEach { errorHandler ->
-                errorHandler.responseFailure(request, ex)?.let { response ->
+                errorHandler.responseFailure(request, exception)?.let { response ->
                     return response
                 }
             }
@@ -114,13 +122,29 @@ class Skill internal constructor(
          * @param type Тип мидлвари, который следует выполнить.
          * @return `MessageResponse?` — ответ от мидлвари, или `null`, если обработка не завершена.
          */
-        private suspend fun runMiddlewares(request: Request, type: MiddlewareType): MessageResponse? {
+        private suspend fun runMiddlewares(
+            request: ProcessRequestEnvironment,
+            type: MiddlewareType
+        ): MessageResponse? {
             dispatcher.middlewares[type]?.forEach { middleware ->
-                middleware.invoke(request)?.let { response ->
+                middleware.process(request)?.let { response ->
                     return response
                 }
             }
             return null
+        }
+    }
+
+    private suspend fun createRequestEnvironment(message: MessageRequest): ProcessRequestEnvironment {
+        val context = fsmContext(message)
+        context.init()
+
+        return object : ProcessRequestEnvironment {
+            override val message: MessageRequest = message
+            override val context: MutableFSMContext = context
+            override val dialogApi: DialogApi? = this@Skill.dialogApi
+            override val fsmStrategy: FSMStrategy = this@Skill.defaultFSMStrategy
+            override val enableApiStorage: Boolean = this@Skill.enableApiStorage
         }
     }
 }
