@@ -1,13 +1,13 @@
-package com.github.alice.ktx.server
+package com.github.alice.ktx.webhook
 
 import com.github.alice.ktx.models.request.MessageRequest
 import com.github.alice.ktx.models.response.MessageResponse
 import java.lang.Exception
 
 /**
- * Интерфейс `WebServerListener` представляет собой обработчик, который будет вызываться при получении запроса веб-сервером.
+ * Интерфейс `WebhookServerListener` представляет собой обработчик, который будет вызываться при получении запроса веб-сервером.
  */
-interface WebServerListener {
+interface WebhookServerListener {
 
     /**
      * Вызывается при получении запроса от Яндекс Диалогов

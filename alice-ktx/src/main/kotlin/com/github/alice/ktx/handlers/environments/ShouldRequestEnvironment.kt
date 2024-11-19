@@ -12,7 +12,7 @@ interface ShouldRequestEnvironment {
     val context: ReadOnlyFSMContext
     val dialogApi: DialogApi?
 
-    fun filter(filter: Filter): Boolean {
+    fun isValidFor(filter: Filter): Boolean {
         return filter.checkFor(this)
     }
 }

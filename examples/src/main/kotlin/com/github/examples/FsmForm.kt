@@ -6,7 +6,7 @@ import com.github.alice.ktx.handlers.impl.message
 import com.github.alice.ktx.handlers.impl.newSession
 import com.github.alice.ktx.models.response.button.button
 import com.github.alice.ktx.models.response.response
-import com.github.alice.ktx.server.impl.ktorWebServer
+import com.github.alice.ktx.webhook.impl.ktorWebhookServer
 import com.github.alice.ktx.skill
 import com.github.alice.ktx.storage.impl.redisStorage
 import com.github.alice.ktx.storage.key.impl.baseKeyBuilder
@@ -19,7 +19,7 @@ enum class FormState {
 
 fun main() {
     skill {
-        webServer = ktorWebServer {
+        webhookServer = ktorWebhookServer {
             port = 8080
             path = "/alice"
         }

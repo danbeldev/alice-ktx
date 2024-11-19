@@ -6,8 +6,8 @@ import com.github.alice.ktx.middleware.MiddlewareType
 import com.github.alice.ktx.fsm.models.FSMStrategy
 import com.github.alice.ktx.models.request.MessageRequest
 import com.github.alice.ktx.models.response.MessageResponse
-import com.github.alice.ktx.server.WebServer
-import com.github.alice.ktx.server.WebServerListener
+import com.github.alice.ktx.webhook.WebhookServer
+import com.github.alice.ktx.webhook.WebhookServerListener
 import com.github.alice.ktx.fsm.FSMContext
 import com.github.alice.ktx.fsm.MutableFSMContext
 import com.github.alice.ktx.fsm.impl.BaseFSMContext
@@ -30,11 +30,11 @@ fun skill(body: Skill.Builder.() -> Unit): Skill = Skill.Builder().apply(body).b
 /**
  * Класс `Skill` представляет собой навык, который обрабатывает запросы и управляет состоянием.
  *
- * @property webServer Сервер для прослушивания запросов.
+ * @property webhookServer Сервер для прослушивания запросов.
  * @property dispatcher Объект для управления обработчиками команд, мидлварами и обработчиками сетевых ошибок.
  */
 class Skill internal constructor(
-    private val webServer: WebServer,
+    private val webhookServer: WebhookServer,
     private val dispatcher: Dispatcher,
     private val dialogApi: DialogApi?,
     private val defaultFSMStrategy: FSMStrategy,
@@ -48,7 +48,7 @@ class Skill internal constructor(
     @AliceDsl
     class Builder {
 
-        lateinit var webServer: WebServer
+        lateinit var webhookServer: WebhookServer
 
         var skillId: String? = null
         var json: Json = Json {
@@ -69,7 +69,7 @@ class Skill internal constructor(
 
         fun build(): Skill {
             return Skill(
-                webServer = webServer,
+                webhookServer = webhookServer,
                 dialogApi = dialogApi,
                 defaultFSMStrategy = defaultFSMStrategy,
                 fsmContext = fsmContext,
@@ -83,16 +83,15 @@ class Skill internal constructor(
      * Запускает сервер и начинает обработку входящих запросов.
      */
     fun run() {
-        val webServerCallback = webServerResponseCallback()
-        webServer.run(webServerCallback)
+        webhookServer.run(webhookServerListener())
     }
 
     /**
      * Создает слушатель для обработки запросов и ошибок от веб-сервера.
      *
-     * @return Реализованный объект `WebServerResponseListener`, который обрабатывает входящие сообщения и ошибки.
+     * @return Реализованный объект `WebhookServerListener`, который обрабатывает входящие сообщения и ошибки.
      */
-    private fun webServerResponseCallback(): WebServerListener = object : WebServerListener {
+    private fun webhookServerListener(): WebhookServerListener = object : WebhookServerListener {
         override suspend fun handleRequest(model: MessageRequest): MessageResponse? {
             val requestEnvironment = createRequestEnvironment(model)
 

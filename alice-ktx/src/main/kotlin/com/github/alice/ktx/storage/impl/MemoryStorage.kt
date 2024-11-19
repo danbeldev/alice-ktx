@@ -7,6 +7,7 @@ import com.github.alice.ktx.storage.key.KeyBuilder
 import com.github.alice.ktx.storage.key.impl.baseKeyBuilder
 import com.github.alice.ktx.storage.models.*
 import kotlinx.serialization.InternalSerializationApi
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
 import kotlin.reflect.KClass

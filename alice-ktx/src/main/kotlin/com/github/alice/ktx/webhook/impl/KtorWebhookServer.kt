@@ -1,10 +1,10 @@
-package com.github.alice.ktx.server.impl
+package com.github.alice.ktx.webhook.impl
 
 import com.github.alice.ktx.Skill
 import com.github.alice.ktx.common.AliceDsl
 import com.github.alice.ktx.models.request.MessageRequest
-import com.github.alice.ktx.server.WebServer
-import com.github.alice.ktx.server.WebServerListener
+import com.github.alice.ktx.webhook.WebhookServer
+import com.github.alice.ktx.webhook.WebhookServerListener
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
@@ -16,35 +16,35 @@ import io.ktor.server.routing.*
 import kotlinx.serialization.json.Json
 
 /**
- * Создает экземпляр `KtorWebServer` с заданной конфигурацией.
+ * Создает экземпляр `ktorWebhookServer` с заданной конфигурацией.
  *
- * @param body Функция, принимающая объект `KtorWebServer.Builder` и выполняющая настройку.
- * Эта функция будет вызвана в контексте `KtorWebServer.Builder`.
- * @return Настроенный объект `KtorWebServer`.
+ * @param body Функция, принимающая объект `KtorWebhookServer.Builder` и выполняющая настройку.
+ * Эта функция будет вызвана в контексте `KtorWebhookServer.Builder`.
+ * @return Настроенный объект `KtorWebhookServer`.
  */
 @AliceDsl
-fun Skill.Builder.ktorWebServer(body: KtorWebServer.Builder.() -> Unit): KtorWebServer {
-    return KtorWebServer.Builder().json(json).build(body)
+fun Skill.Builder.ktorWebhookServer(body: KtorWebhookServer.Builder.() -> Unit): KtorWebhookServer {
+    return KtorWebhookServer.Builder().json(json).build(body)
 }
 
 /**
- * Класс `KtorWebServer` представляет собой веб-сервер, работающий на основе Ktor.
+ * Класс `KtorWebhookServer` представляет собой веб-сервер, работающий на основе Ktor.
  *
  * @property port Порт, на котором будет запущен веб-сервер.
  * @property path Путь, по которому будет доступен веб-сервер.
  * @property json Конфигурация для обработки JSON данных.
  * @property configuration Конфигурация для приложения Ktor.
  */
-class KtorWebServer internal constructor(
+class KtorWebhookServer internal constructor(
     private val port: Int,
     private val path: String,
     private val host: String,
     private val json: Json,
     private val configuration: Application.() -> Unit
-): WebServer {
+): WebhookServer {
 
     /**
-     * Класс `Builder` предназначен для настройки и создания экземпляра `KtorWebServer`.
+     * Класс `Builder` предназначен для настройки и создания экземпляра `KtorWebhookServer`.
      */
     @AliceDsl
     class Builder {
@@ -59,9 +59,9 @@ class KtorWebServer internal constructor(
             return this
         }
 
-        fun build(body: Builder.() -> Unit): KtorWebServer {
+        fun build(body: Builder.() -> Unit): KtorWebhookServer {
             body.invoke(this)
-            return KtorWebServer(
+            return KtorWebhookServer(
                 port = port,
                 path = path,
                 host = host,
@@ -71,7 +71,7 @@ class KtorWebServer internal constructor(
         }
     }
 
-    override fun run(listener: WebServerListener) {
+    override fun run(listener: WebhookServerListener) {
         embeddedServer(Netty, port = port, host = host) {
 
             install(ContentNegotiation) {

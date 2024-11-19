@@ -5,6 +5,8 @@ import com.github.alice.ktx.common.AliceDsl
 import com.github.alice.ktx.handlers.Handler
 import com.github.alice.ktx.handlers.environments.ProcessRequestEnvironment
 import com.github.alice.ktx.handlers.environments.ShouldRequestEnvironment
+import com.github.alice.ktx.handlers.filters.Filter
+import com.github.alice.ktx.models.request.content.RequestContentType
 import com.github.alice.ktx.models.response.MessageResponse
 
 /**
@@ -17,6 +19,7 @@ data class MessageShouldHandleEnvironment(
 
     val command = request.message.request.command ?: ""
     val messageText = request.message.request.originalUtterance ?: ""
+    val nlu = request.message.request.nlu
 }
 
 /**
@@ -29,6 +32,18 @@ data class MessageProcessRequestEnvironment(
 
     val command = request.message.request.command ?: ""
     val messageText = request.message.request.originalUtterance ?: ""
+    val nlu = request.message.request.nlu
+}
+
+@AliceDsl
+fun Dispatcher.message(
+    filter: Filter,
+    processRequest: suspend MessageProcessRequestEnvironment.() -> MessageResponse
+) {
+    message(
+        shouldHandle = { filter.checkFor(this) },
+        processRequest = processRequest
+    )
 }
 
 /**
@@ -67,9 +82,7 @@ internal class MessageHandler(
      * @return `true`, если обработчик должен сработать, в противном случае `false`.
      */
     override suspend fun shouldHandle(request: ShouldRequestEnvironment): Boolean {
-        return request.message.request.command != null &&
-                request.message.request.originalUtterance != null &&
-                shouldHandleBlock(MessageShouldHandleEnvironment(request))
+        return request.message.request.type == RequestContentType.SimpleUtterance && shouldHandleBlock(MessageShouldHandleEnvironment(request))
     }
 
     /**

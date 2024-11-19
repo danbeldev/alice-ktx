@@ -9,14 +9,14 @@ import com.github.alice.ktx.models.response.button.mediaButton
 import com.github.alice.ktx.models.response.card.cardItemsList
 import com.github.alice.ktx.models.response.card.item
 import com.github.alice.ktx.models.response.response
-import com.github.alice.ktx.server.impl.ktorWebServer
+import com.github.alice.ktx.webhook.impl.ktorWebhookServer
 import com.github.alice.ktx.skill
 import java.io.File
 
 fun main() {
     skill {
         skillId = "..."
-        webServer = ktorWebServer {
+        webhookServer = ktorWebhookServer {
             port = 8080
             path = "/alice"
         }

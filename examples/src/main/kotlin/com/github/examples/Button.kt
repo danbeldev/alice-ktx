@@ -1,12 +1,12 @@
 package com.github.examples
 
 import com.github.alice.ktx.dispatch
-import com.github.alice.ktx.handlers.impl.newSession
 import com.github.alice.ktx.handlers.impl.message
+import com.github.alice.ktx.handlers.impl.newSession
 import com.github.alice.ktx.models.response.button.button
 import com.github.alice.ktx.models.response.response
-import com.github.alice.ktx.server.impl.ktorWebServer
 import com.github.alice.ktx.skill
+import com.github.alice.ktx.webhook.impl.ktorWebhookServer
 
 private enum class SchedulesType(val title: String) {
     LAST_DAY("Последний день"),
@@ -17,7 +17,7 @@ private enum class SchedulesType(val title: String) {
 fun main() {
     skill {
         skillId = "..."
-        webServer = ktorWebServer {
+        webhookServer = ktorWebhookServer {
             port = 8080
             path = "/alice"
         }

@@ -1,7 +1,7 @@
 package com.github.examples.chatgpt
 
 import com.github.alice.ktx.dispatch
-import com.github.alice.ktx.server.impl.ktorWebServer
+import com.github.alice.ktx.webhook.impl.ktorWebhookServer
 import com.github.alice.ktx.skill
 import com.github.examples.chatgpt.handlers.baseHandlers
 import com.github.examples.chatgpt.handlers.chatHandlers
@@ -13,7 +13,7 @@ fun main() {
     val responseManager = ResponseManager()
 
     skill {
-        webServer = ktorWebServer {
+        webhookServer = ktorWebhookServer {
             port = 8080
             path = "/alice"
         }
