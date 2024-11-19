@@ -4,7 +4,7 @@ import com.github.alice.ktx.common.connectToRedis
 import com.github.alice.ktx.dispatch
 import com.github.alice.ktx.handlers.impl.message
 import com.github.alice.ktx.handlers.impl.newSession
-import com.github.alice.ktx.models.button.button
+import com.github.alice.ktx.models.response.button.button
 import com.github.alice.ktx.models.response.response
 import com.github.alice.ktx.server.impl.ktorWebServer
 import com.github.alice.ktx.skill

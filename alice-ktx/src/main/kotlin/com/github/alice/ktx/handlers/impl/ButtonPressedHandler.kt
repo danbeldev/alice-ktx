@@ -5,7 +5,7 @@ import com.github.alice.ktx.common.AliceDsl
 import com.github.alice.ktx.handlers.Handler
 import com.github.alice.ktx.handlers.environments.ProcessRequestEnvironment
 import com.github.alice.ktx.handlers.environments.ShouldRequestEnvironment
-import com.github.alice.ktx.models.request.RequestContentType
+import com.github.alice.ktx.models.request.content.RequestContentType
 import com.github.alice.ktx.models.response.MessageResponse
 
 @AliceDsl

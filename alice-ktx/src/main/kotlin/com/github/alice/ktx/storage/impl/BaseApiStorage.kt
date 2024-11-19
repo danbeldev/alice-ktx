@@ -1,6 +1,7 @@
 package com.github.alice.ktx.storage.impl
 
 import com.github.alice.ktx.Skill
+import com.github.alice.ktx.common.AliceDsl
 import com.github.alice.ktx.storage.apiStorage.ApiStorageDetails
 import com.github.alice.ktx.storage.apiStorage.EnableApiStorage
 import com.github.alice.ktx.storage.key.KeyBuilder
@@ -18,16 +19,18 @@ import kotlinx.serialization.json.Json
  * @param body лямбда-функция для настройки экземпляра `BaseApiStorage` перед его созданием.
  * @return настроенный экземпляр `BaseApiStorage`, который будет использовать хранилище Алисы для сохранения данных.
  */
+@AliceDsl
 fun Skill.Builder.apiStorage(body: BaseApiStorage.Builder.() -> Unit = {}): BaseApiStorage {
     return BaseApiStorage.Builder().json(json).build(body)
 }
 
 @EnableApiStorage
-class BaseApiStorage(
+class BaseApiStorage internal constructor(
     json: Json,
     keyBuilder: KeyBuilder
 ) : ApiStorageDetails, MemoryStorage(json, keyBuilder) {
 
+    @AliceDsl
     class Builder {
 
         private lateinit var json: Json

@@ -1,6 +1,7 @@
 package com.github.alice.ktx.storage.impl
 
 import com.github.alice.ktx.Skill
+import com.github.alice.ktx.common.AliceDsl
 import com.github.alice.ktx.storage.Storage
 import com.github.alice.ktx.storage.key.KeyBuilder
 import com.github.alice.ktx.storage.key.impl.baseKeyBuilder
@@ -20,6 +21,7 @@ import kotlin.reflect.KClass
  * @param body лямбда-функция для настройки экземпляра `MemoryStorage` перед его созданием.
  * @return настроенный экземпляр `MemoryStorage`.
  */
+@AliceDsl
 fun Skill.Builder.memoryStorage(body: MemoryStorage.Builder.() -> Unit = {}): MemoryStorage {
     return MemoryStorage.Builder().json(json).build(body)
 }
@@ -32,6 +34,7 @@ open class MemoryStorage(
     private val currentState = mutableMapOf<String, StorageState>()
     private val currentData = mutableMapOf<String, MutableMap<StorageKeyData, String>>()
 
+    @AliceDsl
     class Builder {
 
         lateinit var json: Json

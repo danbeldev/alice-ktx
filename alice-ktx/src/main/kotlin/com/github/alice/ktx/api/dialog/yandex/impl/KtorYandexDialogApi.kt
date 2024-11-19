@@ -36,7 +36,7 @@ fun Skill.Builder.ktorYandexDialogApi(body: KtorYandexDialogApi.Builder.() -> Un
  * @param oauthToken Токен для загрузки аудио и изображений.
  * [Source](https://yandex.ru/dev/direct/doc/start/token.html)
  * */
-class KtorYandexDialogApi(
+class KtorYandexDialogApi internal constructor(
     private val oauthToken: String,
     private val skillId: String,
     private val json: Json,

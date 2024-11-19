@@ -2,7 +2,7 @@ package com.github.examples
 
 import com.github.alice.ktx.dispatch
 import com.github.alice.ktx.handlers.impl.newSession
-import com.github.alice.ktx.models.audioPlayer.audioPlayer
+import com.github.alice.ktx.models.response.audioPlayer.audioPlayer
 import com.github.alice.ktx.models.response.response
 import com.github.alice.ktx.server.impl.ktorWebServer
 import com.github.alice.ktx.skill

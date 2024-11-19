@@ -2,8 +2,9 @@ package com.github.examples
 
 import com.github.alice.ktx.dispatch
 import com.github.alice.ktx.handlers.impl.message
-import com.github.alice.ktx.models.button.mediaButton
+import com.github.alice.ktx.models.response.button.mediaButton
 import com.github.alice.ktx.models.card.*
+import com.github.alice.ktx.models.response.card.*
 import com.github.alice.ktx.models.response.response
 import com.github.alice.ktx.server.impl.ktorWebServer
 import com.github.alice.ktx.skill

@@ -1,6 +1,6 @@
 package com.github.alice.ktx.storage.key.impl
 
-import com.github.alice.ktx.models.FSMStrategy.*
+import com.github.alice.ktx.fsm.models.FSMStrategy.*
 import com.github.alice.ktx.storage.key.KeyBuilder
 import com.github.alice.ktx.storage.key.impl.BaseKeyBuilder.Builder
 import com.github.alice.ktx.storage.models.DEFAULT_DESTINY
@@ -10,7 +10,7 @@ fun baseKeyBuilder(body: Builder.() -> Unit = {}): BaseKeyBuilder {
     return Builder().build(body)
 }
 
-class BaseKeyBuilder(
+class BaseKeyBuilder internal constructor(
     private val prefix: String = "fsm",
     private val separator: String = ":",
     private val withDestiny: Boolean = false

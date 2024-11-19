@@ -35,9 +35,10 @@ fun Skill.Builder.ktorWebServer(body: KtorWebServer.Builder.() -> Unit): KtorWeb
  * @property json Конфигурация для обработки JSON данных.
  * @property configuration Конфигурация для приложения Ktor.
  */
-class KtorWebServer(
+class KtorWebServer internal constructor(
     private val port: Int,
     private val path: String,
+    private val host: String,
     private val json: Json,
     private val configuration: Application.() -> Unit
 ): WebServer {
@@ -49,6 +50,7 @@ class KtorWebServer(
     class Builder {
         var port: Int = 8080
         var path: String = "/"
+        var host: String = "0.0.0.0"
         lateinit var json: Json
         var configuration: Application.() -> Unit = {}
 
@@ -62,6 +64,7 @@ class KtorWebServer(
             return KtorWebServer(
                 port = port,
                 path = path,
+                host = host,
                 json = json,
                 configuration = configuration
             )
@@ -69,7 +72,7 @@ class KtorWebServer(
     }
 
     override fun run(listener: WebServerListener) {
-        embeddedServer(Netty, port = port) {
+        embeddedServer(Netty, port = port, host = host) {
 
             install(ContentNegotiation) {
                 json(json)

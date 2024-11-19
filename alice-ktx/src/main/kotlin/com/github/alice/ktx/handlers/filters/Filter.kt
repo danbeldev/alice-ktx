@@ -1,7 +1,7 @@
 package com.github.alice.ktx.handlers.filters
 
 import com.github.alice.ktx.handlers.environments.ShouldRequestEnvironment
-import com.github.alice.ktx.models.request.RequestContentType
+import com.github.alice.ktx.models.request.content.RequestContentType
 
 interface Filter {
     fun checkFor(request: ShouldRequestEnvironment): Boolean = request.predicate()

@@ -3,13 +3,14 @@ package com.github.alice.ktx.models.response
 import com.github.alice.ktx.common.AliceResponseDsl
 import com.github.alice.ktx.fsm.MutableFSMContext
 import com.github.alice.ktx.fsm.ReadOnlyFSMContext
+import com.github.alice.ktx.fsm.models.FSMStrategy
 import com.github.alice.ktx.handlers.environments.ProcessRequestEnvironment
-import com.github.alice.ktx.models.FSMStrategy
-import com.github.alice.ktx.models.audioPlayer.AudioPlayer
-import com.github.alice.ktx.models.button.Button
-import com.github.alice.ktx.models.card.Card
-import com.github.alice.ktx.models.request.AccountLinking
 import com.github.alice.ktx.models.response.analytics.Analytics
+import com.github.alice.ktx.models.response.audioPlayer.AudioPlayer
+import com.github.alice.ktx.models.response.button.Button
+import com.github.alice.ktx.models.response.card.Card
+import com.github.alice.ktx.models.response.show.ShowItemMeta
+import com.github.alice.ktx.models.response.state.StateResponse
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -27,13 +28,13 @@ suspend fun ProcessRequestEnvironment.response(block: MessageResponse.Builder.()
  * */
 @AliceResponseDsl
 suspend fun ProcessRequestEnvironment.authorization(
-    onAlreadyAuthenticated: (suspend () -> MessageResponse)? = null,
-    onAuthorizationFailed: (suspend () -> MessageResponse)? = null
+    onAlreadyAuthenticated: suspend () -> MessageResponse,
+    onAuthorizationFailed: suspend () -> MessageResponse
 ): MessageResponse {
-    if (message.session.user?.accessToken != null && onAlreadyAuthenticated != null)
+    if (message.session.user?.accessToken != null)
         return onAlreadyAuthenticated()
 
-    if (message.meta.interfaces.accountLinking == null && onAuthorizationFailed != null)
+    if (message.meta.interfaces.accountLinking == null)
         return onAuthorizationFailed()
 
     return MessageResponse.AuthorizationBuilder(version = message.version).build()
@@ -41,10 +42,20 @@ suspend fun ProcessRequestEnvironment.authorization(
 
 /**
  * [Source](https://yandex.ru/dev/dialogs/alice/doc/ru/response)
+ *
+ * Время ожидания ответа от навыка — 4,5 секунды. Если Диалоги не получат ответ в течение этого времени,
+ * сессия навыка завершится. Алиса сообщит пользователю, что навык не отвечает.
+ *
+ * @param response Данные для ответа пользователю.
+ * @param sessionState Объект, содержащий состояние навыка для хранения в контексте сессии.
+ * @param userState Объект, содержащий состояние навыка для хранения в контексте авторизованного пользователя.
+ * @param applicationState Объект, содержащий состояние навыка для хранения в контексте экземпляра приложения пользователя.
+ * @param analytics Объект с данными для аналитики.
+ * @param version Версия протокола.
  * */
 @Serializable
 data class MessageResponse internal constructor(
-    val response: Response?,
+    val response: MessageContentResponse?,
     val version: String,
     @SerialName("user_state_update")
     var userState: StateResponse? = null,
@@ -53,7 +64,7 @@ data class MessageResponse internal constructor(
     @SerialName("application_state")
     var applicationState: StateResponse? = null,
     @SerialName("start_account_linking")
-    val startAccountLinking: AccountLinking? = null,
+    val startAccountLinking: StartAccountLinking? = null,
     val analytics: Analytics? = null
 ) {
     @AliceResponseDsl
@@ -66,6 +77,7 @@ data class MessageResponse internal constructor(
 
         internal var card: Card? = null
         internal var audioPlayer: AudioPlayer? = null
+        internal var showItemMeta: ShowItemMeta? = null
 
         private val buttons = mutableListOf<Button>()
         private var fSMStrategy = FSMStrategy.USER
@@ -87,13 +99,14 @@ data class MessageResponse internal constructor(
 
         internal suspend fun build(context: MutableFSMContext): MessageResponse {
             val response = MessageResponse(
-                response = Response(
+                response = MessageContentResponse(
                     text = text,
                     tts = tts,
                     endSession = endSession,
                     shouldListen = shouldListen,
                     buttons = buttons,
                     card = card,
+                    showItemMeta = showItemMeta,
                     directives = Directives(
                         audioPlayer = audioPlayer
                     )
@@ -109,14 +122,14 @@ data class MessageResponse internal constructor(
     }
 
     @AliceResponseDsl
-    internal class AuthorizationBuilder(
+    class AuthorizationBuilder(
         private val version: String
     ) {
         internal fun build(): MessageResponse {
             return MessageResponse(
                 response = null,
-                version = version,
-                startAccountLinking = AccountLinking()
+                startAccountLinking = StartAccountLinking,
+                version = version
             )
         }
     }

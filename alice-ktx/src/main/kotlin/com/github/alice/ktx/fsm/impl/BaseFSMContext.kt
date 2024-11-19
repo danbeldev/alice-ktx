@@ -1,6 +1,6 @@
 package com.github.alice.ktx.fsm.impl
 
-import com.github.alice.ktx.models.FSMStrategy
+import com.github.alice.ktx.fsm.models.FSMStrategy
 import com.github.alice.ktx.models.request.MessageRequest
 import com.github.alice.ktx.fsm.FSMContext
 import com.github.alice.ktx.storage.Storage
@@ -14,7 +14,7 @@ import kotlin.reflect.KClass
  * @param message Сообщение запроса, содержащего начальное состояние и данные пользователя.
  * @param defaultStrategy Стратегия конечного автомата состояний (FSM), используемая для управления состояниями.
  */
-class BaseFSMContext(
+class BaseFSMContext internal constructor(
     private val storage: Storage,
     private val defaultStrategy: FSMStrategy,
     private val message: MessageRequest,

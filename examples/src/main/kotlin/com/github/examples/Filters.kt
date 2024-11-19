@@ -2,6 +2,7 @@ package com.github.examples
 
 import com.github.alice.ktx.dispatch
 import com.github.alice.ktx.handlers.filters.Filter
+import com.github.alice.ktx.handlers.impl.message
 import com.github.alice.ktx.handlers.impl.request
 import com.github.alice.ktx.models.response.response
 import com.github.alice.ktx.server.impl.ktorWebServer
@@ -14,9 +15,9 @@ fun main() {
             path = "/alice"
         }
         dispatch {
-           request(Filter.All) {
+           message({ filter(Filter.All) }) {
                 response {
-                    text = "text"
+                    text = messageText
                 }
             }
         }

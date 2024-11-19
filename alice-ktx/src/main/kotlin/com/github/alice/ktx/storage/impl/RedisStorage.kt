@@ -20,7 +20,7 @@ fun Skill.Builder.redisStorage(body: Builder.() -> Unit): RedisStorage {
     return Builder().json(json).build(body)
 }
 
-class RedisStorage(
+class RedisStorage internal constructor(
     private val redis: RedisAsyncCommands<String, String>,
     private val keyBuilder: KeyBuilder,
     private val json: Json,

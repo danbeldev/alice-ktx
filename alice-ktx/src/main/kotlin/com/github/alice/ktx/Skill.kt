@@ -3,7 +3,7 @@ package com.github.alice.ktx
 import com.github.alice.ktx.api.dialog.DialogApi
 import com.github.alice.ktx.common.AliceDsl
 import com.github.alice.ktx.middleware.MiddlewareType
-import com.github.alice.ktx.models.FSMStrategy
+import com.github.alice.ktx.fsm.models.FSMStrategy
 import com.github.alice.ktx.models.request.MessageRequest
 import com.github.alice.ktx.models.response.MessageResponse
 import com.github.alice.ktx.server.WebServer

@@ -5,9 +5,9 @@ import com.github.alice.ktx.api.common.Response
 import com.github.alice.ktx.api.dialog.yandex.impl.ktorYandexDialogApi
 import com.github.alice.ktx.dispatch
 import com.github.alice.ktx.handlers.impl.message
-import com.github.alice.ktx.models.button.mediaButton
-import com.github.alice.ktx.models.card.cardItemsList
-import com.github.alice.ktx.models.card.item
+import com.github.alice.ktx.models.response.button.mediaButton
+import com.github.alice.ktx.models.response.card.cardItemsList
+import com.github.alice.ktx.models.response.card.item
 import com.github.alice.ktx.models.response.response
 import com.github.alice.ktx.server.impl.ktorWebServer
 import com.github.alice.ktx.skill

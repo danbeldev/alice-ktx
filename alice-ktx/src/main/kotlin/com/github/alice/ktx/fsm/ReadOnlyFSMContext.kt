@@ -1,6 +1,6 @@
 package com.github.alice.ktx.fsm
 
-import com.github.alice.ktx.models.FSMStrategy
+import com.github.alice.ktx.fsm.models.FSMStrategy
 import kotlin.reflect.KClass
 
 interface ReadOnlyFSMContext {
