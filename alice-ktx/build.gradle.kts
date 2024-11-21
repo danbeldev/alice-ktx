@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.github.alice.ktx"
-version = "0.1.0"
+version = "1.0.0"
 
 project.setProperty("mainClassName", "com.github.alice.ktx.Skill")
 
@@ -39,7 +39,7 @@ mavenPublishing {
     coordinates(
         groupId = "io.github.danbeldev",
         artifactId = "alice-ktx",
-        version = "0.1.0"
+        version = "1.0.0"
     )
 
     pom {
