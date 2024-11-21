@@ -1,4 +1,4 @@
-## Методы API
+# Методы API
 
 Чтобы получить, загрузить и удалить загруженные изображения и звуки,
 надо передать [OAuth Token](https://yandex.ru/dev/direct/doc/start/token.html) при создании `DialogApi`:
@@ -20,7 +20,7 @@ skill {
 dialogApi?.getStatus()
 ```
 
-### Изображения ([Документация](https://yandex.ru/dev/dialogs/alice/doc/ru/resource-upload#http-images-load__quota))
+## Изображения ([Документация](https://yandex.ru/dev/dialogs/alice/doc/ru/resource-upload#http-images-load__quota))
 
 - Список изображений, загруженных для навыка, можно получить этим методом.
 
@@ -47,7 +47,7 @@ dialogApi?.uploadImage(file = file)
 dialogApi?.deleteImage(imageId)
 ```
 
-### Аудио ([Документация](https://yandex.ru/dev/dialogs/alice/doc/ru/resource-sounds-upload))
+## Аудио ([Документация](https://yandex.ru/dev/dialogs/alice/doc/ru/resource-sounds-upload))
 
 - Чтобы посмотреть аудиофайлы, загруженные для навыка, используйте этот метод.
 
@@ -68,7 +68,7 @@ dialogApi?.uploadSound(file = file)
 dialogApi?.deleteSound(soundId)
 ```
 
-### Response
+## Response
 
 Все методы API возвращают обёртку `Response<>`.
 
@@ -81,19 +81,17 @@ sealed interface Response<T> {
 
 <br>
 
-> ℹ️ **Примечание**  
-> Вы можете заменить стандартный `DialogApi` на свою реализацию. Библиотека предоставляет
-> реализацию `KtorYandexDialogApi`.
->```kotlin
->skill {
->    dialogApi = ktorYandexDialogApi {
->        oauthToken = "..."
->    }
->}.run()
-> ```
+!!! info "Примечание"
+    Вы можете заменить стандартный `DialogApi` на свою реализацию. Библиотека предоставляет реализацию `KtorYandexDialogApi`.
 
-### Примеры
+    ```kotlin
+    skill {
+        dialogApi = ktorYandexDialogApi {
+            oauthToken = "..."
+        }
+    }.run()
+    ```
 
-[ImageDialogsApi.kt](../examples/src/main/kotlin/com/github/examples/ImageDialogsApi.kt)
+## Примеры
 
-### [Авторизация ->](Авторизация.md)
+[ImageDialogsApi.kt](https://github.com/danbeldev/alice-ktx/blob/master/examples/src/main/kotlin/com/github/examples/ImageDialogsApi.kt)

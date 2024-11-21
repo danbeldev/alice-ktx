@@ -17,7 +17,6 @@ private enum class InfoState {
 fun main() {
 
     skill {
-        skillId = "..."
         webhookServer = ktorWebhookServer {
             port = 8080
             path = "/alice"

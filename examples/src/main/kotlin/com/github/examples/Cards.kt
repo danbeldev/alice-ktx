@@ -13,7 +13,6 @@ private const val IMAGE_ID = "1521359/48faa5e0f3d3842a6329"
 
 fun main() {
     skill {
-        skillId = "..."
         webhookServer = ktorWebhookServer {
             port = 8080
             path = "/alice"

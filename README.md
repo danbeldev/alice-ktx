@@ -1,11 +1,8 @@
 <p align="center">
   <a href="https://github.com/danbeldev/alice-ktx/tree/master">
-    <img width="200px" height="200px" alt="alice-skill" src="/documentation/resources/alice_ktx.png">
+    <img width="200px" height="200px" alt="alice-skill" src="/mk-docs/docs/assets/alice-ktx.png">
   </a>
 </p>
-<h1 align="center">
-  Alice-ktx
-</h1>
 
 <div align="center">
 
@@ -37,7 +34,7 @@
 ```kotlin
 fun main() {
     skill {
-        webServer = ktorWebServer {
+        webhookServer = ktorWebhookServer {
             port = 8080
             path = "/alice"
         }
@@ -50,7 +47,7 @@ fun main() {
 
             message {
                 response {
-                    text = message.request.command.toString()
+                    text = messageText
                 }
             }
         }
@@ -59,7 +56,7 @@ fun main() {
 ```
 
 ## Документация
-- [Документация](documentation/)
+- [Документация](mk-docs/)
 - [Примеры](https://github.com/danbeldev/alice-ktx/tree/master/examples/src/main/kotlin/com/github/examples)
 
 

@@ -17,7 +17,7 @@ data class StorageKey(
         fun build(skillId: String?, message: MessageRequest, strategy: FSMStrategy): StorageKey {
             return StorageKey(
                 skillId = skillId,
-                userId = message.session.user?.userId,
+                userId = message.session.user?.userId ?: message.session.application.applicationId,
                 sessionId = message.session.sessionId,
                 applicationId = message.session.application.applicationId,
                 strategy = strategy

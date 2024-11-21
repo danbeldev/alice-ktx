@@ -1,10 +1,10 @@
-## Обработка исключений
+# Обработка исключений
 
-responseFailure — это расширение для Dispatcher, которое позволяет обрабатывать ошибки, возникающие при выполнении
+`responseFailure` — это расширение для Dispatcher, которое позволяет обрабатывать ошибки, возникающие при выполнении
 запросов.
 Оно предоставляет возможность задать обработчики ошибок для различных типов исключений и условий.
 
-### Примеры использования
+## Примеры использования
 
 - Обработка конкретного исключения:
 
@@ -36,8 +36,6 @@ responseFailure({ message.session.new }) {
 }
 ```
 
-### Примеры
+## Примеры
 
-- [ErrorHandling.kt](../examples/src/main/kotlin/com/github/examples/ErrorHandling.kt)
-
-### [Методы API ->](Методы_API.md)
+- [ErrorHandling.kt](https://github.com/danbeldev/alice-ktx/blob/master/examples/src/main/kotlin/com/github/examples/ErrorHandling.kt)

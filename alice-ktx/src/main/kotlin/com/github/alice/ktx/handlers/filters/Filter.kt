@@ -29,11 +29,9 @@ interface Filter {
         override fun ShouldRequestEnvironment.predicate(): Boolean = true
     }
 
-    class Text(private val text: String? = null): Filter {
+    class Text(private val text: String, private val ignoreCase: Boolean = true): Filter {
         override fun ShouldRequestEnvironment.predicate(): Boolean {
-            return text?.let {
-                message.request.originalUtterance?.contains(it, ignoreCase = true) == true
-            } ?: (message.request.originalUtterance != null)
+            return message.request.originalUtterance?.contains(text, ignoreCase = ignoreCase) == true
         }
     }
 

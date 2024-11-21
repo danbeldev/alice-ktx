@@ -4,7 +4,6 @@ plugins {
     kotlin("jvm")
     kotlin("plugin.serialization")
     id("io.ktor.plugin")
-    id("org.jetbrains.dokka")
     id("com.vanniktech.maven.publish") version "0.28.0"
 }
 

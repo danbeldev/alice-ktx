@@ -1,0 +1,83 @@
+# Основная информация о сайте
+site_name: Alice-ktx Docs
+repo_url: https://github.com/danbeldev/alice-ktx
+repo_name: danbeldev/alice-ktx
+copyright: Copyright &copy; 2024 Danila Belyakov | <a href="https://github.com/danbeldev/alice-ktx/blob/master/LICENSE">Лицензия</a>
+
+extra_css:
+  - stylesheets/style.css
+
+
+# Настройки темы
+theme:
+  name: material
+  language: ru
+  logo: assets/alice-ktx.png
+  favicon: assets/alice-ktx.png
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: white
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to light mode
+  features:
+    - header.autohide
+    - navigation.expand
+    - navigation.top
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+
+# Дополнительная информация
+extra:
+  generator: true
+  social:
+    - icon: fontawesome/solid/paper-plane
+      link: mailto:dan.bel.89@bk.ru
+    - icon: fontawesome/brands/hacker-news
+      link: https://habr.com/ru/users/danbel/
+
+# Расширения Markdown
+markdown_extensions:
+  - admonition                       # Поддержка блоков с предупреждениями
+  - attr_list                        # Поддержка атрибутов
+  - md_in_html                       # HTML внутри Markdown
+  - pymdownx.details                 # Скрываемые блоки
+  - pymdownx.superfences             # Улучшенные ограждения для кода
+  - pymdownx.highlight: # Подсветка синтаксиса
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite            # Инлайновая подсветка
+  - pymdownx.snippets                # Поддержка сниппетов
+  - pymdownx.tabbed: # Вкладки
+      alternate_style: true
+  - pymdownx.blocks.caption          # Подписи для блоков
+
+# Навигация
+nav:
+  - Добро пожаловать: index.md
+  - Руководство:
+      - Установка: installation.md
+      - Начало: create-skill.md
+      - Вебхук: webhook.md
+      - Яндекс Функция: connect-yandex-functions.md
+      - Первый навык: first-skill.md
+  - Основы:
+      - Handlers: handlers.md
+      - Middleware: middleware.md
+      - Машина состояний: fsm.md
+      - Кнопки и альбомы: buttons-and-albums.md
+      - Обработка исключений: exceptions.md
+      - Методы API: api-methods.md
+      - Авторизация: authorization.md
+      - Audio Player: audio-player.md

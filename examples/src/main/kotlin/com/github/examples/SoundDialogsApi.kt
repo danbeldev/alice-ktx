@@ -11,7 +11,6 @@ import java.io.File
 
 fun main() {
     skill {
-        skillId = "..."
         webhookServer = ktorWebhookServer {
             port = 8080
             path = "/alice"

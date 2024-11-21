@@ -9,7 +9,6 @@ import com.github.alice.ktx.skill
 
 fun main() {
     skill {
-        skillId = "..."
         webhookServer = ktorWebhookServer {
             port = 8080
             path = "/alice"

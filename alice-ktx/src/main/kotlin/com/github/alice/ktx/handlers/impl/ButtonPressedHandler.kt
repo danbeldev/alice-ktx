@@ -13,7 +13,7 @@ data class ButtonPressedShouldHandleEnvironment(
     private val requestEnvironment: ShouldRequestEnvironment
 ): ShouldRequestEnvironment by requestEnvironment {
 
-    val payload: Map<String, Any> = requestEnvironment.message.request.payload
+    val payload: Map<String, String> = requestEnvironment.message.request.payload
 }
 
 /**

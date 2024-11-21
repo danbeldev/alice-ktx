@@ -11,6 +11,8 @@ import com.github.alice.ktx.models.response.button.button
 import com.github.alice.ktx.models.response.response
 import com.github.alice.ktx.webhook.impl.ktorWebhookServer
 import com.github.alice.ktx.skill
+import com.github.alice.ktx.storage.impl.apiStorage
+import com.github.alice.ktx.storage.impl.memoryStorage
 import com.github.alice.ktx.storage.impl.redisStorage
 import com.github.alice.ktx.storage.key.impl.baseKeyBuilder
 import kotlinx.serialization.Serializable
@@ -32,8 +34,7 @@ enum class UserState {
 fun main() {
     skill {
         defaultFSMStrategy = FSMStrategy.USER
-        storage = redisStorage {
-            redis = connectToRedis(host = "localhost")
+        storage = apiStorage {
             keyBuilder = baseKeyBuilder {
                 prefix = "alice"
             }

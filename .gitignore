@@ -43,3 +43,6 @@ bin/
 
 .idea
 .kotlin
+
+mk-docs/venv/
+mk-docs/.idea/

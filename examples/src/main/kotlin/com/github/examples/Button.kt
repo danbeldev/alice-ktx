@@ -16,7 +16,6 @@ private enum class SchedulesType(val title: String) {
 
 fun main() {
     skill {
-        skillId = "..."
         webhookServer = ktorWebhookServer {
             port = 8080
             path = "/alice"

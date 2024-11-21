@@ -18,7 +18,6 @@ fun main() {
     val citiesGameService = CitiesGameService()
 
     skill {
-        skillId = "..."
         webhookServer = ktorWebhookServer {
             port = 8080
             path = "/alice"

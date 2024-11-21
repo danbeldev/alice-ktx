@@ -1,6 +1,7 @@
 package com.github.examples
 
 import com.github.alice.ktx.dispatch
+import com.github.alice.ktx.handlers.impl.audioPlayer
 import com.github.alice.ktx.handlers.impl.newSession
 import com.github.alice.ktx.models.response.audioPlayer.audioPlayer
 import com.github.alice.ktx.models.response.response
@@ -9,12 +10,18 @@ import com.github.alice.ktx.skill
 
 fun main() {
     skill {
-        skillId = "..."
         webhookServer = ktorWebhookServer {
             port = 8080
             path = "/alice"
         }
         dispatch {
+
+            audioPlayer {
+                response {
+                    text = type.name
+                }
+            }
+
             newSession {
                 response {
                     shouldListen = false
