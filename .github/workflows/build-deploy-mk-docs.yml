@@ -25,9 +25,8 @@ jobs:
         run: mkdocs build --config-file mk-docs/mkdocs.yml
 
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4.1.2
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          branch: gh-pages
-          folder: mk-docs/site
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./mk-docs/site
+          target_branch: gh-pages
