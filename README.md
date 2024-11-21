@@ -54,7 +54,7 @@ fun main() {
 }
 ```
 
-## Документация
+## Материалы
 - [Документация](https://danbeldev.github.io/alice-ktx/)
 - [Примеры](https://github.com/danbeldev/alice-ktx/tree/master/examples/src/main/kotlin/com/github/examples)
 
