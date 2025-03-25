@@ -5,6 +5,7 @@ plugins {
     kotlin("plugin.serialization")
     id("io.ktor.plugin")
     id("com.vanniktech.maven.publish") version "0.28.0"
+    id("jacoco")
 }
 
 group = "com.github.alice.ktx"
@@ -72,4 +73,11 @@ mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 
     signAllPublications()
+}
+
+
+tasks.jacocoTestReport {
+    reports {
+        xml.required.set(true)
+    }
 }
