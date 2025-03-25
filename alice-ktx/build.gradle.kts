@@ -28,6 +28,7 @@ dependencies {
     implementation("io.lettuce:lettuce-core:6.5.0.RELEASE")
 
     testImplementation("junit:junit:4.13.2")
+    testImplementation("io.mockk:mockk:1.13.17")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
 }
 
