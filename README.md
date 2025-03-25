@@ -9,7 +9,7 @@
 [![Maven Central](https://badgen.net/badge/Maven%20Central/v1.0.0/blue?icon=github)](https://central.sonatype.com/artifact/io.github.danbeldev/alice-ktx)
 [![License](https://img.shields.io/github/license/danbeldev/alice-ktx)](https://github.com/danbeldev/alice-ktx/blob/master/LICENSE)
 ![Last commit](https://img.shields.io/github/last-commit/danbeldev/alice-ktx)
-[![Coverage](https://codecov.io/gh/username/repository/branch/main/graph/badge.svg)](https://codecov.io/gh/username/repository)
+[![Coverage](https://codecov.io/gh/danbeldev/alice-ktx/branch/master/graph/badge.svg)](https://codecov.io/gh/danbeldev/alice-ktx)
 
 </div>
 <p align="center">
@@ -61,5 +61,5 @@ fun main() {
 
 
 ## Лицензия
-Copyright © 2024 [DanBel](https://github.com/danbeldev) \
+Copyright © 2024-2025 [DanBel](https://github.com/danbeldev) \
 Этот проект использует [MIT](https://github.com/danbeldev/alice-ktx/blob/master/LICENSE) лицензию
