@@ -96,12 +96,12 @@ class Skill internal constructor(
             val requestEnvironment = createRequestEnvironment(model)
 
             runMiddlewares(requestEnvironment, MiddlewareType.OUTER)?.let { return it }
-            dispatcher.commandHandlers.forEach { handler ->
-                if (handler.shouldHandle(requestEnvironment)) {
-                    runMiddlewares(requestEnvironment, MiddlewareType.INNER)?.let { return it }
-                    return handler.processRequest(requestEnvironment)
-                }
+
+            dispatcher.findHandler(requestEnvironment)?.let { handler ->
+                runMiddlewares(requestEnvironment, MiddlewareType.INNER)?.let { return it }
+                return handler.processRequest(requestEnvironment)
             }
+
             return null
         }
 

@@ -2,6 +2,7 @@ package com.github.alice.ktx
 
 import com.github.alice.ktx.common.AliceDsl
 import com.github.alice.ktx.handlers.Handler
+import com.github.alice.ktx.handlers.environments.ProcessRequestEnvironment
 import com.github.alice.ktx.handlers.error.NetworkErrorHandler
 import com.github.alice.ktx.middleware.Middleware
 import com.github.alice.ktx.middleware.MiddlewareType
@@ -37,5 +38,9 @@ class Dispatcher internal constructor() {
 
     fun addNetworkErrorHandler(handler: NetworkErrorHandler) {
         networkErrorHandlers.add(handler)
+    }
+
+    internal suspend fun findHandler(environment: ProcessRequestEnvironment): Handler? {
+        return commandHandlers.firstOrNull { it.shouldHandle(environment) }
     }
 }
