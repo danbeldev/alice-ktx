@@ -6,6 +6,7 @@ import com.github.alice.ktx.handlers.environments.ProcessRequestEnvironment
 import com.github.alice.ktx.handlers.error.NetworkErrorHandler
 import com.github.alice.ktx.middleware.Middleware
 import com.github.alice.ktx.middleware.MiddlewareType
+import com.github.alice.ktx.models.response.MessageResponse
 
 /**
  * Расширение для `Skill.Builder`, позволяющее настроить `Dispatcher`.
@@ -42,5 +43,17 @@ class Dispatcher internal constructor() {
 
     internal suspend fun findHandler(environment: ProcessRequestEnvironment): Handler? {
         return commandHandlers.firstOrNull { it.shouldHandle(environment) }
+    }
+
+    internal suspend fun resolveErrorToResponse(
+        environment: ProcessRequestEnvironment,
+        exception: Exception
+    ): MessageResponse? {
+        networkErrorHandlers.forEach { errorHandler ->
+            errorHandler.responseFailure(environment, exception)?.let { response ->
+                return response
+            }
+        }
+        return null
     }
 }

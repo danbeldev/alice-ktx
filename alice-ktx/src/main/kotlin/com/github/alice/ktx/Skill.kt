@@ -107,12 +107,7 @@ class Skill internal constructor(
 
         override suspend fun handleError(model: MessageRequest, exception: Exception): MessageResponse? {
             val request = createRequestEnvironment(model)
-            dispatcher.networkErrorHandlers.forEach { errorHandler ->
-                errorHandler.responseFailure(request, exception)?.let { response ->
-                    return response
-                }
-            }
-            return null
+            return dispatcher.resolveErrorToResponse(request, exception)
         }
 
         /**
