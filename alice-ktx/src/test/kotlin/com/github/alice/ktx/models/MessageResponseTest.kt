@@ -2,8 +2,7 @@ package com.github.alice.ktx.models
 
 import com.github.alice.ktx.models.response.button.button
 import com.github.alice.ktx.models.response.button.mediaButton
-import com.github.alice.ktx.models.response.card.CardType
-import com.github.alice.ktx.models.response.card.cardBigImage
+import com.github.alice.ktx.models.response.card.*
 import com.github.alice.ktx.models.response.response
 import com.github.alice.ktx.testutils.builders.ProcessRequestEnvironmentBuilder.Companion.processRequestEnvironment
 import kotlinx.coroutines.test.runTest
@@ -96,5 +95,87 @@ class MessageResponseTest {
         Assert.assertEquals(mediaButtonText, result.response?.card?.button?.text)
         Assert.assertEquals(mediaButtonUrl, result.response?.card?.button?.url)
         Assert.assertEquals(mediaButtonPayload, result.response?.card?.button?.payload)
+    }
+
+    @Test
+    fun `cardImageGallery builder should set all card properties and media button correctly`() = runTest {
+        val processRequestEnvironment = processRequestEnvironment()
+        val cardImageId = "image id"
+        val cardTitle = "card title"
+        val mediaButtonText = "button text"
+        val mediaButtonUrl = "button url"
+        val mediaButtonPayload = mapOf("key" to "value")
+
+        val result = processRequestEnvironment.response {
+            cardImageGallery {
+                item {
+                    imageId = cardImageId
+                    title = cardTitle
+                    mediaButton {
+                        text = mediaButtonText
+                        url = mediaButtonUrl
+                        payload = mediaButtonPayload
+                    }
+                }
+            }
+        }
+
+        Assert.assertTrue(result.response?.card?.type == CardType.ImageGallery)
+        Assert.assertEquals(1, result.response?.card?.items?.size)
+        Assert.assertEquals(cardTitle, result.response?.card?.items?.first()?.title)
+        Assert.assertEquals(mediaButtonText, result.response?.card?.items?.first()?.button?.text)
+        Assert.assertEquals(mediaButtonUrl, result.response?.card?.items?.first()?.button?.url)
+        Assert.assertEquals(mediaButtonPayload, result.response?.card?.items?.first()?.button?.payload)
+    }
+
+    @Test
+    fun `cardItemsList builder should set all card properties and media button correctly`() = runTest {
+        val processRequestEnvironment = processRequestEnvironment()
+        val cardImageId = "image id"
+        val cardTitle = "card title"
+        val cardFooterText = "card footer title"
+        val cardHeader = "card header"
+        val cardDescription = "card description"
+        val mediaButtonText = "button text"
+        val mediaButtonUrl = "button url"
+        val mediaButtonPayload = mapOf("key" to "value")
+
+        val result = processRequestEnvironment.response {
+            cardItemsList {
+                header = cardHeader
+                footer {
+                    text = cardFooterText
+                    mediaButton {
+                        text = mediaButtonText
+                        url = mediaButtonUrl
+                        payload = mediaButtonPayload
+                    }
+                }
+                item {
+                    imageId = cardImageId
+                    title = cardTitle
+                    description = cardDescription
+                    mediaButton {
+                        text = mediaButtonText
+                        url = mediaButtonUrl
+                        payload = mediaButtonPayload
+                    }
+                }
+            }
+        }
+
+        Assert.assertTrue(result.response?.card?.type == CardType.ItemsList)
+        Assert.assertEquals(cardHeader, result.response?.card?.header?.text)
+
+        Assert.assertEquals(mediaButtonText, result.response?.card?.footer?.button?.text)
+        Assert.assertEquals(mediaButtonUrl, result.response?.card?.footer?.button?.url)
+        Assert.assertEquals(mediaButtonPayload, result.response?.card?.footer?.button?.payload)
+
+        Assert.assertEquals(1, result.response?.card?.items?.size)
+        Assert.assertEquals(cardTitle, result.response?.card?.items?.first()?.title)
+        Assert.assertEquals(cardDescription, result.response?.card?.items?.first()?.description)
+        Assert.assertEquals(mediaButtonText, result.response?.card?.items?.first()?.button?.text)
+        Assert.assertEquals(mediaButtonUrl, result.response?.card?.items?.first()?.button?.url)
+        Assert.assertEquals(mediaButtonPayload, result.response?.card?.items?.first()?.button?.payload)
     }
 }
