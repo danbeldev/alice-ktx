@@ -1,6 +1,6 @@
 package com.github.examples
 
-import com.github.alice.ktx.common.connectToRedis
+import com.github.alice.ktx.common.serializer.impl.kotlinxSerializer
 import com.github.alice.ktx.fsm.FSMContext
 import com.github.alice.ktx.fsm.impl.BaseFSMContext
 import com.github.alice.ktx.dispatch
@@ -12,8 +12,6 @@ import com.github.alice.ktx.models.response.response
 import com.github.alice.ktx.webhook.impl.ktorWebhookServer
 import com.github.alice.ktx.skill
 import com.github.alice.ktx.storage.impl.apiStorage
-import com.github.alice.ktx.storage.impl.memoryStorage
-import com.github.alice.ktx.storage.impl.redisStorage
 import com.github.alice.ktx.storage.key.impl.baseKeyBuilder
 import kotlinx.serialization.Serializable
 
@@ -43,6 +41,8 @@ fun main() {
             port = 8080
             path = "/alice"
         }
+        serializer = kotlinxSerializer()
+
         dispatch {
             newSession {
                 context.setState(UserState.SET_NAME.name)

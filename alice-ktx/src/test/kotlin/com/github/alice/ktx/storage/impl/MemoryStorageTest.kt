@@ -1,5 +1,6 @@
 package com.github.alice.ktx.storage.impl
 
+import com.github.alice.ktx.common.serializer.impl.kotlinxSerializer
 import com.github.alice.ktx.fsm.models.FSMStrategy
 import com.github.alice.ktx.storage.key.impl.baseKeyBuilder
 import com.github.alice.ktx.storage.models.StorageKey
@@ -13,7 +14,7 @@ import java.util.*
 
 class MemoryStorageTest {
 
-    private val storage = MemoryStorage.Builder().json(Json).build {
+    private val storage = MemoryStorage.Builder().serializer(kotlinxSerializer()).build {
         keyBuilder = baseKeyBuilder()
     }
 

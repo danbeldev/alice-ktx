@@ -2,6 +2,7 @@ package com.github.alice.ktx.storage.impl
 
 import com.github.alice.ktx.Skill
 import com.github.alice.ktx.common.AliceDsl
+import com.github.alice.ktx.common.serializer.Serializer
 import com.github.alice.ktx.storage.Storage
 import com.github.alice.ktx.storage.impl.RedisStorage.Builder
 import com.github.alice.ktx.storage.key.KeyBuilder
@@ -10,20 +11,17 @@ import com.github.alice.ktx.storage.models.*
 import io.lettuce.core.api.StatefulRedisConnection
 import io.lettuce.core.api.async.RedisAsyncCommands
 import kotlinx.coroutines.future.await
-import kotlinx.serialization.InternalSerializationApi
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.serializer
 import kotlin.reflect.KClass
 
 @AliceDsl
 fun Skill.Builder.redisStorage(body: Builder.() -> Unit): RedisStorage {
-    return Builder().json(json).build(body)
+    return Builder().serializer(serializer).build(body)
 }
 
 class RedisStorage internal constructor(
     private val redis: RedisAsyncCommands<String, String>,
     private val keyBuilder: KeyBuilder,
-    private val json: Json,
+    private val serializer: Serializer,
     private val stateTtl: Long? = null,
     private val dataTtl: Long? = null
 ) : Storage {
@@ -32,15 +30,15 @@ class RedisStorage internal constructor(
     class Builder {
 
         lateinit var redis: StatefulRedisConnection<String, String>
-        lateinit var json: Json
+        private lateinit var serializer: Serializer
 
         var keyBuilder: KeyBuilder = baseKeyBuilder()
 
         var stateTtl: Long? = null
         var dataTtl: Long? = null
 
-        internal fun json(json: Json): Builder {
-            this.json = json
+        fun serializer(serializer: Serializer): Builder {
+            this.serializer = serializer
             return this
         }
 
@@ -50,7 +48,7 @@ class RedisStorage internal constructor(
             return RedisStorage(
                 redis = redis.async(),
                 keyBuilder = keyBuilder,
-                json = json,
+                serializer = serializer,
                 stateTtl = stateTtl,
                 dataTtl = dataTtl
             )
@@ -63,10 +61,9 @@ class RedisStorage internal constructor(
         stateTtl?.let { redis.expire(storageKey, it).await() }
     }
 
-    @OptIn(InternalSerializationApi::class)
     override suspend fun <V : Any> setTypedData(key: StorageKey, clazz: KClass<V>, vararg pairs: StorageTypedData<V>) {
         val storageKey = keyBuilder.build(key, "data")
-        redis.hset(storageKey, pairs.toMap().mapValues { json.encodeToString(clazz.serializer(), it.value) }).await()
+        redis.hset(storageKey, pairs.toMap().mapValues { serializer.serialize(it.value, clazz) }).await()
         dataTtl?.let { redis.expire(storageKey, it).await() }
     }
 
@@ -76,7 +73,6 @@ class RedisStorage internal constructor(
         dataTtl?.let { redis.expire(storageKey, it).await() }
     }
 
-    @OptIn(InternalSerializationApi::class)
     override suspend fun <V : Any> updateTypedData(
         key: StorageKey,
         clazz: KClass<V>,
@@ -85,7 +81,7 @@ class RedisStorage internal constructor(
         val result = mutableMapOf<StorageKeyData, String>()
         val storageKey = keyBuilder.build(key, "data")
         pairs.forEach {
-            val value = json.encodeToString(clazz.serializer(), it.second)
+            val value = serializer.serialize(it.second, clazz)
             redis.hset(storageKey, it.first, value).await()
             result[it.first] = value
         }
@@ -111,12 +107,11 @@ class RedisStorage internal constructor(
         return value
     }
 
-    @OptIn(InternalSerializationApi::class)
     override suspend fun <V : Any> removeTypedData(key: StorageKey, keyData: StorageKeyData, clazz: KClass<V>): V? {
         val storageKey = keyBuilder.build(key, "data")
         val value = redis.hget(storageKey, keyData).await() ?: return null
         redis.hdel(storageKey, keyData).await()
-        return json.decodeFromString(clazz.serializer(), value)
+        return serializer.deserialize(value, clazz)
     }
 
     override suspend fun clear(key: StorageKey) {
@@ -135,9 +130,8 @@ class RedisStorage internal constructor(
         return redis.hget(keyBuilder.build(key, "data"), keyData).await()
     }
 
-    @OptIn(InternalSerializationApi::class)
     override suspend fun <V : Any> getTypedData(key: StorageKey, keyData: StorageKeyData, clazz: KClass<V>): V? {
         val value = redis.hget(keyBuilder.build(key, "data"), keyData).await() ?: return null
-        return json.decodeFromString(clazz.serializer(), value)
+        return serializer.deserialize(value, clazz)
     }
 }

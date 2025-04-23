@@ -2,6 +2,7 @@ package com.github.alice.ktx.storage.impl
 
 import com.github.alice.ktx.Skill
 import com.github.alice.ktx.common.AliceDsl
+import com.github.alice.ktx.common.serializer.Serializer
 import com.github.alice.ktx.storage.apiStorage.ApiStorageDetails
 import com.github.alice.ktx.storage.apiStorage.EnableApiStorage
 import com.github.alice.ktx.storage.key.KeyBuilder
@@ -9,7 +10,6 @@ import com.github.alice.ktx.storage.key.impl.baseKeyBuilder
 import com.github.alice.ktx.storage.models.StorageKey
 import com.github.alice.ktx.storage.models.StorageKeyData
 import com.github.alice.ktx.storage.models.StorageState
-import kotlinx.serialization.json.Json
 
 /**
  * Создает экземпляр `BaseApiStorage` для сохранения данных в хранилище Алисы.
@@ -21,30 +21,30 @@ import kotlinx.serialization.json.Json
  */
 @AliceDsl
 fun Skill.Builder.apiStorage(body: BaseApiStorage.Builder.() -> Unit = {}): BaseApiStorage {
-    return BaseApiStorage.Builder().json(json).build(body)
+    return BaseApiStorage.Builder().serializer(serializer).build(body)
 }
 
 @EnableApiStorage
 class BaseApiStorage internal constructor(
-    json: Json,
+    serializer: Serializer,
     keyBuilder: KeyBuilder
-) : ApiStorageDetails, MemoryStorage(json, keyBuilder) {
+) : ApiStorageDetails, MemoryStorage(serializer, keyBuilder) {
 
     @AliceDsl
     class Builder {
 
-        private lateinit var json: Json
+        private lateinit var serializer: Serializer
 
         var keyBuilder: KeyBuilder = baseKeyBuilder()
 
-        fun json(json: Json): Builder {
-            this.json = json
+        fun serializer(serializer: Serializer): Builder {
+            this.serializer = serializer
             return this
         }
 
         fun build(body: Builder.() -> Unit): BaseApiStorage {
             body()
-            return BaseApiStorage(json = json, keyBuilder = keyBuilder)
+            return BaseApiStorage(serializer = serializer, keyBuilder = keyBuilder)
         }
     }
 

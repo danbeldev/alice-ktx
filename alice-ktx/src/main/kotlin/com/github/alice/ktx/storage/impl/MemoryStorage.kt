@@ -2,6 +2,7 @@ package com.github.alice.ktx.storage.impl
 
 import com.github.alice.ktx.Skill
 import com.github.alice.ktx.common.AliceDsl
+import com.github.alice.ktx.common.serializer.Serializer
 import com.github.alice.ktx.storage.Storage
 import com.github.alice.ktx.storage.key.KeyBuilder
 import com.github.alice.ktx.storage.key.impl.baseKeyBuilder
@@ -24,11 +25,11 @@ import kotlin.reflect.KClass
  */
 @AliceDsl
 fun Skill.Builder.memoryStorage(body: MemoryStorage.Builder.() -> Unit = {}): MemoryStorage {
-    return MemoryStorage.Builder().json(json).build(body)
+    return MemoryStorage.Builder().serializer(serializer).build(body)
 }
 
 open class MemoryStorage(
-    private val json: Json,
+    private val serializer: Serializer,
     private val keyBuilder: KeyBuilder
 ) : Storage {
 
@@ -38,17 +39,17 @@ open class MemoryStorage(
     @AliceDsl
     class Builder {
 
-        lateinit var json: Json
+        private lateinit var serializer: Serializer
         var keyBuilder: KeyBuilder = baseKeyBuilder()
 
-        fun json(json: Json): Builder {
-            this.json = json
+        fun serializer(serializer: Serializer): Builder {
+            this.serializer = serializer
             return this
         }
 
         fun build(body: Builder.() -> Unit = {}): MemoryStorage {
             body()
-            return MemoryStorage(json = json, keyBuilder = keyBuilder)
+            return MemoryStorage(serializer = serializer, keyBuilder = keyBuilder)
         }
     }
 
@@ -56,11 +57,10 @@ open class MemoryStorage(
         currentState[keyBuilder.build(key, "state")] = state
     }
 
-    @OptIn(InternalSerializationApi::class)
     override suspend fun <V : Any> setTypedData(key: StorageKey, clazz: KClass<V>, vararg pairs: StorageTypedData<V>) {
         setData(
             key,
-            *pairs.map { it.first to json.encodeToString(clazz.serializer(), it.second) }.toTypedArray()
+            *pairs.map { it.first to serializer.serialize(it.second, clazz) }.toTypedArray()
         )
     }
 
@@ -72,7 +72,6 @@ open class MemoryStorage(
         currentData[storageKey] = data
     }
 
-    @OptIn(InternalSerializationApi::class)
     override suspend fun <V : Any> updateTypedData(
         key: StorageKey,
         clazz: KClass<V>,
@@ -80,7 +79,7 @@ open class MemoryStorage(
     ): Map<StorageKeyData, String> {
         return updateData(
             key,
-            *pairs.map { it.first to json.encodeToString(clazz.serializer(), it.second) }.toTypedArray()
+            *pairs.map { it.first to serializer.serialize(it.second, clazz) }.toTypedArray()
         )
     }
 
@@ -98,13 +97,12 @@ open class MemoryStorage(
         return data.remove(keyData)
     }
 
-    @OptIn(InternalSerializationApi::class)
     override suspend fun <V : Any> removeTypedData(key: StorageKey, keyData: StorageKeyData, clazz: KClass<V>): V? {
         val storageKey = keyBuilder.build(key, "data")
         val data = currentData.getOrDefault(storageKey, mutableMapOf())
         val value = data[keyData] ?: return null
         data.remove(keyData)
-        return json.decodeFromString(clazz.serializer(), value)
+        return serializer.deserialize(value, clazz)
     }
 
     override suspend fun clear(key: StorageKey) {
@@ -124,10 +122,9 @@ open class MemoryStorage(
         return getData(key)[keyData]
     }
 
-    @OptIn(InternalSerializationApi::class)
     override suspend fun <V : Any> getTypedData(key: StorageKey, keyData: StorageKeyData, clazz: KClass<V>): V? {
         val data = currentData.getOrDefault(keyBuilder.build(key, "data"), mutableMapOf())
         val value = data[keyData] ?: return null
-        return json.decodeFromString(clazz.serializer(), value)
+        return serializer.deserialize(value, clazz)
     }
 }

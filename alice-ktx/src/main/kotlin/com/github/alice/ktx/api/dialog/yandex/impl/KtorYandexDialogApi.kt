@@ -12,6 +12,7 @@ import com.github.alice.ktx.api.dialog.yandex.models.sounds.response.SoundUpload
 import com.github.alice.ktx.api.dialog.yandex.models.sounds.response.Sounds
 import com.github.alice.ktx.api.dialog.yandex.models.status.Status
 import com.github.alice.ktx.common.AliceDsl
+import com.github.alice.ktx.common.serializer.impl.defaultJson
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.*
@@ -29,7 +30,7 @@ import java.io.File
 fun Skill.Builder.ktorYandexDialogApi(body: KtorYandexDialogApi.Builder.() -> Unit): KtorYandexDialogApi {
     val id = skillId
         ?: throw IllegalArgumentException("Skill ID не может быть null. Убедитесь, что ID установлен перед вызовом метода.")
-    return KtorYandexDialogApi.Builder().json(json).apply(body).build(id)
+    return KtorYandexDialogApi.Builder().json(defaultJson).apply(body).build(id)
 }
 
 /**

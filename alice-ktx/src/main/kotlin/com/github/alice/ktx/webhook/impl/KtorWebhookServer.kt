@@ -1,7 +1,7 @@
 package com.github.alice.ktx.webhook.impl
 
-import com.github.alice.ktx.Skill
 import com.github.alice.ktx.common.AliceDsl
+import com.github.alice.ktx.common.serializer.impl.defaultJson
 import com.github.alice.ktx.models.request.MessageRequest
 import com.github.alice.ktx.webhook.WebhookServer
 import com.github.alice.ktx.webhook.WebhookServerListener
@@ -23,8 +23,8 @@ import kotlinx.serialization.json.Json
  * @return Настроенный объект `KtorWebhookServer`.
  */
 @AliceDsl
-fun Skill.Builder.ktorWebhookServer(body: KtorWebhookServer.Builder.() -> Unit): KtorWebhookServer {
-    return KtorWebhookServer.Builder().json(json).build(body)
+fun ktorWebhookServer(body: KtorWebhookServer.Builder.() -> Unit): KtorWebhookServer {
+    return KtorWebhookServer.Builder().json(defaultJson).build(body)
 }
 
 /**

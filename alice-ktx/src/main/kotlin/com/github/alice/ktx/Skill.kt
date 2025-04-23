@@ -2,6 +2,8 @@ package com.github.alice.ktx
 
 import com.github.alice.ktx.api.dialog.DialogApi
 import com.github.alice.ktx.common.AliceDsl
+import com.github.alice.ktx.common.serializer.Serializer
+import com.github.alice.ktx.common.serializer.impl.kotlinxSerializer
 import com.github.alice.ktx.middleware.MiddlewareType
 import com.github.alice.ktx.fsm.models.FSMStrategy
 import com.github.alice.ktx.models.request.MessageRequest
@@ -51,12 +53,8 @@ class Skill internal constructor(
         lateinit var webhookServer: WebhookServer
 
         var skillId: String? = null
-        var json: Json = Json {
-            isLenient = true
-            ignoreUnknownKeys = true
-            encodeDefaults = true
-        }
 
+        var serializer: Serializer = kotlinxSerializer()
         var dialogApi: DialogApi? = null
         var storage: Storage = memoryStorage()
 
