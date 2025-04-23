@@ -31,17 +31,19 @@ enum class UserState {
  * */
 fun main() {
     skill {
+        serializer = kotlinxSerializer()
+
         defaultFSMStrategy = FSMStrategy.USER
         storage = apiStorage {
             keyBuilder = baseKeyBuilder {
                 prefix = "alice"
             }
         }
+
         webhookServer = ktorWebhookServer {
             port = 8080
             path = "/alice"
         }
-        serializer = kotlinxSerializer()
 
         dispatch {
             newSession {
