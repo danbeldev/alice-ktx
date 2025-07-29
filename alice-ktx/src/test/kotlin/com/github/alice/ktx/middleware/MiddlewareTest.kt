@@ -8,10 +8,10 @@ import org.junit.Test
 class MiddlewareTest {
 
     @Test
-    fun `should register inner middleware via DSL`()  {
+    fun `should register inner middleware via DSL`() {
         val dispatcher = Dispatcher()
 
-        dispatcher.innerMiddleware { response {  } }
+        dispatcher.innerMiddleware { response { } }
 
         Assert.assertEquals(1, dispatcher.middlewares[MiddlewareType.INNER]?.size)
     }
@@ -20,8 +20,17 @@ class MiddlewareTest {
     fun `should register outer middleware via DSL`() {
         val dispatcher = Dispatcher()
 
-        dispatcher.outerMiddleware { response {  } }
+        dispatcher.outerMiddleware { response { } }
 
         Assert.assertEquals(1, dispatcher.middlewares[MiddlewareType.OUTER]?.size)
+    }
+
+    @Test
+    fun `should register after handle via DSL`() {
+        val dispatcher = Dispatcher()
+
+        dispatcher.afterHandle { _, res -> res }
+
+        Assert.assertEquals(1, dispatcher.postMiddlewares.size)
     }
 }
