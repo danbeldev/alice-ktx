@@ -97,7 +97,7 @@ class Skill internal constructor(
 
             dispatcher.findHandler(requestEnvironment)?.let { handler ->
                 runMiddlewares(requestEnvironment, MiddlewareType.INNER)?.let { return it }
-                return handler.processRequest(requestEnvironment)
+                return runPostMiddlewares(requestEnvironment, handler.processRequest(requestEnvironment))
             }
 
             return null
@@ -124,6 +124,15 @@ class Skill internal constructor(
                 }
             }
             return null
+        }
+
+        private suspend fun runPostMiddlewares(
+            request: ProcessRequestEnvironment,
+            initialResponse: MessageResponse
+        ): MessageResponse {
+            return dispatcher.postMiddlewares.fold(initialResponse) { currentResponse, middleware ->
+                middleware.afterHandle(request, currentResponse)
+            }
         }
     }
 

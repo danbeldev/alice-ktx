@@ -32,6 +32,24 @@ fun Dispatcher.innerMiddleware(process: suspend ProcessRequestEnvironment.() -> 
 }
 
 /**
+ * Расширение для `Dispatcher`, добавляющее постобработчик (`PostMiddleware`), который вызывается после обработки запроса хэндлером.
+ *
+ * @param block Лямбда-функция, принимающая [ProcessRequestEnvironment] (исходный запрос) и [MessageResponse] (ответ от хэндлера),
+ * и возвращающая (возможно модифицированный) [MessageResponse].
+ */
+@AliceDsl
+fun Dispatcher.afterHandle(block: suspend (ProcessRequestEnvironment, MessageResponse) -> MessageResponse) {
+    addPostMiddlewares(
+        object : PostMiddleware {
+            override suspend fun afterHandle(
+                request: ProcessRequestEnvironment,
+                response: MessageResponse
+            ): MessageResponse = block(request, response)
+        }
+    )
+}
+
+/**
  * Создает мидлварь с заданной функцией обработки.
  *
  * @param process Функция, которая будет вызвана для обработки запроса сообщения. Принимает объект `MessageRequest` и возвращает `MessageResponse?`.
@@ -53,4 +71,23 @@ interface Middleware {
      *
      * */
     suspend fun process(request: ProcessRequestEnvironment): MessageResponse?
+}
+
+/**
+ * Интерфейс `PostMiddleware` предназначен для выполнения логики после обработки запроса обработчика(`Handler`).
+ */
+interface PostMiddleware {
+
+    /**
+     * Вызывается после выполнения `Handler.processRequest(...)`.
+     *
+     * @param request Объект запроса, переданный в `processRequest`.
+     * @param response Ответ, полученный от обработчика (`Handler`).
+     *
+     * @return Модифицированный или оригинальный [MessageResponse].
+     */
+    suspend fun afterHandle(
+        request: ProcessRequestEnvironment,
+        response: MessageResponse
+    ): MessageResponse
 }

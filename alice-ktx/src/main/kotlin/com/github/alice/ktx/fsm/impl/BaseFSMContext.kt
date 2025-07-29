@@ -18,7 +18,6 @@ class BaseFSMContext internal constructor(
     private val storage: Storage,
     private val defaultStrategy: FSMStrategy,
     private val message: MessageRequest,
-
     skillId: String?
 ) : FSMContext {
 

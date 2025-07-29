@@ -6,6 +6,7 @@ import com.github.alice.ktx.handlers.environments.ProcessRequestEnvironment
 import com.github.alice.ktx.handlers.error.NetworkErrorHandler
 import com.github.alice.ktx.middleware.Middleware
 import com.github.alice.ktx.middleware.MiddlewareType
+import com.github.alice.ktx.middleware.PostMiddleware
 import com.github.alice.ktx.models.response.MessageResponse
 
 /**
@@ -24,6 +25,7 @@ class Dispatcher internal constructor() {
     internal val commandHandlers = linkedSetOf<Handler>()
     internal val networkErrorHandlers = linkedSetOf<NetworkErrorHandler>()
     internal val middlewares = mutableMapOf<MiddlewareType, LinkedHashSet<Middleware>>()
+    internal val postMiddlewares = linkedSetOf<PostMiddleware>()
 
     init {
         MiddlewareType.entries.forEach { middlewares[it] = linkedSetOf() }
@@ -35,6 +37,10 @@ class Dispatcher internal constructor() {
 
     fun addMiddleware(middleware: Middleware, type: MiddlewareType) {
         middlewares[type]?.add(middleware)
+    }
+
+    fun addPostMiddlewares(postMiddleware: PostMiddleware) {
+        postMiddlewares.add(postMiddleware)
     }
 
     fun addNetworkErrorHandler(handler: NetworkErrorHandler) {
