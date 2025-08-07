@@ -14,14 +14,14 @@ fun main() {
             path = "/alice"
         }
         dispatch {
-            responseFailure({ message.session.new }) {
-                response {
-                    text = "В начале сессии произошла ошибка"
-                }
-            }
             responseFailure(ArithmeticException::class) {
                 response {
                     text = "Произошла арифметическая ошибка"
+                }
+            }
+            responseFailure({ message.session.new }) {
+                response {
+                    text = "В начале сессии произошла ошибка"
                 }
             }
             responseFailure {

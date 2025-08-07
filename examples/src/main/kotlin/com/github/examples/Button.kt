@@ -1,8 +1,10 @@
 package com.github.examples
 
 import com.github.alice.ktx.dispatch
+import com.github.alice.ktx.handlers.impl.buttonPressed
 import com.github.alice.ktx.handlers.impl.message
 import com.github.alice.ktx.handlers.impl.newSession
+import com.github.alice.ktx.handlers.impl.request
 import com.github.alice.ktx.models.response.button.button
 import com.github.alice.ktx.models.response.response
 import com.github.alice.ktx.skill
@@ -32,7 +34,7 @@ fun main() {
                     }
                 }
             }
-            message({ message.request.payload.keys.contains("schedule_type") }) {
+            buttonPressed({ payload.keys.contains("schedule_type") }) {
                 val scheduleType = SchedulesType.valueOf(message.request.payload["schedule_type"]!!.toString())
                 response {
                     text = "Result: ${scheduleType.title}"
