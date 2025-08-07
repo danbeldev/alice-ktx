@@ -5,13 +5,13 @@
 === "Gradle Kotlin"
 
     ``` kotlin
-    implementation("io.github.danbeldev:alice-ktx:1.0.0")
+    implementation("io.github.danbeldev:alice-ktx:1.0.2")
     ```
 
 === "Gradle Groovy"
 
     ``` groovy
-    implementation 'io.github.danbeldev:alice-ktx:1.0.0'
+    implementation 'io.github.danbeldev:alice-ktx:1.0.2'
     ```
 
 === "Apache Maven"
